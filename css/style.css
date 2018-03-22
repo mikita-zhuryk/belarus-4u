@@ -175,13 +175,13 @@ color: #fff;
         color: #4f5b66;
 }
 
-.map-show{
+#map-show{
     background-color:cornflowerblue;
     position:fixed;
     left:302px;
     height: 100%;
     top:0px;
-    width:100%;
+    width:70%;
 }
 
 .item{
