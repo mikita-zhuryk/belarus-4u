@@ -5,7 +5,7 @@
 
 body {
     font-family: 'Montserrat', sans-serif;
-    background: #344638;
+    background: #212222;
 }
 
 ul {
@@ -23,10 +23,9 @@ h2 {
 }
 
 .accordion-menu {
-    width: 300px;
-    max-width: 300px;
+    width: 23.5%;
+    max-width: 23.5%;
     margin: inherit;
-    background: #344638;
     border-radius: 4px;
     border-bottom: 1px solid #FFF;
     border-top: 1px solid #FFF;
@@ -69,7 +68,6 @@ h2 {
 
 .submenuItems {
     display: none;
-    background: #344638;
 }
 .submenuItems li {
   border-bottom: 1px solid #FFF;
@@ -95,7 +93,6 @@ h2 {
 .bottom-image {
     width: 50px;
     height: 50px;
-    background-color: #344638;
     border-bottom: 1px solid #FFF;
     border-top: 1px solid #FFF;
     border-right: 1px solid #FFF;
@@ -104,9 +101,8 @@ h2 {
 
 .bottom-menu {
     height: 60px;
-    width: 300px;
+    width: 23.5%;
     display: flex;
-    background-color: #344638;
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-end;
@@ -115,8 +111,8 @@ h2 {
 }
 
 .box {
-    margin: auto;
-    width: inherit;
+    margin: 0;
+    width: 23.5%;
     height: 50px;
     border-bottom: 1px solid #FFF;
     border-top: 1px solid #FFF;
@@ -134,7 +130,6 @@ h2 {
 .container-1 input#search {
         width: 300px;
         height: 50px;
-        background: #344638;
         border: none;
         font-size: 10pt;
         float: left;
@@ -175,9 +170,8 @@ color: #fff;
         color: #4f5b66;
 }
 
-#map-show{
-    background-color:cornflowerblue;
-    position:fixed;
+#map{
+    position: relative;;
     left:302px;
     height: 100%;
     top:0px;
