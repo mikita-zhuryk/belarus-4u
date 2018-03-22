@@ -11,19 +11,7 @@
 
 <body>
     <div id="map"></div>
-    <script>
-        function initMap() {
-            let mapOptions = {
-                zoom: 7,
-                center: { lat: 53.67253, lng: 28.0726279 },
-                streetViewControl: false,
-                rotateControl: false,
-                fullscreenControl: false
-            };
-            let map = new google.maps.Map(document.getElementById("map"), mapOptions);
-        }
-    </script>
-    <!-- <script src='js/map-init.js'></script> -->
+    <script src='js/map-init.js'></script>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXV8gSn-UN0WqdWdJOnRfMdvLTHQmQBAw&callback=initMap">
     </script>
