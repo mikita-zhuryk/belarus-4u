@@ -25,6 +25,7 @@ function initMap() {
     promise.then(
         result => {
             map.setCenter(mapOptions.center);
+            map.setZoom(11);
             console.log(map.center.lat() + ' ' + map.center.lng());
             let point = new google.maps.InfoWindow({ map: map });
             point.setPosition(mapOptions.center);
