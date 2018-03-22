@@ -1,24 +1,39 @@
-"use strict"
-let map;
-ymaps.ready(function init () {
-    map = new ymaps.Map("map-show", {center: [53.90843169, 27.55994617], zoom: 7})
-    map.controls.remove('fullscreenControl');
-    map.controls.remove('trafficControl');
-    map.controls.remove('searchControl');
-    map.controls.remove('geolocationControl');
-
-    ymaps.geolocation.get().then(function (result) {
-        console.log('Got location!');
-        let myPos = result.get(0).geometry["coordinates"];
-        console.log(typeof(myPos));
-        var searchCircle = new ymaps.geoObject({
-            geometry: {
-                type: 'Circle',
-                coordinates: myPos,
-                radius: 3500
-            }
-        })
-    }, function (error) {
-        console.log(error);
-    })
-});
+function initMap() {
+    let flag;
+    let mapOptions = {
+        zoom: 7,
+        center: { lat: 53.67253, lng: 28.0726279 },
+        streetViewControl: false,
+        rotateControl: false,
+        fullscreenControl: false
+    };
+    let map = new google.maps.Map(document.getElementById("map"), mapOptions);
+    var promise = new Promise(function (resolve, reject) {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                function (position) {
+                    mapOptions.center = { lat: position.coords.latitude, lng: position.coords.longitude };
+                    console.log(mapOptions.center);
+                    flag = true;
+                    resolve("Promise fullfilled!");
+                },
+                function () {
+                    reject("Problem geolocating");
+                })
+        }
+    });
+    promise.then(
+        result => {
+            map.setCenter(mapOptions.center);
+            map.setZoom(11);
+            console.log(map.center.lat() + ' ' + map.center.lng());
+            let point = new google.maps.InfoWindow({ map: map });
+            point.setPosition(mapOptions.center);
+            point.setContent("Centered on you");
+            console.log(result);
+        },
+        error => {
+            console.log("Geolocation error " + error);
+        }
+    );
+}
