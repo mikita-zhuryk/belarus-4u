@@ -7,14 +7,26 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="Style.scss" />
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXV8gSn-UN0WqdWdJOnRfMdvLTHQmQBAw&callback=initMap">
-    </script>
-    <script src='js/map-init.js'></script>
 </head>
 
 <body>
     <div id="map"></div>
+    <script>
+        function initMap() {
+            let mapOptions = {
+                zoom: 7,
+                center: { lat: 53.67253, lng: 28.0726279 },
+                streetViewControl: false,
+                rotateControl: false,
+                fullscreenControl: false
+            };
+            let map = new google.maps.Map(document.getElementById("map"), mapOptions);
+        }
+    </script>
+    <!-- <script src='js/map-init.js'></script> -->
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXV8gSn-UN0WqdWdJOnRfMdvLTHQmQBAw&callback=initMap">
+    </script>
     <div class="box">
         <div class="container-1">
             <span class="icon">
