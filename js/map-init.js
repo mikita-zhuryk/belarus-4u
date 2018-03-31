@@ -1,13 +1,16 @@
+var mapOptions;
+var map;
+
 function initMap() {
     let flag;
-    let mapOptions = {
+    mapOptions = {
         zoom: 7,
         center: { lat: 53.67253, lng: 28.0726279 },
         streetViewControl: false,
         rotateControl: false,
         fullscreenControl: false
     };
-    let map = new google.maps.Map(document.getElementById("map"), mapOptions);
+    map = new google.maps.Map(document.getElementById("map"), mapOptions);
     var promise = new Promise(function (resolve, reject) {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(

@@ -7,13 +7,15 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="Style.scss" />
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src='js/jquery-3.3.1.min.js'></script>
+    <script src = 'js/places.js'></script>
 </head>
 
 <body>
     <div id="map"></div>
     <script src='js/map-init.js'></script>
     <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXV8gSn-UN0WqdWdJOnRfMdvLTHQmQBAw&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXV8gSn-UN0WqdWdJOnRfMdvLTHQmQBAw&callback=initMap&libraries=places">
     </script>
     <header class="box">
         <div class="Search">
@@ -107,7 +109,6 @@
             <img src="img/menuElement.png" alt="Figure" class="bottom-image" />
         </a>
     </nav>
-    <script src='js/jquery-3.3.1.min.js'></script>
     <script src="js/index.js"></script>
 </body>
 </html>
