@@ -1,7 +1,8 @@
 var service;
 var flag = false;
-var places;
-var radius = 3500;
+var places = [];
+var markers = [];
+var radius = 1000;
 
 $(document).ready(function () {
     $("a").click(function search() {
@@ -18,15 +19,14 @@ $(document).ready(function () {
 })
 
 function callback(results, status) {
-    console.log("Everything kinda alright");
     if (status == google.maps.places.PlacesServiceStatus.OK) {
         if (flag) {
             console.log("Deleting markers");
-            for (var i = 0; i < places.length; i++) {
-                places[i].setMap(null);
-                places[i] = null;
+            for (var i = 0; i < markers.length; i++) {
+                markers[i].setMap(null);
+                markers[i] = null;
             }
-            places.length = 0;
+            markers.length = 0;
         }
         if (!flag) {
             var circle = new google.maps.Circle({
@@ -36,49 +36,63 @@ function callback(results, status) {
             })
             flag = true;
         }
-        places = results;
-        for (var i = 0; i < places.length; i++) {
-            place = new google.maps.Marker({
+        for (var i = 0; i < results.length; i++) {
+            var marker = new google.maps.Marker({
                 map: map,
-                position: places[i].geometry.location,
-                place_id: places[i].place_id
+                position: results[i].geometry.location
             });
+            markers.push(marker);
             var details = new Promise(function (resolve, reject) {
-                service.getDetails({ placeId: places[i].place_id }, function (PlaceResult, PlacesServiceStatus) {
+                service.getDetails({ placeId: results[i].place_id }, function (PlaceResult, PlacesServiceStatus) {
                     if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OK) {
-                        place.title = PlaceResult.name;
-                        resolve("Found title");
+                        marker.title = PlaceResult.name;
+                        resolve(PlaceResult);
                     }
-                    else {
-                        reject("Not found " + place.place_id);
+                    else if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.NOT_FOUND) {
+                        reject([marker, "NOT_FOUND"]);
+                    }
+                    else if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.INVALID_REQUEST) {
+                        reject([marker, "INVALID_REQUEST"]);
+                    }
+                    else if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OVER_QUERY_LIMIT) {
+                        reject([marker, "OVER_QUERY_LIMIT"]);
+                    }
+                    else if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.REQUEST_DENIED) {
+                        reject([marker, "REQUEST_DENIED"]);
+                    }
+                    else if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
+                        reject([marker, "ZERO_RESULTS"]);
+                    }
+                    else if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.UNKNOWN_ERROR) {
+                        reject([marker, "UNKNOWN_ERROR"]);
                     }
                 })
             });
             details.then(
                 result => {
-                    places[i] = place;
-                    places[i].addListener('click', function () {
-                        let infowindow = new google.maps.InfoWindow();
-                        infowindow.setContent(places[i].title);
-                        infowindow.open(map, places[i]);
-                    });
-                    //addHint(places[i]);
+                    addHint(marker, result);
+                    places.push(result);
                 },
                 error => {
-                    console.log(error);
+                    console.log(error[1]);
+                    addHint(error[0], 0);
                 })
         }
     }
     else {
-        console.log("We are fucked");
+        console.log("Google Places Service is currently unavailable.\n");
     }
 }
 
-function addHint(place) {
-    console.log("Adding listener to " + place.title);
-    place.addListener('click', function () {
+function addHint(marker, place) {
+    console.log("Adding listener to " + marker.title);
+    var infowindow;
+    marker.addListener('mouseover', function () {
         infowindow = new google.maps.InfoWindow();
-        infowindow.setContent(place.title);
-        infowindow.open(map, place);
+        infowindow.setContent((marker.title !== undefined) ? marker.title : "Name not found"); //+ " Rating: " + (place) ? place.rating.toString() : "");
+        infowindow.open(map, marker);
+    });
+    marker.addListener('mouseout', function () {
+        infowindow.close(marker);
     });
 }
