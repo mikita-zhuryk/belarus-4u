@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Belarus4U</title>
+        <link href="CSS/style.css" type="text/css" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+        <script src='js/jquery-3.3.1.min.js'></script>
+        <script src="js/menu-animation.js"></script>
+	<script src = 'js/places.js'></script>
+    </head>
+    
+    <body>
+        <div id="map"></div>
+        <script src='js/map-init.js'></script>
+        <script async defer
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXV8gSn-UN0WqdWdJOnRfMdvLTHQmQBAw&callback=initMap&libraries=places">
+        </script>
+        <div id="main">
+            <header id="search">
+                <form>
+                    <input type="text" placeholder="Search...">
+                </form>
+            </header>
+            <ul class="menu">
+                <li class = "menu-item">Food</li>
+                <ul class="sub-menu">
+                    <li class="sub-menu-item">Cafe</li>                           
+                    <li class="sub-menu-item">Fast food</li>
+                    <li class="sub-menu-item">Restaurant</li>
+                </ul>
+                <li class="menu-item">Lodging</li>                           
+                <ul class="sub-menu">
+                    <li class="sub-menu-item">Hotel</li>       
+                    <li class="sub-menu-item">Apartment</li>
+                    <li class="sub-menu-item">Private House</li>
+                </ul>
+                <li class="menu-item">Shopping</li>                          
+                <ul class="sub-menu">
+                    <li class="sub-menu-item">Clothes</li>       
+                    <li class="sub-menu-item">Food</li>
+                    <li class="sub-menu-item">Other</li>
+                </ul>
+                <li class="menu-item">Leisure</li>                           
+                <ul class="sub-menu">
+                    <li class="sub-menu-item">Culture</li>       
+                    <li class="sub-menu-item">Sport</li>
+                    <li class="sub-menu-item">Religion</li>
+                </ul>
+            </ul>
+            <ul class="bottom-menu">
+                <li class="bottom-item"><a class="bottom-ref" href="#"><img class="bottom-icons" src="images\History.png" alt="Clock" /></a></li>
+                <li class="bottom-item"><a class="bottom-ref" href="#"><img class="bottom-icons" src="images\Dice.png" alt="Dice" /></a></li>
+                <li class="bottom-item"><a class="bottom-ref" href="#"><img class="bottom-icons" src="images\Home.png" alt="Home" /></a></li>
+                <li class="bottom-item"><a class="bottom-ref" href="#"><img class="bottom-icons" src="images\Sorting.png" alt="Sorting" /></a></li>
+                <li class="bottom-item"><a class="bottom-ref" href="#"><img class="bottom-icons" src="images\Service.png" alt="Service" /></a></li>
+            </ul>
+        </div>
+    </body>
+</html>

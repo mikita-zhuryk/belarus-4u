@@ -18,7 +18,7 @@ function initMap() {
                     mapOptions.center = { lat: position.coords.latitude, lng: position.coords.longitude };
                     console.log(mapOptions.center);
                     flag = true;
-                    resolve("Promise fullfilled!");
+                    resolve("Location acquired");
                 },
                 function () {
                     reject("Problem geolocating");
@@ -29,14 +29,17 @@ function initMap() {
         result => {
             map.setCenter(mapOptions.center);
             map.setZoom(11);
-            console.log(map.center.lat() + ' ' + map.center.lng());
-            let point = new google.maps.InfoWindow({ map: map });
-            point.setPosition(mapOptions.center);
-            point.setContent("Centered on you");
+            var marker = new google.maps.Marker({
+                position: mapOptions.center,
+                icon: {
+                    path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+                    fillColor: "#00AA00"
+                }
+            })
             console.log(result);
         },
         error => {
-            console.log("Geolocation error " + error);
+            console.log(error);
         }
     );
 }
