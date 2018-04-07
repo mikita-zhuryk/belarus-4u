@@ -27,7 +27,3 @@ $(function() {
 
   var accordion = new Accordion($('.accordion-menu'), false);
 })
-
-$('submenuItems').click(function () {
-    ('#')
-})
