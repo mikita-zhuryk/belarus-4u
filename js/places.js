@@ -3,6 +3,8 @@ var flag = false;
 var places = [];
 var markers = [];
 var radius = 1000;
+var displayMenu = true;
+var text;
 
 $(document).ready(function () {
     $("li").click(function search() {
@@ -15,6 +17,28 @@ $(document).ready(function () {
         };
         if (!flag) service = new google.maps.places.PlacesService(map);
         service.radarSearch(request, callback);
+    })
+})
+
+$(document).ready(function(){
+    $('.sub-menu-item').click(function hideMenu(){
+        if (displayMenu == true) {
+            text = $(this).text();
+            $('.menu').hide(10);
+            $('#categories').text(text);
+            document.getElementById('categories').style.visibility = "visible";
+            displayMenu = false;
+        }
+    })
+})
+
+$(document).ready(function (){
+    $('#categories').click(function showMenu(){
+        if(displayMenu == false){
+            document.getElementById('categories').style.visibility = "hidden";
+            $('.menu').show();
+            displayMenu = true;
+        }
     })
 })
 
