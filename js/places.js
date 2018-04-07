@@ -89,7 +89,7 @@ function addHint(marker, place) {
     var infowindow;
     marker.addListener('mouseover', function () {
         infowindow = new google.maps.InfoWindow();
-        infowindow.setContent((marker.title !== undefined) ? marker.title : "Name not found"); //+ " Rating: " + (place) ? place.rating.toString() : "");
+        infowindow.setContent((place) ? (place.name + " Rating: " + place.rating.toString()) : "Name not found");
         infowindow.open(map, marker);
     });
     marker.addListener('mouseout', function () {
