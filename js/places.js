@@ -19,6 +19,7 @@ $(document).ready(function () {
 })
 
 function callback(results, status) {
+    results.length = 50;
     if (status == google.maps.places.PlacesServiceStatus.OK) {
         if (flag) {
             console.log("Deleting markers");
@@ -36,7 +37,8 @@ function callback(results, status) {
             })
             flag = true;
         }
-        for (var i = 0; i < results.length; i++) {
+        var i = 0;
+        var timerID = setInterval(function() {
             var marker = new google.maps.Marker({
                 map: map,
                 position: results[i].geometry.location
@@ -77,6 +79,10 @@ function callback(results, status) {
                     console.log(error[1]);
                     addHint(error[0], 0);
                 })
+                i++;
+        }, 1000);
+        if (i == results.length) {
+            clearInterval(timerID);
         }
     }
     else {
