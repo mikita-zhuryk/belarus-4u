@@ -5,7 +5,7 @@ var markers = [];
 var radius = 1000;
 
 $(document).ready(function () {
-    $("a").click(function search() {
+    $("li").click(function search() {
         console.log($(this).text());
         var request = {
             location: mapOptions.center,
