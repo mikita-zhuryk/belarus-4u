@@ -64,52 +64,14 @@ function callback(results, status) {
             flag = true;
         }
         var i = 0;
-        var timerID = setInterval(function () {
+        for (var i = 0; i < results.length; i++) {
             var marker;
-            var details = new Promise(function (resolve, reject) {
-                marker = new google.maps.Marker({
-                    map: map,
-                    position: results[i].geometry.location
-                });
-                markers.push(marker);
-                service.getDetails({ placeId: results[i].place_id }, function (PlaceResult, PlacesServiceStatus) {
-                    if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OK) {
-                        marker.title = PlaceResult.name;
-                        resolve(PlaceResult);
-                    }
-                    else if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.NOT_FOUND) {
-                        reject([marker, "NOT_FOUND"]);
-                    }
-                    else if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.INVALID_REQUEST) {
-                        reject([marker, "INVALID_REQUEST"]);
-                    }
-                    else if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OVER_QUERY_LIMIT) {
-                        reject([marker, "OVER_QUERY_LIMIT"]);
-                    }
-                    else if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.REQUEST_DENIED) {
-                        reject([marker, "REQUEST_DENIED"]);
-                    }
-                    else if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
-                        reject([marker, "ZERO_RESULTS"]);
-                    }
-                    else if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.UNKNOWN_ERROR) {
-                        reject([marker, "UNKNOWN_ERROR"]);
-                    }
-                })
+            marker = new google.maps.Marker({
+                map: map,
+                position: results[i].geometry.location
             });
-            details.then(
-                result => {
-                    addHint(marker, result);
-                    places.push(result);
-                },
-                error => {
-                    console.log(error[1]);
-                    addHint(error[0], 0);
-                })
-            i++;
-        }, 400);
-        if (i == results.length) {
-            clearInterval(timerID);
+            markers.push(marker);
+            addHint(marker, i, results[i].place_id);
         }
     }
     else {
@@ -117,13 +79,61 @@ function callback(results, status) {
     }
 }
 
-function addHint(marker, place) {
-    console.log("Adding listener to " + marker.title);
+function addHint(marker, i, place_id) {
+    console.log("Adding listener to " + place_id);
     var infowindow;
     marker.addListener('mouseover', function () {
-        infowindow = new google.maps.InfoWindow();
-        infowindow.setContent((place) ? (place.name + " Rating: " + place.rating.toString() + "\n" + place.formatted_address) : "Name not found");
-        infowindow.open(map, marker);
+        var alreadyLoaded = -1;
+        for (var j = 0; j < places.length; j++) {
+            if (places[j][0] == i) {
+                console.log("Already found info for " + places[j][1].name);
+                alreadyLoaded = j;
+            }
+        }
+        if (alreadyLoaded == -1) {
+        var promise = new Promise(function (resolve, reject) {
+            console.log("Loading info for " + place_id);
+            service.getDetails({ placeId: place_id }, function (PlaceResult, PlacesServiceStatus) {
+                if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OK) {
+                    marker.title = PlaceResult.name;
+                    resolve(PlaceResult);
+                }
+                else if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.NOT_FOUND) {
+                    reject([marker, "NOT_FOUND"]);
+                }
+                else if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.INVALID_REQUEST) {
+                    reject([marker, "INVALID_REQUEST"]);
+                }
+                else if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OVER_QUERY_LIMIT) {
+                    reject([marker, "OVER_QUERY_LIMIT"]);
+                }
+                else if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.REQUEST_DENIED) {
+                    reject([marker, "REQUEST_DENIED"]);
+                }
+                else if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
+                    reject([marker, "ZERO_RESULTS"]);
+                }
+                else if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.UNKNOWN_ERROR) {
+                    reject([marker, "UNKNOWN_ERROR"]);
+                }
+            })
+        })
+        promise.then(
+            result => {
+                places.push([i, result]);
+                infowindow = new google.maps.InfoWindow();
+                infowindow.setContent((result) ? (result.name + " Rating: " + result.rating.toString() + "\n" + result.formatted_address) : "Name not found");
+                infowindow.open(map, marker);
+            },
+            error => {
+                console.log(error);
+            })
+        }
+        else {
+            infowindow = new google.maps.InfoWindow();
+            infowindow.setContent((places[alreadyLoaded][1]) ? (places[alreadyLoaded][1].name + " Rating: " + places[alreadyLoaded][1].rating.toString() + "\n" + places[alreadyLoaded][1].formatted_address) : "Name not found");
+            infowindow.open(map, marker);
+        }
     });
     marker.addListener('mouseout', function () {
         infowindow.close(marker);
