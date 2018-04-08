@@ -11,7 +11,7 @@ $(document).ready(function () {
         console.log($(this).text());
         var request = {
             location: mapOptions.center,
-            radius: radius,
+            radius: radius - 300,
             type: $(this).text(),
             keyword: $(this).text()
         };
@@ -20,8 +20,8 @@ $(document).ready(function () {
     })
 })
 
-$(document).ready(function(){
-    $('.sub-menu-item').click(function hideMenu(){
+$(document).ready(function () {
+    $('.sub-menu-item').click(function hideMenu() {
         if (displayMenu == true) {
             text = $(this).text();
             $('.menu').hide(10);
@@ -32,9 +32,9 @@ $(document).ready(function(){
     })
 })
 
-$(document).ready(function (){
-    $('#categories').click(function showMenu(){
-        if(displayMenu == false){
+$(document).ready(function () {
+    $('#categories').click(function showMenu() {
+        if (displayMenu == false) {
             document.getElementById('categories').style.visibility = "hidden";
             $('.menu').show();
             displayMenu = true;
@@ -43,7 +43,9 @@ $(document).ready(function (){
 })
 
 function callback(results, status) {
-    results.length = 50;
+    if (results.length > 20) {
+        results.length = 20;
+    }
     if (status == google.maps.places.PlacesServiceStatus.OK) {
         if (flag) {
             console.log("Deleting markers");
@@ -62,13 +64,14 @@ function callback(results, status) {
             flag = true;
         }
         var i = 0;
-        var timerID = setInterval(function() {
-            var marker = new google.maps.Marker({
-                map: map,
-                position: results[i].geometry.location
-            });
-            markers.push(marker);
+        var timerID = setInterval(function () {
+            var marker;
             var details = new Promise(function (resolve, reject) {
+                marker = new google.maps.Marker({
+                    map: map,
+                    position: results[i].geometry.location
+                });
+                markers.push(marker);
                 service.getDetails({ placeId: results[i].place_id }, function (PlaceResult, PlacesServiceStatus) {
                     if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OK) {
                         marker.title = PlaceResult.name;
@@ -103,8 +106,8 @@ function callback(results, status) {
                     console.log(error[1]);
                     addHint(error[0], 0);
                 })
-                i++;
-        }, 1000);
+            i++;
+        }, 400);
         if (i == results.length) {
             clearInterval(timerID);
         }
@@ -119,7 +122,7 @@ function addHint(marker, place) {
     var infowindow;
     marker.addListener('mouseover', function () {
         infowindow = new google.maps.InfoWindow();
-        infowindow.setContent((place) ? (place.name + " Rating: " + place.rating.toString()) : "Name not found");
+        infowindow.setContent((place) ? (place.name + " Rating: " + place.rating.toString() + "\n" + place.formatted_address) : "Name not found");
         infowindow.open(map, marker);
     });
     marker.addListener('mouseout', function () {
