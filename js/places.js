@@ -2,7 +2,7 @@ var service;
 var flag = false;
 var places = [];
 var markers = [];
-var radius = 1000;
+var radius = 3500;
 var displayMenu = true;
 var text;
 
@@ -42,11 +42,11 @@ $(document).ready(function () {
     })
 })
 
-function callback(results, status) {
+function callback(results, PlacesServiceStatus) {
     if (results.length > 20) {
         results.length = 20;
     }
-    if (status == google.maps.places.PlacesServiceStatus.OK) {
+    if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OK) {
         if (flag) {
             console.log("Deleting markers");
             for (var i = 0; i < markers.length; i++) {
@@ -68,34 +68,49 @@ function callback(results, status) {
             var marker;
             marker = new google.maps.Marker({
                 map: map,
-                position: results[i].geometry.location
+                position: results[i].geometry.location,
+                title: results[i].place_id
             });
             markers.push(marker);
-            addHint(marker, i, results[i].place_id);
+            addHint(marker);
         }
     }
-    else {
-        console.log("Google Places Service is currently unavailable.\n");
+    else if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.NOT_FOUND) {
+        console.log("NOT_FOUND");
+    }
+    else if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.INVALID_REQUEST) {
+        console.log("INVALID_REQUEST");
+    }
+    else if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OVER_QUERY_LIMIT) {
+        console.log("OVER_QUERY_LIMIT");
+    }
+    else if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.REQUEST_DENIED) {
+        console.log("REQUEST_DENIED");
+    }
+    else if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
+        console.log("ZERO_RESULTS");
+    }
+    else if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.UNKNOWN_ERROR) {
+        console.log("UNKNOWN_ERROR");
     }
 }
 
-function addHint(marker, i, place_id) {
-    console.log("Adding listener to " + place_id);
+function addHint(marker) {
+    console.log("Adding listener to " + marker.title);
     var infowindow;
     marker.addListener('mouseover', function () {
         var alreadyLoaded = -1;
         for (var j = 0; j < places.length; j++) {
-            if (places[j][0] == i) {
-                console.log("Already found info for " + places[j][1].name);
+            if (places[j][0] == marker.title) {
+                console.log("Already found info for " + places[j][1].formatted_address);
                 alreadyLoaded = j;
             }
         }
         if (alreadyLoaded == -1) {
         var promise = new Promise(function (resolve, reject) {
-            console.log("Loading info for " + place_id);
-            service.getDetails({ placeId: place_id }, function (PlaceResult, PlacesServiceStatus) {
+            console.log("Loading info for " + marker.title);
+            service.getDetails({ placeId: marker.title }, function (PlaceResult, PlacesServiceStatus) {
                 if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OK) {
-                    marker.title = PlaceResult.name;
                     resolve(PlaceResult);
                 }
                 else if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.NOT_FOUND) {
@@ -120,7 +135,7 @@ function addHint(marker, i, place_id) {
         })
         promise.then(
             result => {
-                places.push([i, result]);
+                places.push([marker.title, result]);
                 infowindow = new google.maps.InfoWindow();
                 infowindow.setContent((result) ? (result.name + " Rating: " + result.rating.toString() + "\n" + result.formatted_address) : "Name not found");
                 infowindow.open(map, marker);
