@@ -39,10 +39,10 @@ $(document).ready(function () {
                     document.getElementById('listHead').appendChild(listNode);
                     var mapDiv = document.getElementById('map');
                     listNode.addEventListener("click", function createInfoWnd() {
-                        if (document.body.lastChild == document.getElementById('infoWindow')) {
-                            document.body.removeChild(document.body.lastChild);
+                        if (document.getElementById('infoWindow')) {
+                            document.body.removeChild(document.getElementById('infoWindow'));
                             mapDiv.style.visibility = "visible";
-                            mapDiv.removeChild(mapDiv.firstChild);
+                            mapDiv.removeChild(document.getElementById('showInfo'));
                         }
                         if (mapDiv.style.visibility == "visible") {
                             mapDiv.style.visibility = "hidden";
@@ -73,7 +73,7 @@ $(document).ready(function () {
                             document.body.appendChild(PlaceInfo);
                         }
                         else {
-                            document.getElementById('map').style.visibility = "visible";
+                            mapDiv.style.visibility = "visible";
                             document.body.removeChild(document.body.lastChild);
                         }
                     })
@@ -87,9 +87,19 @@ $(document).ready(function () {
 $(document).ready(function () {
     $('#listHead').dblclick(function showMenu() {
         if (displayMenu == false) {
+            var mapDiv = document.getElementById('map');
             while (document.getElementById('listHead').hasChildNodes()) {
                 var child = document.getElementById('listHead').lastChild;
                 child.parentNode.removeChild(child);
+            }
+            if (mapDiv.style.visibility == "hidden") {
+                mapDiv.style.visibility = "visible";
+            }
+            if (document.getElementById('infoWindow')) {
+                document.body.removeChild(document.getElementById('infoWindow'));
+            }
+            if (mapDiv.firstChild.id == 'showInfo') {
+                mapDiv.removeChild(mapDiv.firstChild);
             }
             document.getElementById('listHead').style.visibility = "hidden";
             $('.menu').show();
