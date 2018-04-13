@@ -70,8 +70,12 @@ function callback(results, PlacesServiceStatus) {
     if (results.length > 20) {
         results.length = 20;
     }
+<<<<<<< HEAD
     errorMsg(function (e) {
         console.log(e);
+=======
+    errorMsg(function () {
+>>>>>>> 965ea06bf4b7934f2f9fcc9fbc73ba79c75347b6
         if (flag) {
             console.log("Deleting markers");
             for (var i = 0; i < markers.length; i++) {
@@ -100,6 +104,7 @@ function callback(results, PlacesServiceStatus) {
             markers.push(marker);
             addHint(marker);
         }
+<<<<<<< HEAD
     }, "Everything is OK", function (s) { console.log(s); }, "Something went wrong", PlacesServiceStatus)
     initPlaces(results);
 }
@@ -125,6 +130,9 @@ function initPlaces(results) {
             })            
         }
     }
+=======
+    }, function () { }, PlacesServiceStatus)
+>>>>>>> 965ea06bf4b7934f2f9fcc9fbc73ba79c75347b6
 }
 
 function addHint(marker) {
@@ -142,7 +150,11 @@ function addHint(marker) {
             var promise = new Promise(function (resolve, reject) {
                 console.log("Loading info for " + marker.title);
                 service.getDetails({ placeId: marker.title }, function (PlaceResult, PlacesServiceStatus) {
+<<<<<<< HEAD
                     errorMsg(resolve, PlaceResult, reject, marker, PlacesServiceStatus);
+=======
+                    errorMsg(resolve(PlaceResult), reject(marker), PlacesServiceStatus);
+>>>>>>> 965ea06bf4b7934f2f9fcc9fbc73ba79c75347b6
                 })
             })
             promise.then(
@@ -166,12 +178,21 @@ function addHint(marker) {
     });
 }
 
+<<<<<<< HEAD
 function errorMsg(funcSuccess, succArg, funcFail, failArg, PlacesServiceStatus) {
     if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OK) {
         funcSuccess(succArg);
     }
     else {
         funcFail(failArg);
+=======
+function errorMsg(funcSuccess, funcFail, PlacesServiceStatus) {
+    if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OK) {
+        funcSuccess();
+    }
+    else {
+        funcFail();
+>>>>>>> 965ea06bf4b7934f2f9fcc9fbc73ba79c75347b6
         if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.NOT_FOUND) {
             console.log("NOT_FOUND");
         }
