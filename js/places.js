@@ -34,8 +34,49 @@ $(document).ready(function () {
                 if (fit) {
                     var listNode = document.createElement('li');
                     listNode.className = 'listNode';
+                    listNode.id = 'listNode';
                     listNode.appendChild(document.createTextNode(places[i][1].name));
                     document.getElementById('listHead').appendChild(listNode);
+                    var mapDiv = document.getElementById('map');
+                    listNode.addEventListener("click", function createInfoWnd() {
+                        if (document.body.lastChild == document.getElementById('infoWindow')) {
+                            document.body.removeChild(document.body.lastChild);
+                            mapDiv.style.visibility = "visible";
+                            mapDiv.removeChild(mapDiv.firstChild);
+                        }
+                        if (mapDiv.style.visibility == "visible") {
+                            mapDiv.style.visibility = "hidden";
+                            var PlaceInfo = document.createElement('div');
+                            PlaceInfo.id = "infoWindow";
+                            var title = document.createElement('p');
+                            title.id = 'title';
+                            title.innerHTML = listNode.innerHTML;
+                            var btn = document.createElement('button');
+                            btn.id = 'hideInfo';
+                            btn.innerHTML = 'Hide info';
+                            btn.addEventListener('click', function () {
+                                mapDiv.style.visibility = "visible";
+                                document.getElementById('infoWindow').style.visibility = "hidden";
+                                if (mapDiv.firstChild.id !== 'showInfo') {
+                                    var btn2 = document.createElement('button');
+                                    btn2.id = 'showInfo';
+                                    btn2.innerHTML = 'Show info';
+                                    btn2.addEventListener('click', function () {
+                                        mapDiv.style.visibility = "hidden";
+                                        document.getElementById('infoWindow').style.visibility = "visible";
+                                    })
+                                    mapDiv.insertBefore(btn2, mapDiv.firstChild);
+                                }
+                            })
+                            PlaceInfo.appendChild(title);
+                            PlaceInfo.appendChild(btn);
+                            document.body.appendChild(PlaceInfo);
+                        }
+                        else {
+                            document.getElementById('map').style.visibility = "visible";
+                            document.body.removeChild(document.body.lastChild);
+                        }
+                    })
                 }
             }
             displayMenu = false;
@@ -44,7 +85,7 @@ $(document).ready(function () {
 })
 
 $(document).ready(function () {
-    $('#listHead').click(function showMenu() {
+    $('#listHead').dblclick(function showMenu() {
         if (displayMenu == false) {
             while (document.getElementById('listHead').hasChildNodes()) {
                 var child = document.getElementById('listHead').lastChild;
@@ -57,20 +98,12 @@ $(document).ready(function () {
     })
 })
 
-$(document).ready(function() {
-    $('.listNode').click(function() {
-        document.getElementById('map').visibility = "hidden";
-        var PlaceInfo = document.createElement("div");
-        PlaceInfo.className = "infoWindow";
-        PlaceInfo.appendChild(document.createElement("p", {id: 'Title'}));
-    })
-})
-
 function callback(results, PlacesServiceStatus) {
     if (results.length > 20) {
         results.length = 20;
     }
     errorMsg(function (e) {
+        initPlaces(results);
         console.log(e);
         if (flag) {
             console.log("Deleting markers");
@@ -101,13 +134,10 @@ function callback(results, PlacesServiceStatus) {
             addHint(marker);
         }
     }, "Everything is OK", function (s) { console.log(s); }, "Something went wrong", PlacesServiceStatus)
-    initPlaces(results);
 }
 
 function initPlaces(results) {
     var found = -1;
-    var succArg;
-    var failArg;
     for (var i = 0; i < INITIAL_PLACES; i++) {
         found = -1;
         if (places.length) {
@@ -119,10 +149,11 @@ function initPlaces(results) {
         }
         if (found == -1) {
             service.getDetails({ placeId: results[i].place_id }, function (PlaceResult, PlacesServiceStatus) {
-                succArg = [results[i].place_id, PlaceResult];
-                failArg = "Failed to push " + results[i].place_id;
-                errorMsg(function(a) { places.push(a); }, succArg, function (s) { console.log(s); }, failArg, PlacesServiceStatus);
-            })            
+                var succArg = [results[i].place_id, PlaceResult];
+                var failArg = "Failed to push " + results[i].place_id;
+                //errorMsg(function(a) { places.push(a); }, succArg, function (s) { console.log(s); }, failArg, PlacesServiceStatus);
+                places.push(succArg);
+            })
         }
     }
 }
@@ -130,6 +161,9 @@ function initPlaces(results) {
 function addHint(marker) {
     //console.log("Adding listener to " + marker.title);
     var infowindow;
+    marker.addListener('mouseout', function () {
+        infowindow.close(marker);
+    });
     marker.addListener('mouseover', function () {
         var alreadyLoaded = -1;
         for (var j = 0; j < places.length; j++) {
@@ -160,9 +194,6 @@ function addHint(marker) {
             infowindow.setContent((places[alreadyLoaded][1]) ? (places[alreadyLoaded][1].name + " Rating: " + places[alreadyLoaded][1].rating.toString() + "\n" + places[alreadyLoaded][1].formatted_address) : "Name not found");
             infowindow.open(map, marker);
         }
-    });
-    marker.addListener('mouseout', function () {
-        infowindow.close(marker);
     });
 }
 
