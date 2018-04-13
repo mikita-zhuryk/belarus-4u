@@ -5,10 +5,10 @@ var markers = [];
 var radius = 3500;
 var displayMenu = true;
 var text;
-var INITIAL_PLACES = 7;
+var INITIAL_PLACES = 3;
 
 $(document).ready(function () {
-    $("li").click(function search() {
+    $(".sub-menu-item").click(function search() {
         console.log($(this).text());
         var request = {
             location: mapOptions.center,
@@ -28,10 +28,19 @@ $(document).ready(function () {
             $('.menu').hide(10);
             $('#categories').text(text);
             document.getElementById('categories').style.visibility = "visible";
+            var fit = false;
             for (var i = 0; i < places.length; i++) {
-                var listNode = document.createElement('li');
-                listNode.appendChild(document.createTextNode(places[i][1].name));
-                document.getElementById('categories').appendChild(listNode);
+                fit = false;
+                for (var j = 0; j < places[i][1].types.length; j++) {
+                    if (places[i][1].types[j].toLowerCase() == text.toLowerCase()) {
+                        fit = true;
+                    }
+                }
+                if (fit) {
+                    var listNode = document.createElement('li');
+                    listNode.appendChild(document.createTextNode(places[i][1].name));
+                    document.getElementById('categories').appendChild(listNode);
+                }
             }
             displayMenu = false;
         }
@@ -91,10 +100,12 @@ function callback(results, PlacesServiceStatus) {
 }
 
 function initPlaces(results) {
+    var found = -1;
     for (var i = 0; i < INITIAL_PLACES; i++) {
-        var found = -1;
+        found = -1;
         if (places.length) {
             for (var j = 0; j < places.length; j++) {
+                console.log(places[j][0] + " " + results[i].place_id);
                 if (places[j][0] == results[i].place_id) {
                     found = j;
                 }
@@ -111,7 +122,7 @@ function initPlaces(results) {
 }
 
 function addHint(marker) {
-    console.log("Adding listener to " + marker.title);
+    //console.log("Adding listener to " + marker.title);
     var infowindow;
     marker.addListener('mouseover', function () {
         var alreadyLoaded = -1;
