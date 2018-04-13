@@ -18,16 +18,11 @@ $(document).ready(function () {
         };
         if (!flag) service = new google.maps.places.PlacesService(map);
         service.radarSearch(request, callback);
-    })
-})
-
-$(document).ready(function () {
-    $('.sub-menu-item').click(function hideMenu() {
         if (displayMenu == true) {
             text = $(this).text();
             $('.menu').hide(10);
-            $('#categories').text(text);
-            document.getElementById('categories').style.visibility = "visible";
+            $('#listHead').text(text);
+            document.getElementById('listHead').style.visibility = "visible";
             var fit = false;
             for (var i = 0; i < places.length; i++) {
                 fit = false;
@@ -38,8 +33,9 @@ $(document).ready(function () {
                 }
                 if (fit) {
                     var listNode = document.createElement('li');
+                    listNode.className = 'listNode';
                     listNode.appendChild(document.createTextNode(places[i][1].name));
-                    document.getElementById('categories').appendChild(listNode);
+                    document.getElementById('listHead').appendChild(listNode);
                 }
             }
             displayMenu = false;
@@ -48,16 +44,25 @@ $(document).ready(function () {
 })
 
 $(document).ready(function () {
-    $('#categories').click(function showMenu() {
+    $('#listHead').click(function showMenu() {
         if (displayMenu == false) {
-            while (document.getElementById('categories').hasChildNodes()) {
-                var child = document.getElementById('categories').lastChild;
-                document.getElementById('categories').removeChild(child);
+            while (document.getElementById('listHead').hasChildNodes()) {
+                var child = document.getElementById('listHead').lastChild;
+                child.parentNode.removeChild(child);
             }
-            document.getElementById('categories').style.visibility = "hidden";
+            document.getElementById('listHead').style.visibility = "hidden";
             $('.menu').show();
             displayMenu = true;
         }
+    })
+})
+
+$(document).ready(function() {
+    $('.listNode').click(function() {
+        document.getElementById('map').visibility = "hidden";
+        var PlaceInfo = document.createElement("div");
+        PlaceInfo.className = "infoWindow";
+        PlaceInfo.appendChild(document.createElement("p", {id: 'Title'}));
     })
 })
 
@@ -95,17 +100,18 @@ function callback(results, PlacesServiceStatus) {
             markers.push(marker);
             addHint(marker);
         }
-        initPlaces(results);
     }, "Everything is OK", function (s) { console.log(s); }, "Something went wrong", PlacesServiceStatus)
+    initPlaces(results);
 }
 
 function initPlaces(results) {
     var found = -1;
+    var succArg;
+    var failArg;
     for (var i = 0; i < INITIAL_PLACES; i++) {
         found = -1;
         if (places.length) {
             for (var j = 0; j < places.length; j++) {
-                console.log(places[j][0] + " " + results[i].place_id);
                 if (places[j][0] == results[i].place_id) {
                     found = j;
                 }
@@ -113,8 +119,8 @@ function initPlaces(results) {
         }
         if (found == -1) {
             service.getDetails({ placeId: results[i].place_id }, function (PlaceResult, PlacesServiceStatus) {
-                var succArg = [results[i].place_id, PlaceResult];
-                var failArg = "Failed to push " + results[i].place_id;
+                succArg = [results[i].place_id, PlaceResult];
+                failArg = "Failed to push " + results[i].place_id;
                 errorMsg(function(a) { places.push(a); }, succArg, function (s) { console.log(s); }, failArg, PlacesServiceStatus);
             })            
         }

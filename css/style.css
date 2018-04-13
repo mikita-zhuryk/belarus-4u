@@ -62,6 +62,13 @@ ul {
     outline:none;
 }
 
+#infoWindow {
+    left: 319px;
+    height: 100%;
+    border: none;
+    background: #212222;
+}
+
 .menu{
     display: flex;
     flex-direction: column;
@@ -138,7 +145,7 @@ ul {
     transition: all 0.2s ease-out;   
 }
 
-.categories{
+#listHead{
     position: fixed;
     text-align: center;
     color: #ECEAE4;
