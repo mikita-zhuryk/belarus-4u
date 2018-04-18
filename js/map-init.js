@@ -28,7 +28,7 @@ function initMap() {
     promise.then(
         result => {
             map.setCenter(mapOptions.center);
-            map.setZoom(11);
+            map.setZoom(13);
             var marker = new google.maps.Marker({
                 position: mapOptions.center,
                 icon: {

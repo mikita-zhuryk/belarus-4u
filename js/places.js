@@ -17,7 +17,9 @@ $(document).ready(function () {
             keyword: $(this).text()
         };
         if (!flag) service = new google.maps.places.PlacesService(map);
-        service.radarSearch(request, callback);
+        var timeout = setTimeout(function () {     
+            service.radarSearch(request, callback);
+        }, 1000);
         if (displayMenu == true) {
             text = $(this).text();
             $('.menu').hide(10);
@@ -42,40 +44,36 @@ $(document).ready(function () {
                         if (document.getElementById('infoWindow')) {
                             document.body.removeChild(document.getElementById('infoWindow'));
                             mapDiv.style.visibility = "visible";
-                            mapDiv.removeChild(document.getElementById('showInfo'));
+                            if (document.getElementById('showInfo')) {
+                                mapDiv.removeChild(document.getElementById('showInfo'));
+                            }
                         }
-                        if (mapDiv.style.visibility == "visible") {
-                            mapDiv.style.visibility = "hidden";
-                            var PlaceInfo = document.createElement('div');
-                            PlaceInfo.id = "infoWindow";
-                            var title = document.createElement('p');
-                            title.id = 'title';
-                            title.innerHTML = listNode.innerHTML;
-                            var btn = document.createElement('button');
-                            btn.id = 'hideInfo';
-                            btn.innerHTML = 'Hide info';
-                            btn.addEventListener('click', function () {
-                                mapDiv.style.visibility = "visible";
-                                document.getElementById('infoWindow').style.visibility = "hidden";
-                                if (mapDiv.firstChild.id !== 'showInfo') {
-                                    var btn2 = document.createElement('button');
-                                    btn2.id = 'showInfo';
-                                    btn2.innerHTML = 'Show info';
-                                    btn2.addEventListener('click', function () {
-                                        mapDiv.style.visibility = "hidden";
-                                        document.getElementById('infoWindow').style.visibility = "visible";
-                                    })
-                                    mapDiv.insertBefore(btn2, mapDiv.firstChild);
-                                }
-                            })
-                            PlaceInfo.appendChild(title);
-                            PlaceInfo.appendChild(btn);
-                            document.body.appendChild(PlaceInfo);
-                        }
-                        else {
+                        mapDiv.style.visibility = "hidden";
+                        var PlaceInfo = document.createElement('div');
+                        PlaceInfo.id = "infoWindow";
+                        var title = document.createElement('p');
+                        title.id = 'title';
+                        title.innerHTML = listNode.innerHTML;
+                        var btn = document.createElement('button');
+                        btn.id = 'hideInfo';
+                        btn.innerHTML = 'Hide info';
+                        btn.addEventListener('click', function () {
                             mapDiv.style.visibility = "visible";
-                            document.body.removeChild(document.body.lastChild);
-                        }
+                            document.getElementById('infoWindow').style.visibility = "hidden";
+                            if (mapDiv.firstChild.id !== 'showInfo') {
+                                var btn2 = document.createElement('button');
+                                btn2.id = 'showInfo';
+                                btn2.innerHTML = 'Show info';
+                                btn2.addEventListener('click', function () {
+                                    mapDiv.style.visibility = "hidden";
+                                    document.getElementById('infoWindow').style.visibility = "visible";
+                                })
+                                mapDiv.insertBefore(btn2, mapDiv.firstChild);
+                            }
+                        })
+                        PlaceInfo.appendChild(title);
+                        PlaceInfo.appendChild(btn);
+                        document.body.appendChild(PlaceInfo);
                     })
                 }
             }
@@ -148,10 +146,13 @@ function callback(results, PlacesServiceStatus) {
 
 function initPlaces(results) {
     var found = -1;
-    for (var i = 0; i < INITIAL_PLACES; i++) {
+    var i = 0;
+    //for (var i = 0; i < INITIAL_PLACES; i++) {
+    var timerID = setInterval(function(){
         found = -1;
         if (places.length) {
             for (var j = 0; j < places.length; j++) {
+                console.log(places[j][0] + " " + results[i].place_id + " i: " + i + " j: " + j);
                 if (places[j][0] == results[i].place_id) {
                     found = j;
                 }
@@ -160,12 +161,17 @@ function initPlaces(results) {
         if (found == -1) {
             service.getDetails({ placeId: results[i].place_id }, function (PlaceResult, PlacesServiceStatus) {
                 var succArg = [results[i].place_id, PlaceResult];
+                console.log(succArg[0]);
                 var failArg = "Failed to push " + results[i].place_id;
                 //errorMsg(function(a) { places.push(a); }, succArg, function (s) { console.log(s); }, failArg, PlacesServiceStatus);
                 places.push(succArg);
             })
+            i++;
         }
-    }
+        if (i == INITIAL_PLACES) {
+            clearInterval(timerID);
+        }
+    }, 300);
 }
 
 function addHint(marker) {
