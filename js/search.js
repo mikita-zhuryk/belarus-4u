@@ -43,8 +43,8 @@ $(document).ready(function () {
             var i = 0;
             var fit = -1;
             while (i < INITIAL_PLACES) {
-                fit = i;
-                // for (var j = fit + 1; j < places.length; j++) {
+                fit = i;                                                // Loop starts with the same initial places (not fitting current search request)
+                // for (var j = fit + 1; j < places.length; j++) {      // This loop tries to find fitting places and show them in the list, but is actually infinite
                 //     for (var k = 0; k < places[j][1].types.length; k++) {
                 //         if (places[j][1].types[k] == text) {
                 //             fit = j;
