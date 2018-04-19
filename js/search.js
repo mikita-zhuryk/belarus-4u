@@ -42,7 +42,7 @@ $(document).ready(function () {
             displayMenu = false;
             var i = 0;
             var fit = -1;
-            while (i < INITIAL_PLACES) {
+            while (i < places.length) {
                 fit = i;                                                // Loop starts with the same initial places (not fitting current search request)
                 // for (var j = fit + 1; j < places.length; j++) {      // This loop tries to find fitting places and show them in the list, but is actually infinite
                 //     for (var k = 0; k < places[j][1].types.length; k++) {
@@ -107,7 +107,21 @@ $(document).ready(function () {
             //     mapDiv.removeChild(mapDiv.firstChild);
             // }
             document.getElementById('listHead').style.visibility = "hidden";
-            $('.menu').show();
+            $('.menu').show(10);
+            displayMenu = true;
+        }
+    })
+})
+
+$(document).ready(function () {
+    $('#home-btn').click(function () {
+        if (displayMenu == false) {
+            while (document.getElementById('list').hasChildNodes()) {
+                var child = document.getElementById('list').lastChild;
+                child.parentNode.removeChild(child);
+            }
+            document.getElementById('listHead').style.visibility = "hidden";
+            $('.menu').show(10);
             displayMenu = true;
         }
     })
@@ -211,6 +225,9 @@ function addHint(marker) {
     var alreadyFound;
     var placeInfo;
     var infoWnd;
+    marker.addListener('click', function () {
+        
+    })
     marker.addListener('mouseover', function () {
         alreadyFound = -1;
         for (var i = 0; i < places.length; i++) {
