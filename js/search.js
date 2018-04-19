@@ -81,7 +81,7 @@ $(document).ready(function () {
                         nodeName.innerHTML = "No data for phone number";
                     }
                     listNode.appendChild(nodePhone);
-                    document.getElementById('listHead').appendChild(listNode);
+                    document.getElementById('list').appendChild(listNode);
                     i++;
                 //}
             }
@@ -93,8 +93,8 @@ $(document).ready(function () {
     $('#listHead').click(function showMenu() {
         if (displayMenu == false) {
             // var mapDiv = document.getElementById('map');
-            while (document.getElementById('listHead').hasChildNodes()) {
-                var child = document.getElementById('listHead').lastChild;
+            while (document.getElementById('list').hasChildNodes()) {
+                var child = document.getElementById('list').lastChild;
                 child.parentNode.removeChild(child);
             }
             // if (mapDiv.style.visibility == "hidden") {
