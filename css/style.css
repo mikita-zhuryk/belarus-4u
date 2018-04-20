@@ -18,25 +18,26 @@ body {
     font-family: 'Jura', 'Arial', sans-serif;    
 }
 
-#hideInfo {
+#hideBtn {
+    position: inherit;
     width: 100px;
-    height: 20px;
+    height: 30px;
     top: 10px;
     left: 93%;
     font-size: 15px
 }
 
-#showInfo {
+#showBtn {
     position: inherit;
     width: 100px;
-    height: 20px;
+    height: 30px;
     top: 10px;
     left: 93%;
     font-size: 15px;
     z-index: 5
 }
 
-#title {
+#infoWndTitle {
     left: 319px;
     font-size: 40px;
     color: #ECEAE4;
