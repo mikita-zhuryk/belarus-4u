@@ -133,7 +133,8 @@ $(document).ready(function () {
                 child.parentNode.removeChild(child);
             }
             document.getElementById('listHead').style.visibility = "hidden";
-            $('.menu').show(10);
+            $('.sub-menu-item').slideUp();
+            $('.menu').show(1000);
             displayMenu = true;
         }
     })
