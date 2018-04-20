@@ -78,7 +78,7 @@ $(document).ready(function () {
                         nodePhone.innerHTML = places[fit][1].formatted_phone_number;
                     }
                     else {
-                        nodeName.innerHTML = "No data for phone number";
+                        nodePhone.innerHTML = "No data for phone number";
                     }
                     listNode.appendChild(nodePhone);
                     document.getElementById('list').appendChild(listNode);
