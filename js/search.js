@@ -23,9 +23,9 @@ function performSearch(text) {
 function parseID(text) {
     var res = 0;
     switch (text) {
-        case "Cafe": {res = 1; break;}
-        case "Meal Takeaway": {res = 2; break;}
-        case "Restaurant": {res = 3; break;}
+        case "Cafe": { res = 1; break; }
+        case "Meal Takeaway": { res = 2; break; }
+        case "Restaurant": { res = 3; break; }
     }
     return res;
 }
@@ -52,18 +52,15 @@ $(document).ready(function () {
             displayMenu = false;
             var i = 0;
             var fit = -1;
-            while (i < places.length) {                                                 // This loop tries to find fitting places and show them in the list, but is actually infinite
-                for (var k = 0; k < places[i][1].types.length; k++) {
-                    if (places[i][1][2] == parseID(text)) {
-                        fit = j;
-                        break;
-                    }
+            while (i < places.length) {
+                if (places[i][2] == parseID(text)) {
+                    fit = i;
                 }
                 if (fit !== -1) {
                     var listNode = document.createElement('li');
                     listNode.className = 'listNode';
                     var nodeName = document.createElement('p');
-                    nodeName.className = 'nodeName';    
+                    nodeName.className = 'nodeName';
                     if (places[fit][1].name) {
                         nodeName.innerHTML = places[fit][1].name;
                     }
@@ -86,8 +83,8 @@ $(document).ready(function () {
                     }
                     listNode.appendChild(nodePhone);
                     document.getElementById('list').appendChild(listNode);
-                    i++;
                 }
+                i++;
             }
         }
     })
@@ -198,7 +195,7 @@ function initPlaces(Results, request) {
         if (alreadyFound == -1) {
             service.getDetails({ placeId: Results[i].place_id }, function (PlaceResult, PlacesServiceStatus) {
                 if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OK) {
-                    places.push([Results[i].title, PlaceResult, parseID(request.type)]);
+                    places.push([Results[i].title, PlaceResult, parseID(text)]);
                 }
                 else {
                     if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.NOT_FOUND) {
@@ -248,7 +245,7 @@ function addHint(marker) {
             else {
                 service.getDetails({ placeId: marker.title }, function (PlaceResult, PlacesServiceStatus) {
                     if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OK) {
-                        places.push([marker.title, PlaceResult, parseID(request.type)]);
+                        places.push([marker.title, PlaceResult, parseID(text)]);
                         placeInfo = places[places.length - 1][1];
                         resolve(placeInfo);
                     }
