@@ -71,6 +71,18 @@ function createNode(place) {
     document.getElementById('list').appendChild(listNode);
 }
 
+function createInfoWnd() {
+    var infoWnd = document.createElement("div");
+    infoWnd.className = "infoWindow";
+    infoWnd.id = "infoWindow";
+    var title = document.createElement("p");
+    title.className = "infoWndTitle";
+    title.id = "infoWndTitle";
+    var hideBtn = document.createElement("button");
+    hideBtn.className = "hideBtn";
+    hideBtn.id = "hideBtn";
+}
+
 $(document).ready(function () {
     $('.sub-menu-item').click(function () {
         text = $(this).text();
@@ -95,6 +107,7 @@ $(document).ready(function () {
                 var i = 0;
                 var fit = -1;
                 while (i < places.length) {
+                    fit = -1;
                     if (places[i][2] == parseID(text)) {
                         fit = i;
                     }
@@ -113,14 +126,11 @@ $(document).ready(function () {
     $('#listHead').click(function showMenu() {
         if (displayMenu == false) {
             // var mapDiv = document.getElementById('map');
-            // while (document.getElementById('list').hasChildNodes()) {
-            //     var child = document.getElementById('list').lastChild;
-            //     child.parentNode.removeChild(child);
-            // }
             var list = document.getElementById('list');
-            var nodes = document.getElementsByClassName('listNode');
-            for (var i = 0; i < nodes.length; i++) {
-                list.removeChild(nodes.item(i));
+            var child;
+            while (list.hasChildNodes()) {
+                child = list.lastChild;
+                child.parentNode.removeChild(child);
             }
             // if (mapDiv.style.visibility == "hidden") {
             //     mapDiv.style.visibility = "visible";
@@ -154,12 +164,16 @@ $(document).ready(function () {
 
 function callback(Results, PlacesServiceStatus) {
     if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OK) {
+        var initLength = INITIAL_PLACES;
         var length = 0;
         if (Results.length > MAXIMUM_NUMBER_OF_MARKERS) {
             length = MAXIMUM_NUMBER_OF_MARKERS;
         }
         else {
             length = Results.length;
+        }
+        if (length < INITIAL_PLACES) {
+            initLength = length;
         }
         if ((lastSearch[0] !== request.location) || (lastSearch[1] !== request.radius) || (lastSearch[2] !== request.type)) {
             if (markers.length) {
@@ -180,7 +194,7 @@ function callback(Results, PlacesServiceStatus) {
                 markers.push(marker);
             }
         }
-        initPlaces(Results, INITIAL_PLACES);
+        initPlaces(Results, initLength);
         lastSearch = [request.location, request.radius, request.type];
     }
     else {
@@ -209,11 +223,10 @@ function initPlaces(Results, number) {
     var alreadyFound = -1;
     var initLength = 0;
     for (var i = 0; i < number; i++) {
-        var id = Results[i].place_id;
         alreadyFound = -1;
         if (places.length) {
             for (var j = 0; j < places.length; j++) {
-                if (places[j][0] == id) {
+                if (places[j][0] == Results[i].place_id) {
                     alreadyFound = j;
                     initLength++;
                     break;
@@ -221,9 +234,9 @@ function initPlaces(Results, number) {
             }
         }
         if (alreadyFound == -1) {
-            service.getDetails({ placeId: id }, function (PlaceResult, PlacesServiceStatus) {
+            service.getDetails({ placeId: Results[i].place_id }, function (PlaceResult, PlacesServiceStatus) {
                 if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OK) {
-                    places.push([id, PlaceResult, parseID(text)]);
+                    places.push([PlaceResult.place_id, PlaceResult, parseID(text)]);
                     initLength++;
                     if (initLength == number) {
                         deferred.resolve();
