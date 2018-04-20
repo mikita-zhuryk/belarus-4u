@@ -138,6 +138,12 @@ $(document).ready(function () {
     })
 })
 
+$(document).ready(function (){
+    $('.listNode').click(function (){
+        
+    });
+});
+
 $(document).ready(function () {
     $('#home-btn').click(function () {
         if (displayMenu == false) {
@@ -146,7 +152,7 @@ $(document).ready(function () {
                 child.parentNode.removeChild(child);
             }
             document.getElementById('listHead').style.visibility = "hidden";
-            $('.sub-menu-item').slideUp();
+          //  $('.sub-menu-item').slideUp();
             $('.menu').show(1000);
             displayMenu = true;
         }

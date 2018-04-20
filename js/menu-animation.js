@@ -9,3 +9,9 @@ function f_acc() {
   // открываем или скрываем блок под заголовком, по которому кликнули
   $(this).next().slideToggle(900);
 }
+
+$(document).ready(function () {
+  $('#history-btn').click(function () {
+    
+  });
+});
