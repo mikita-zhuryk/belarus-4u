@@ -15,7 +15,8 @@
 body {
     background: #000000;
     text-align: start;
-    font-family: 'Jura', 'Arial', sans-serif;    
+    font-family: 'Alegreya Sans', 'Arial', sans-serif; 
+    font-weight: 300;   
 }
 
 #hideInfo {
@@ -103,6 +104,7 @@ ul {
 
 .sub-menu {
     display: none;
+    box-shadow: 0px 0px 10px 0px #000000 inset;
 }
 
 .menu-item, .sub-menu-item{
@@ -183,7 +185,7 @@ ul {
     font-size: 35px;
     padding: 10px 0px;
     cursor: pointer;
-    background: linear-gradient(to bottom, #212222, #1a1c1f);    
+    background: linear-gradient(to bottom, #212222, #1a1c1f); 
 }
 
 .list{
@@ -205,4 +207,13 @@ ul {
 
 .nodePhone{
     font-size: 25px;
+    font-style: italic;
+}
+
+.imgPhone{
+    height: 20px;
+    width: 20px;
+    padding-top: 5px;
+    margin-right: 5px;
+    float: left;
 }

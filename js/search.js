@@ -81,6 +81,10 @@ $(document).ready(function () {
                         nodePhone.innerHTML = "No data for phone number";
                     }
                     listNode.appendChild(nodePhone);
+                    var imgPhone = document.createElement('img');
+                    imgPhone.className = 'imgPhone';
+                    imgPhone.src = "images/Phone.png";
+                    nodePhone.appendChild(imgPhone);
                     document.getElementById('list').appendChild(listNode);
                     i++;
                 //}
