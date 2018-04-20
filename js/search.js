@@ -181,6 +181,12 @@ $(document).ready(function () {
     })
 })
 
+$(document).ready(function (){
+    $('.listNode').click(function (){
+        
+    });
+});
+
 $(document).ready(function () {
     $('#home-btn').click(function () {
         if (displayMenu == false) {
@@ -190,7 +196,8 @@ $(document).ready(function () {
             }
             deleteInfoWnd();
             document.getElementById('listHead').style.visibility = "hidden";
-            $('.menu').show(10);
+          //  $('.sub-menu-item').slideUp();
+            $('.menu').show(1000);
             displayMenu = true;
         }
     })
