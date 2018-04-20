@@ -42,9 +42,9 @@ $(document).ready(function () {
             displayMenu = false;
             var i = 0;
             var fit = -1;
-            while (i < INITIAL_PLACES) {
-                fit = i;
-                // for (var j = fit + 1; j < places.length; j++) {
+            while (i < places.length) {
+                fit = i;                                                // Loop starts with the same initial places (not fitting current search request)
+                // for (var j = fit + 1; j < places.length; j++) {      // This loop tries to find fitting places and show them in the list, but is actually infinite
                 //     for (var k = 0; k < places[j][1].types.length; k++) {
                 //         if (places[j][1].types[k] == text) {
                 //             fit = j;
@@ -59,7 +59,7 @@ $(document).ready(function () {
                     var listNode = document.createElement('li');
                     listNode.className = 'listNode';
                     var nodeName = document.createElement('p');
-                    nodeName.className = 'nodeName';
+                    nodeName.className = 'nodeName';    
                     if (places[fit][1].name) {
                         nodeName.innerHTML = places[fit][1].name;
                     }
@@ -78,10 +78,10 @@ $(document).ready(function () {
                         nodePhone.innerHTML = places[fit][1].formatted_phone_number;
                     }
                     else {
-                        nodeName.innerHTML = "No data for phone number";
+                        nodePhone.innerHTML = "No data for phone number";
                     }
                     listNode.appendChild(nodePhone);
-                    document.getElementById('listHead').appendChild(listNode);
+                    document.getElementById('list').appendChild(listNode);
                     i++;
                 //}
             }
@@ -93,8 +93,8 @@ $(document).ready(function () {
     $('#listHead').click(function showMenu() {
         if (displayMenu == false) {
             // var mapDiv = document.getElementById('map');
-            while (document.getElementById('listHead').hasChildNodes()) {
-                var child = document.getElementById('listHead').lastChild;
+            while (document.getElementById('list').hasChildNodes()) {
+                var child = document.getElementById('list').lastChild;
                 child.parentNode.removeChild(child);
             }
             // if (mapDiv.style.visibility == "hidden") {
@@ -107,7 +107,21 @@ $(document).ready(function () {
             //     mapDiv.removeChild(mapDiv.firstChild);
             // }
             document.getElementById('listHead').style.visibility = "hidden";
-            $('.menu').show();
+            $('.menu').show(10);
+            displayMenu = true;
+        }
+    })
+})
+
+$(document).ready(function () {
+    $('#home-btn').click(function () {
+        if (displayMenu == false) {
+            while (document.getElementById('list').hasChildNodes()) {
+                var child = document.getElementById('list').lastChild;
+                child.parentNode.removeChild(child);
+            }
+            document.getElementById('listHead').style.visibility = "hidden";
+            $('.menu').show(10);
             displayMenu = true;
         }
     })
@@ -211,6 +225,9 @@ function addHint(marker) {
     var alreadyFound;
     var placeInfo;
     var infoWnd;
+    marker.addListener('click', function () {
+        
+    })
     marker.addListener('mouseover', function () {
         alreadyFound = -1;
         for (var i = 0; i < places.length; i++) {
