@@ -8,14 +8,14 @@
     left: 320px;
     height: 100%;
     top: 0px;
-    width: calc(100% - 360px);
+    width: calc(100% - 320px);
     z-index: auto;
 }
 
 body {
     background: #000000;
     text-align: start;
-    font-family: 'Raleway', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: 'Jura', 'Arial', sans-serif;    
 }
 
 #hideInfo {
@@ -67,7 +67,7 @@ ul {
 
 #search {
     height: 55px;
-    border-bottom: 1px solid #ffffff;
+    /* border-bottom: 1px solid #ffffff; */
     background: #ff0000;
     overflow: hidden;
     box-shadow: -10px -20px 50px #D8BFD8;
@@ -81,7 +81,7 @@ ul {
     border: none;
     background: #212222;
     box-shadow: inset 0px 10px 5px -10px #000000;
-    color: #aaaaaa;
+    color: #757575;
     outline:none;
 }
 
@@ -105,8 +105,10 @@ ul {
     display: none;
 }
 
-.menu-item {
+.menu-item, .sub-menu-item{
+    margin-bottom: -1px;
     border-bottom: 1px solid #ffffff;
+    border-top: 1px solid #ffffff;
     height: 40px;
     font-size: 35px;
     padding: 10px 5px;
@@ -115,18 +117,17 @@ ul {
     transition: all 0.25s ease-in;
 }
 
-.sub-menu-item {
-    border-bottom: inherit;
-    height: 35px;
-    font-size: 30px;
-    padding: 10px 5px;
-    cursor: pointer;
-    background: linear-gradient(to bottom, #212222, #1a1c1f);
-    transition: all 0.25s ease-in;
+.menu-item:hover{
+    box-shadow: 55px 0px 40px -30px #0047b1 inset;   
+    padding-left: 30px;         
+}
+
+.sub-menu-item{
+    background: linear-gradient(to bottom, #0047b1, #004172);
 }
 
 .sub-menu-item:hover{
-    box-shadow: 55px 0px 0px -30px #3389ca inset;
+    box-shadow: 55px 0px 40px -30px #212222 inset;
     padding-left: 30px;    
 }
 
@@ -171,16 +172,37 @@ ul {
 }
 
 #listHead{
+    box-shadow: 0px 0px 10px 0px #000000 inset;       
     position: fixed;
     text-align: center;
     color: #ECEAE4;
     width: 319px !important;
     margin-top: 0px;
     visibility: hidden;
-    border-bottom: 1px solid #ffffff;
     height: 40px;
     font-size: 35px;
     padding: 10px 0px;
     cursor: pointer;
+    background: linear-gradient(to bottom, #212222, #1a1c1f);    
+}
+
+.list{
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    height: calc(100% - 175px);
+}
+
+.listNode{
+    border-bottom: 1px solid #ffffff;
+    height: auto;
+    font-size: 35px;
+    padding: 10px 5px;
+    cursor: pointer;
     background: linear-gradient(to bottom, #212222, #1a1c1f);
+}
+
+.nodePhone{
+    font-size: 25px;
 }
