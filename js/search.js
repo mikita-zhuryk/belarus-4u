@@ -20,6 +20,13 @@ function performSearch(text) {
     service.radarSearch(request, callback);
 }
 
+function parseID(text) {
+    switch (text) {
+        case "Cafe": {res = 1; break;}
+        case "Restaurant": {res = 3; break;}
+    }
+}
+
 $(document).ready(function () {
     $('.sub-menu-item').click(function () {
         text = $(this).text();
@@ -42,20 +49,14 @@ $(document).ready(function () {
             displayMenu = false;
             var i = 0;
             var fit = -1;
-            while (i < places.length) {
-                fit = i;                                                // Loop starts with the same initial places (not fitting current search request)
-                // for (var j = fit + 1; j < places.length; j++) {      // This loop tries to find fitting places and show them in the list, but is actually infinite
-                //     for (var k = 0; k < places[j][1].types.length; k++) {
-                //         if (places[j][1].types[k] == text) {
-                //             fit = j;
-                //             break;
-                //         }
-                //     }
-                //     if (fit == j) {
-                //         break;
-                //     }
-                // }
-                // if (fit !== -1) {
+            while (i < places.length) {                                                 // This loop tries to find fitting places and show them in the list, but is actually infinite
+                for (var k = 0; k < places[i][1].types.length; k++) {
+                    if (places[i][1][2] == parseID(text)) {
+                        fit = j;
+                        break;
+                    }
+                }
+                if (fit !== -1) {
                     var listNode = document.createElement('li');
                     listNode.className = 'listNode';
                     var nodeName = document.createElement('p');
@@ -78,12 +79,12 @@ $(document).ready(function () {
                         nodePhone.innerHTML = places[fit][1].formatted_phone_number;
                     }
                     else {
-                        nodeName.innerHTML = "No data for phone number";
+                        nodePhone.innerHTML = "No data for phone number";
                     }
                     listNode.appendChild(nodePhone);
                     document.getElementById('list').appendChild(listNode);
                     i++;
-                //}
+                }
             }
         }
     })
@@ -180,7 +181,7 @@ function callback(Results, PlacesServiceStatus) {
     }
 }
 
-function initPlaces(Results) {
+function initPlaces(Results, request) {
     var alreadyFound = -1;
     for (var i = 0; i < INITIAL_PLACES; i++) {
         alreadyFound = -1;
@@ -194,7 +195,7 @@ function initPlaces(Results) {
         if (alreadyFound == -1) {
             service.getDetails({ placeId: Results[i].place_id }, function (PlaceResult, PlacesServiceStatus) {
                 if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OK) {
-                    places.push([Results[i].title, PlaceResult]);
+                    places.push([Results[i].title, PlaceResult, parseID(request.type)]);
                 }
                 else {
                     if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.NOT_FOUND) {
@@ -226,7 +227,7 @@ function addHint(marker) {
     var placeInfo;
     var infoWnd;
     marker.addListener('click', function () {
-        
+
     })
     marker.addListener('mouseover', function () {
         alreadyFound = -1;
@@ -244,7 +245,7 @@ function addHint(marker) {
             else {
                 service.getDetails({ placeId: marker.title }, function (PlaceResult, PlacesServiceStatus) {
                     if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OK) {
-                        places.push([marker.title, PlaceResult]);
+                        places.push([marker.title, PlaceResult, parseID(request.type)]);
                         placeInfo = places[places.length - 1][1];
                         resolve(placeInfo);
                     }
