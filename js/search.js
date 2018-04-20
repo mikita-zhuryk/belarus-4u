@@ -26,6 +26,17 @@ function parseID(text) {
         case "Cafe": { res = 1; break; }
         case "Meal Takeaway": { res = 2; break; }
         case "Restaurant": { res = 3; break; }
+        case "Delivery": {res = 4; break;}
+        case "Bar": {res = 5; break;}
+        case "Lodging": {res = 6; break;}
+        case "Campground": {res = 7; break;}
+        case "Shopping mall": {res = 8; break;}
+        case "Clothing": {res = 9; break;}
+        case "Gallery": {res = 10; break;}
+        case "Museum": {res = 11; break;}
+        case "Zoo": {res = 12; break;}
+        case "Casino": {res = 13; break;}
+        case "Spa": {res = 14; break;}
     }
     return res;
 }
