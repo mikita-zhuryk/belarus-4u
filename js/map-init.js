@@ -1,6 +1,17 @@
 var mapOptions;
 var map;
 
+$(document).ready(function () {
+    $('#setPos').click(function () {
+        map.addListener('click', function(pos) {
+            mapOptions.center = pos.latLng;
+            map.setCenter(mapOptions.center);
+            map.setZoom(13);
+            google.maps.event.clearListeners(map, 'click');
+        })
+    })
+})
+
 function initMap() {
     let flag;
     mapOptions = {
@@ -39,7 +50,12 @@ function initMap() {
             console.log(result);
         },
         error => {
-            console.log(error);
+            map.addListener('click', function(pos) {
+                mapOptions.center = pos.latLng;
+                map.setCenter(mapOptions.center);
+                map.setZoom(13);
+                google.maps.event.clearListeners(map, 'click');
+            })
         }
     );
 }
