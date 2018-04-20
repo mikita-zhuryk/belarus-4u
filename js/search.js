@@ -150,7 +150,9 @@ $(document).ready(function () {
 
 $(document).ready(function (){
     $('.listNode').click(function (){
-        
+        var text = $(this).text();
+        alert(text);
+        document.cookie = "seen=text; expires=18/04/2020 00:00:00;";
     });
 });
 

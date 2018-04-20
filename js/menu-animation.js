@@ -12,6 +12,7 @@ function f_acc() {
 
 $(document).ready(function () {
   $('#history-btn').click(function () {
-    
+    var x = document.cookie;
+    alert(x);
   });
 });
