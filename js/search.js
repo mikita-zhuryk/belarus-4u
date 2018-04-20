@@ -10,6 +10,9 @@ var places = [];
 var lastSearch = [];
 var INITIAL_PLACES = 5;
 var deferred = $.Deferred();
+var mapDiv;
+
+$(document).ready(function () { mapDiv = document.getElementById('map'); })
 
 function performSearch(text) {
     request = {
@@ -68,19 +71,58 @@ function createNode(place) {
         nodePhone.innerHTML = "No data for phone number";
     }
     listNode.appendChild(nodePhone);
+    listNode.addEventListener('click', function () {
+        if (document.getElementById('infoWindow')) {
+            deleteInfoWnd();
+        }
+        createInfoWnd(place);
+    });
     document.getElementById('list').appendChild(listNode);
 }
 
-function createInfoWnd() {
+function deleteInfoWnd() {
+    if (document.getElementById('infoWindow')) {
+        document.body.removeChild(document.getElementById('infoWindow'));
+    }
+    if (mapDiv.style.visibility == "hidden") {
+        mapDiv.style.visibility = "visible";
+    }
+    if (mapDiv.firstChild.id == 'showBtn') {
+        mapDiv.removeChild(mapDiv.firstChild);
+    }
+}
+
+function createInfoWnd(place) {
+    mapDiv.style.visibility = "hidden";
     var infoWnd = document.createElement("div");
     infoWnd.className = "infoWindow";
     infoWnd.id = "infoWindow";
     var title = document.createElement("p");
     title.className = "infoWndTitle";
     title.id = "infoWndTitle";
+    title.innerHTML = place.name;
     var hideBtn = document.createElement("button");
     hideBtn.className = "hideBtn";
     hideBtn.id = "hideBtn";
+    hideBtn.innerHTML = "Show map";
+    hideBtn.addEventListener("click", function () {
+        mapDiv.style.visibility = "visible";
+        infoWnd.style.visibility = "hidden";
+        if (mapDiv.firstChild.id !== 'showBtn') {
+            var showBtn = document.createElement("button");
+            showBtn.className = "showBtn";
+            showBtn.id = "showBtn";
+            showBtn.innerHTML = "Show info";
+            showBtn.addEventListener("click", function () {
+                mapDiv.style.visibility = "hidden";
+                infoWnd.style.visibility = "visible";
+            });
+            mapDiv.insertBefore(showBtn, mapDiv.firstChild);
+        }
+    });
+    infoWnd.appendChild(title);
+    infoWnd.appendChild(hideBtn);
+    document.body.appendChild(infoWnd);
 }
 
 $(document).ready(function () {
@@ -125,22 +167,13 @@ $(document).ready(function () {
 $(document).ready(function () {
     $('#listHead').click(function showMenu() {
         if (displayMenu == false) {
-            // var mapDiv = document.getElementById('map');
             var list = document.getElementById('list');
             var child;
             while (list.hasChildNodes()) {
                 child = list.lastChild;
                 child.parentNode.removeChild(child);
             }
-            // if (mapDiv.style.visibility == "hidden") {
-            //     mapDiv.style.visibility = "visible";
-            // }
-            // if (document.getElementById('infoWindow')) {
-            //     document.body.removeChild(document.getElementById('infoWindow'));
-            // }
-            // if (mapDiv.firstChild.id == 'showInfo') {
-            //     mapDiv.removeChild(mapDiv.firstChild);
-            // }
+            deleteInfoWnd();
             document.getElementById('listHead').style.visibility = "hidden";
             $('.menu').show(10);
             displayMenu = true;
@@ -155,6 +188,7 @@ $(document).ready(function () {
                 var child = document.getElementById('list').lastChild;
                 child.parentNode.removeChild(child);
             }
+            deleteInfoWnd();
             document.getElementById('listHead').style.visibility = "hidden";
             $('.menu').show(10);
             displayMenu = true;
