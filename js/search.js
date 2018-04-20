@@ -21,10 +21,13 @@ function performSearch(text) {
 }
 
 function parseID(text) {
+    var res = 0;
     switch (text) {
         case "Cafe": {res = 1; break;}
+        case "Meal Takeaway": {res = 2; break;}
         case "Restaurant": {res = 3; break;}
     }
+    return res;
 }
 
 $(document).ready(function () {
