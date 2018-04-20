@@ -63,7 +63,7 @@ $(document).ready(function () {
                     var listNode = document.createElement('li');
                     listNode.className = 'listNode';
                     var nodeName = document.createElement('p');
-                    nodeName.className = 'nodeName';
+                    nodeName.className = 'nodeName';    
                     if (places[fit][1].name) {
                         nodeName.innerHTML = places[fit][1].name;
                     }
