@@ -76,6 +76,13 @@ function createNode(place) {
             deleteInfoWnd();
         }
         createInfoWnd(place);
+        if(nodeName != "No data for name") {
+            var text = place.name;
+            var cookie_string = "seen=" + text;
+            cookie_string += "; expires=9/8/2020";
+            document.cookie = cookie_string;
+            alert(document.cookie);
+        }
     });
     document.getElementById('list').appendChild(listNode);
 }
@@ -181,13 +188,13 @@ $(document).ready(function () {
     })
 })
 
-$(document).ready(function (){
+//$(document).ready(function (){
     $('.listNode').click(function (){
         var text = $(this).text();
         alert(text);
         document.cookie = "seen=text; expires=18/04/2020 00:00:00;";
     });
-});
+//});
 
 $(document).ready(function () {
     $('#home-btn').click(function () {

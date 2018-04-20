@@ -10,8 +10,8 @@ function f_acc() {
   $(this).next().slideToggle(900);
 }
 
-$(document).ready(function () {
-  $('#history-btn').click(function () {
+$(document).ready(function (){
+  $('#history-btn').click(function (){
     var x = document.cookie;
     alert(x);
   });
