@@ -70,9 +70,14 @@ $(document).ready(function () {
                     var nodeRating = document.createElement('img');
                     nodeRating.className = 'nodeRating';
                     nodeRating.src = "images/Stars.png";
+                    nodeRating.title = "Rating " + places[fit][1].rating;
                     if (places[fit][1].rating) {
                     }
                     listNode.appendChild(nodeRating);
+                    var nodeRatingValue = document.createElement('div');
+                    nodeRatingValue.className = 'nodeRatingValue';
+                    nodeRatingValue.style.width = 110 * places[fit][1].rating / 5 + "px";
+                    listNode.appendChild(nodeRatingValue);
                     var nodePhone = document.createElement('p');
                     nodePhone.className = 'nodePhone';
                     if (places[fit][1].formatted_phone_number) {

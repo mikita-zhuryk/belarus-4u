@@ -200,20 +200,32 @@ ul {
 }
 
 .listNode{
+    position: relative;
     border-bottom: 1px solid #ffffff;
     height: auto;
     font-size: 35px;
-    padding: 10px 5px;
+    padding: 5px 5px;
     cursor: pointer;
     background: #212222;
 }
 
+.nodeName{
+    margin-bottom: 2px;
+}
+
 .nodeRating{
-    margin: 3px 2px;
+    position: absolute;
     width: 35%;
 }
 
+.nodeRatingValue{
+    margin: 0px 2px;
+    height: 18px;
+    background: #FFC000;
+}
+
 .nodePhone{
+    margin-top: 5px;
     font-size: 25px;
     font-style: italic;
 }
