@@ -9,6 +9,12 @@ var markers = [];
 var places = [];
 var lastSearch = [];
 var INITIAL_PLACES = 5;
+var deferred = $.Deferred();
+var mapDiv;
+var cookie_string = "expires=9/8/2020 00:00:00";
+var cache = new Object();
+
+$(document).ready(function () { mapDiv = document.getElementById('map'); })
 
 function performSearch(text) {
     request = {
@@ -18,6 +24,119 @@ function performSearch(text) {
         type: text
     };
     service.radarSearch(request, callback);
+}
+
+function parseID(text) {
+    var res = 0;
+    switch (text) {
+        case "Cafe": { res = 1; break; }
+        case "Meal Takeaway": { res = 2; break; }
+        case "Restaurant": { res = 3; break; }
+        case "Delivery": { res = 4; break; }
+        case "Bar": { res = 5; break; }
+        case "Lodging": { res = 6; break; }
+        case "Campground": { res = 7; break; }
+        case "Shopping mall": { res = 8; break; }
+        case "Clothing": { res = 9; break; }
+        case "Gallery": { res = 10; break; }
+        case "Museum": { res = 11; break; }
+        case "Zoo": { res = 12; break; }
+        case "Casino": { res = 13; break; }
+        case "Spa": { res = 14; break; }
+    }
+    return res;
+}
+
+function createNode(place) {
+    var listNode = document.createElement('li');
+    listNode.className = 'listNode';
+    var nodeName = document.createElement('p');
+    nodeName.className = 'nodeName';
+    if (place.name) {
+        nodeName.innerHTML = place.name;
+    }
+    else {
+        nodeName.innerHTML = "No data for name";
+    }
+    listNode.appendChild(nodeName);
+    var nodeRating = document.createElement('img');
+    nodeRating.className = 'nodeRating';
+    if (place.rating) {
+    }
+    listNode.appendChild(nodeRating);
+    var nodePhone = document.createElement('p');
+    nodePhone.className = 'nodePhone';
+    if (place.formatted_phone_number) {
+        nodePhone.innerHTML = place.formatted_phone_number;
+    }
+    else {
+        nodePhone.innerHTML = "No data for phone number";
+    }
+    listNode.appendChild(nodePhone);
+    listNode.addEventListener('click', function () {
+        if (document.getElementById('infoWindow')) {
+            deleteInfoWnd();
+        }
+        createInfoWnd(place);
+            var text = place.place_id;
+            cookie_string += "seen=" + text + "; ";
+            document.cookie = cookie_string;
+            alert(document.cookie);//adding cookies with the place ID
+           // var now = new Date(milliseconds);
+            //var time = now.getTime();
+            //alert(time);
+            //var cookie_string = time.toString(time);
+          //  cookie_string += "; expires=9/8/2020";
+           /* cache.text = place; // adding the viewed object to the cache
+            alert(cache.text.name);
+            alert(cache.text.formatted_phone_number);*/
+    });
+    document.getElementById('list').appendChild(listNode);
+}
+
+function deleteInfoWnd() {
+    if (document.getElementById('infoWindow')) {
+        document.body.removeChild(document.getElementById('infoWindow'));
+    }
+    if (mapDiv.style.visibility == "hidden") {
+        mapDiv.style.visibility = "visible";
+    }
+    if (mapDiv.firstChild.id == 'showBtn') {
+        mapDiv.removeChild(mapDiv.firstChild);
+    }
+}
+
+function createInfoWnd(place) {
+    mapDiv.style.visibility = "hidden";
+    var infoWnd = document.createElement("div");
+    infoWnd.className = "infoWindow";
+    infoWnd.id = "infoWindow";
+    var title = document.createElement("p");
+    title.className = "infoWndTitle";
+    title.id = "infoWndTitle";
+    title.innerHTML = place.name;
+    var hideBtn = document.createElement("button");
+    hideBtn.className = "hideBtn";
+    hideBtn.id = "hideBtn";
+    hideBtn.innerHTML = "Show map";
+    hideBtn.addEventListener("click", function () {
+        mapDiv.style.visibility = "visible";
+        infoWnd.style.visibility = "hidden";
+        if (mapDiv.firstChild.id !== 'showBtn') {
+            var showBtn = document.createElement("button");
+            showBtn.className = "showBtn";
+            showBtn.id = "showBtn";
+            showBtn.innerHTML = "Show info";
+            showBtn.addEventListener("click", function () {
+                mapDiv.style.visibility = "hidden";
+                infoWnd.style.visibility = "visible";
+            });
+            mapDiv.insertBefore(showBtn, mapDiv.firstChild);
+        }
+    });
+    infoWnd.appendChild(title);
+    infoWnd.appendChild(hideBtn);
+    document.body.appendChild(infoWnd);
 }
 
 $(document).ready(function () {
@@ -35,6 +154,7 @@ $(document).ready(function () {
             service = new google.maps.places.PlacesService(map);
         }
         performSearch(text);
+<<<<<<< HEAD
         if (displayMenu == true) {
             $('.menu').hide(10);
             $('#listHead').text(text);
@@ -92,36 +212,56 @@ $(document).ready(function () {
                     imgPhone.src = "images/Phone.png";
                     nodePhone.appendChild(imgPhone);
                     document.getElementById('list').appendChild(listNode);
+=======
+        deferred.done(function () {
+            if (displayMenu == true) {
+                $('.menu').hide(10);
+                $('#listHead').text(text);
+                document.getElementById('listHead').style.visibility = "visible";
+                displayMenu = false;
+                var i = 0;
+                var fit = -1;
+                while (i < places.length) {
+                    fit = -1;
+                    if (places[i][2] == parseID(text)) {
+                        fit = i;
+                    }
+                    if (fit !== -1) {
+                        createNode(places[fit][1]);
+                    }
+>>>>>>> d88a01d3812225596961235386adce287c56a2cc
                     i++;
-                //}
+                }
             }
-        }
+            deferred = $.Deferred();
+        })
     })
 })
 
 $(document).ready(function () {
     $('#listHead').click(function showMenu() {
         if (displayMenu == false) {
-            // var mapDiv = document.getElementById('map');
-            while (document.getElementById('list').hasChildNodes()) {
-                var child = document.getElementById('list').lastChild;
+            var list = document.getElementById('list');
+            var child;
+            while (list.hasChildNodes()) {
+                child = list.lastChild;
                 child.parentNode.removeChild(child);
             }
-            // if (mapDiv.style.visibility == "hidden") {
-            //     mapDiv.style.visibility = "visible";
-            // }
-            // if (document.getElementById('infoWindow')) {
-            //     document.body.removeChild(document.getElementById('infoWindow'));
-            // }
-            // if (mapDiv.firstChild.id == 'showInfo') {
-            //     mapDiv.removeChild(mapDiv.firstChild);
-            // }
+            deleteInfoWnd();
             document.getElementById('listHead').style.visibility = "hidden";
             $('.menu').show(10);
             displayMenu = true;
         }
     })
 })
+
+//$(document).ready(function (){
+    $('.listNode').click(function (){
+        var text = $(this).text();
+        alert(text);
+        document.cookie = "seen=text; expires=18/04/2020 00:00:00;";
+    });
+//});
 
 $(document).ready(function () {
     $('#home-btn').click(function () {
@@ -130,8 +270,10 @@ $(document).ready(function () {
                 var child = document.getElementById('list').lastChild;
                 child.parentNode.removeChild(child);
             }
+            deleteInfoWnd();
             document.getElementById('listHead').style.visibility = "hidden";
-            $('.menu').show(10);
+          //  $('.sub-menu-item').slideUp();
+            $('.menu').show(1000);
             displayMenu = true;
         }
     })
@@ -139,12 +281,16 @@ $(document).ready(function () {
 
 function callback(Results, PlacesServiceStatus) {
     if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OK) {
+        var initLength = INITIAL_PLACES;
         var length = 0;
         if (Results.length > MAXIMUM_NUMBER_OF_MARKERS) {
             length = MAXIMUM_NUMBER_OF_MARKERS;
         }
         else {
             length = Results.length;
+        }
+        if (length < INITIAL_PLACES) {
+            initLength = length;
         }
         if ((lastSearch[0] !== request.location) || (lastSearch[1] !== request.radius) || (lastSearch[2] !== request.type)) {
             if (markers.length) {
@@ -164,8 +310,8 @@ function callback(Results, PlacesServiceStatus) {
                 addHint(marker);
                 markers.push(marker);
             }
-            initPlaces(Results);
         }
+        initPlaces(Results, initLength);
         lastSearch = [request.location, request.radius, request.type];
     }
     else {
@@ -190,21 +336,28 @@ function callback(Results, PlacesServiceStatus) {
     }
 }
 
-function initPlaces(Results) {
+function initPlaces(Results, number) {
     var alreadyFound = -1;
-    for (var i = 0; i < INITIAL_PLACES; i++) {
+    var initLength = 0;
+    for (var i = 0; i < number; i++) {
         alreadyFound = -1;
         if (places.length) {
             for (var j = 0; j < places.length; j++) {
                 if (places[j][0] == Results[i].place_id) {
                     alreadyFound = j;
+                    initLength++;
+                    break;
                 }
             }
         }
         if (alreadyFound == -1) {
             service.getDetails({ placeId: Results[i].place_id }, function (PlaceResult, PlacesServiceStatus) {
                 if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OK) {
-                    places.push([Results[i].title, PlaceResult]);
+                    places.push([PlaceResult.place_id, PlaceResult, parseID(text)]);
+                    initLength++;
+                    if (initLength == number) {
+                        deferred.resolve();
+                    }
                 }
                 else {
                     if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.NOT_FOUND) {
@@ -228,6 +381,11 @@ function initPlaces(Results) {
                 }
             })
         }
+        else {
+            if (initLength == number) {
+                deferred.resolve();
+            }
+        }
     }
 }
 
@@ -236,7 +394,7 @@ function addHint(marker) {
     var placeInfo;
     var infoWnd;
     marker.addListener('click', function () {
-        
+
     })
     marker.addListener('mouseover', function () {
         alreadyFound = -1;
@@ -254,7 +412,7 @@ function addHint(marker) {
             else {
                 service.getDetails({ placeId: marker.title }, function (PlaceResult, PlacesServiceStatus) {
                     if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OK) {
-                        places.push([marker.title, PlaceResult]);
+                        places.push([marker.title, PlaceResult, parseID(text)]);
                         placeInfo = places[places.length - 1][1];
                         resolve(placeInfo);
                     }
