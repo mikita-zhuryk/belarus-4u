@@ -11,6 +11,7 @@ var lastSearch = [];
 var INITIAL_PLACES = 5;
 var deferred = $.Deferred();
 var mapDiv;
+var cookie_string = "expires=9/8/2020 00:00:00";
 
 $(document).ready(function () { mapDiv = document.getElementById('map'); })
 
@@ -76,13 +77,15 @@ function createNode(place) {
             deleteInfoWnd();
         }
         createInfoWnd(place);
-        if(nodeName != "No data for name") {
-            var text = place.name;
-            var cookie_string = "seen=" + text;
-            cookie_string += "; expires=9/8/2020";
+            var text = place.place_id;
+           // var now = new Date(milliseconds);
+            //var time = now.getTime();
+            //alert(time);
+            //var cookie_string = time.toString(time);
+            cookie_string += "seen=" + text + "; ";
+          //  cookie_string += "; expires=9/8/2020";
             document.cookie = cookie_string;
             alert(document.cookie);
-        }
     });
     document.getElementById('list').appendChild(listNode);
 }
