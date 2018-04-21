@@ -61,9 +61,18 @@ function createNode(place) {
     listNode.appendChild(nodeName);
     var nodeRating = document.createElement('img');
     nodeRating.className = 'nodeRating';
-    if (place.rating) {
-    }
+    nodeRating.src = 'images/Stars.png';
+    nodeRating.title = "Rating " + place.rating;
     listNode.appendChild(nodeRating);
+    var nodeRatingValue = document.createElement('div');
+    nodeRatingValue.className = 'nodeRatingValue';
+    if (place.rating !== undefined) {
+        nodeRatingValue.style.width = 100 * place.rating / 5 + 8 + "px";
+    }
+    else {
+        nodeRatingValue.style.width = 0 + "px";
+    }
+    listNode.appendChild(nodeRatingValue);
     var nodePhone = document.createElement('p');
     nodePhone.className = 'nodePhone';
     if (place.formatted_phone_number) {
@@ -154,65 +163,6 @@ $(document).ready(function () {
             service = new google.maps.places.PlacesService(map);
         }
         performSearch(text);
-<<<<<<< HEAD
-        if (displayMenu == true) {
-            $('.menu').hide(10);
-            $('#listHead').text(text);
-            document.getElementById('listHead').style.visibility = "visible";
-            displayMenu = false;
-            var i = 0;
-            var fit = -1;
-            while (i < places.length) {
-                fit = i;                                                // Loop starts with the same initial places (not fitting current search request)
-                // for (var j = fit + 1; j < places.length; j++) {      // This loop tries to find fitting places and show them in the list, but is actually infinite
-                //     for (var k = 0; k < places[j][1].types.length; k++) {
-                //         if (places[j][1].types[k] == text) {
-                //             fit = j;
-                //             break;
-                //         }
-                //     }
-                //     if (fit == j) {
-                //         break;
-                //     }
-                // }
-                // if (fit !== -1) {
-                    var listNode = document.createElement('li');
-                    listNode.className = 'listNode';
-                    var nodeName = document.createElement('p');
-                    nodeName.className = 'nodeName';
-                    if (places[fit][1].name) {
-                        nodeName.innerHTML = places[fit][1].name;
-                    }
-                    else {
-                        nodeName.innerHTML = "No data for name";
-                    }
-                    listNode.appendChild(nodeName);
-                    var nodeRating = document.createElement('img');
-                    nodeRating.className = 'nodeRating';
-                    nodeRating.src = "images/Stars.png";
-                    nodeRating.title = "Rating " + places[fit][1].rating;
-                    if (places[fit][1].rating) {
-                    }
-                    listNode.appendChild(nodeRating);
-                    var nodeRatingValue = document.createElement('div');
-                    nodeRatingValue.className = 'nodeRatingValue';
-                    nodeRatingValue.style.width = 110 * places[fit][1].rating / 5 + "px";
-                    listNode.appendChild(nodeRatingValue);
-                    var nodePhone = document.createElement('p');
-                    nodePhone.className = 'nodePhone';
-                    if (places[fit][1].formatted_phone_number) {
-                        nodePhone.innerHTML = places[fit][1].formatted_phone_number;
-                    }
-                    else {
-                        nodePhone.innerHTML = "No data for phone number";
-                    }
-                    listNode.appendChild(nodePhone);
-                    var imgPhone = document.createElement('img');
-                    imgPhone.className = 'imgPhone';
-                    imgPhone.src = "images/Phone.png";
-                    nodePhone.appendChild(imgPhone);
-                    document.getElementById('list').appendChild(listNode);
-=======
         deferred.done(function () {
             if (displayMenu == true) {
                 $('.menu').hide(10);
@@ -229,7 +179,6 @@ $(document).ready(function () {
                     if (fit !== -1) {
                         createNode(places[fit][1]);
                     }
->>>>>>> d88a01d3812225596961235386adce287c56a2cc
                     i++;
                 }
             }
