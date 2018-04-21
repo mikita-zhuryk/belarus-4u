@@ -8,15 +8,27 @@ var service;
 var markers = [];
 var places = [];
 var lastSearch = [];
-var INITIAL_PLACES = 5;
+var INITIAL_PLACES = 7;
 var deferred = $.Deferred();
 var mapDiv;
 var cookie_string = "expires=9/8/2020 00:00:00";
 var cache = new Object();
+var lastLoaded = -1;
+var pending = true;
+var resultArr;
+var list;
 
 $(document).ready(function () { mapDiv = document.getElementById('map'); })
 
 function performSearch(text) {
+    if (!circleDrawn) {
+        var circle = new google.maps.Circle({
+            map: map,
+            center: mapOptions.center,
+            radius: radius
+        })
+        circleDrawn = true;
+    }
     request = {
         location: mapOptions.center,
         radius: radius - 300,
@@ -83,22 +95,26 @@ function createNode(place) {
     }
     listNode.appendChild(nodePhone);
     listNode.addEventListener('click', function () {
+        var lastID = -1;
         if (document.getElementById('infoWindow')) {
+            lastID = document.getElementsByClassName("infoWndTitle")[0].id;
             deleteInfoWnd();
         }
-        createInfoWnd(place);
+        if ((lastID == -1) || (lastID !== place.place_id)) {
+            createInfoWnd(place);
             var text = place.place_id;
             cookie_string += "seen=" + text + "; ";
             document.cookie = cookie_string;
             alert(document.cookie);//adding cookies with the place ID
-           // var now = new Date(milliseconds);
+            // var now = new Date(milliseconds);
             //var time = now.getTime();
             //alert(time);
             //var cookie_string = time.toString(time);
-          //  cookie_string += "; expires=9/8/2020";
-           /* cache.text = place; // adding the viewed object to the cache
-            alert(cache.text.name);
-            alert(cache.text.formatted_phone_number);*/
+            //  cookie_string += "; expires=9/8/2020";
+            /* cache.text = place; // adding the viewed object to the cache
+             alert(cache.text.name);
+             alert(cache.text.formatted_phone_number);*/
+        }
     });
     document.getElementById('list').appendChild(listNode);
 }
@@ -122,7 +138,7 @@ function createInfoWnd(place) {
     infoWnd.id = "infoWindow";
     var title = document.createElement("p");
     title.className = "infoWndTitle";
-    title.id = "infoWndTitle";
+    title.id = place.place_id;
     title.innerHTML = place.name;
     var hideBtn = document.createElement("button");
     hideBtn.className = "hideBtn";
@@ -148,23 +164,34 @@ function createInfoWnd(place) {
     document.body.appendChild(infoWnd);
 }
 
+function loadSome() {
+        list = document.getElementById('list');
+        if ((list.scrollHeight - (list.scrollTop + list.clientHeight)) <= 400) {
+            for (var i = 0; i < places.length; i++) {
+                if (places[i][0] == resultArr[lastLoaded + 1].place_id) {
+                    lastLoaded++;
+                }
+            }
+            service.getDetails({ placeId: resultArr[lastLoaded + 1].place_id }, function (PlaceResult, status) {
+                createNode(PlaceResult);
+                lastLoaded++;
+                pending = true;
+            });
+        }
+}
+
 $(document).ready(function () {
     $('.sub-menu-item').click(function () {
         text = $(this).text();
-        if (!circleDrawn) {
-            var circle = new google.maps.Circle({
-                map: map,
-                center: mapOptions.center,
-                radius: radius
-            })
-            circleDrawn = true;
-        }
         if (!service) {
             service = new google.maps.places.PlacesService(map);
         }
+        lastLoaded = -1;
         performSearch(text);
         deferred.done(function () {
             if (displayMenu == true) {
+                var list = document.getElementById('list');
+                list.addEventListener("scroll", loadSome, false);
                 $('.menu').hide(10);
                 $('#listHead').text(text);
                 document.getElementById('listHead').style.visibility = "visible";
@@ -191,6 +218,7 @@ $(document).ready(function () {
     $('#listHead').click(function showMenu() {
         if (displayMenu == false) {
             var list = document.getElementById('list');
+            list.removeEventListener("scroll", loadSome, false);
             var child;
             while (list.hasChildNodes()) {
                 child = list.lastChild;
@@ -205,11 +233,11 @@ $(document).ready(function () {
 })
 
 //$(document).ready(function (){
-    $('.listNode').click(function (){
-        var text = $(this).text();
-        alert(text);
-        document.cookie = "seen=text; expires=18/04/2020 00:00:00;";
-    });
+$('.listNode').click(function () {
+    var text = $(this).text();
+    alert(text);
+    document.cookie = "seen=text; expires=18/04/2020 00:00:00;";
+});
 //});
 
 $(document).ready(function () {
@@ -221,7 +249,7 @@ $(document).ready(function () {
             }
             deleteInfoWnd();
             document.getElementById('listHead').style.visibility = "hidden";
-          //  $('.sub-menu-item').slideUp();
+            //  $('.sub-menu-item').slideUp();
             $('.menu').show(1000);
             displayMenu = true;
         }
@@ -230,6 +258,7 @@ $(document).ready(function () {
 
 function callback(Results, PlacesServiceStatus) {
     if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OK) {
+        resultArr = Results;
         var initLength = INITIAL_PLACES;
         var length = 0;
         if (Results.length > MAXIMUM_NUMBER_OF_MARKERS) {
@@ -287,14 +316,17 @@ function callback(Results, PlacesServiceStatus) {
 
 function initPlaces(Results, number) {
     var alreadyFound = -1;
-    var initLength = 0;
-    for (var i = 0; i < number; i++) {
+    var loadedThis = 0;
+    var alreadyLoaded = 0;
+    for (var i = 0; i < number + alreadyLoaded; i++) {
         alreadyFound = -1;
         if (places.length) {
             for (var j = 0; j < places.length; j++) {
                 if (places[j][0] == Results[i].place_id) {
                     alreadyFound = j;
-                    initLength++;
+                    alreadyLoaded++;
+                    lastLoaded++;
+                    loadedThis++;
                     break;
                 }
             }
@@ -303,8 +335,9 @@ function initPlaces(Results, number) {
             service.getDetails({ placeId: Results[i].place_id }, function (PlaceResult, PlacesServiceStatus) {
                 if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OK) {
                     places.push([PlaceResult.place_id, PlaceResult, parseID(text)]);
-                    initLength++;
-                    if (initLength == number) {
+                    lastLoaded++;
+                    loadedThis++;
+                    if (loadedThis == number + alreadyLoaded) {
                         deferred.resolve();
                     }
                 }
@@ -331,7 +364,7 @@ function initPlaces(Results, number) {
             })
         }
         else {
-            if (initLength == number) {
+            if (loadedThis == number + alreadyLoaded) {
                 deferred.resolve();
             }
         }
@@ -362,6 +395,7 @@ function addHint(marker) {
                 service.getDetails({ placeId: marker.title }, function (PlaceResult, PlacesServiceStatus) {
                     if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OK) {
                         places.push([marker.title, PlaceResult, parseID(text)]);
+                        createNode(PlaceResult);
                         placeInfo = places[places.length - 1][1];
                         resolve(placeInfo);
                     }
