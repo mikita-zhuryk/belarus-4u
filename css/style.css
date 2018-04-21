@@ -104,7 +104,9 @@ ul {
 
 .sub-menu {
     display: none;
-    box-shadow: 0px 0px 10px 0px #000000 inset;
+    background: linear-gradient(to bottom, rgb(78, 28, 167), rgb(61, 26, 128));
+    box-shadoW: 0px 30px 30px -30px black inset,
+                0px -20px 30px -30px black inset;    
 }
 
 .menu-item, .sub-menu-item{
@@ -115,17 +117,16 @@ ul {
     font-size: 35px;
     padding: 10px 5px;
     cursor: pointer;
-    background: linear-gradient(to bottom, #212222, #1a1c1f);
     transition: all 0.25s ease-in;
 }
 
-.menu-item:hover{
-    box-shadow: 55px 0px 40px -30px #0047b1 inset;   
-    padding-left: 30px;         
+.menu-item{
+    background: linear-gradient(to bottom, #212222, #1a1c1f);
 }
 
-.sub-menu-item{
-    background: linear-gradient(to bottom, #0047b1, #004172);
+.menu-item:hover{
+    box-shadow: 55px 0px 40px -30px rgb(87, 32, 182) inset;   
+    padding-left: 30px;         
 }
 
 .sub-menu-item:hover{
@@ -141,7 +142,7 @@ ul {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    box-shadow: -20px 10px 50px #000000;
+    box-shadow: -10px 5px 40px #000000;
 }
 
 .bottom-item {
@@ -173,8 +174,7 @@ ul {
     transition: all 0.2s ease-out;   
 }
 
-#listHead{
-    box-shadow: 0px 0px 10px 0px #000000 inset;       
+#listHead{      
     position: fixed;
     text-align: center;
     color: #ECEAE4;
@@ -185,7 +185,10 @@ ul {
     font-size: 35px;
     padding: 10px 0px;
     cursor: pointer;
-    background: linear-gradient(to bottom, #212222, #1a1c1f); 
+    border-top: 1px solid #ffffff;
+    border-bottom: 1px solid #ffffff;    
+    background: linear-gradient(to bottom, rgb(78, 28, 167), rgb(61, 26, 128));
+    box-shadow: 25px 0px 50px -50px white inset, -30px 0px 50px -50px white inset, -10px 0px 40px black;
 }
 
 .list{
@@ -202,7 +205,12 @@ ul {
     font-size: 35px;
     padding: 10px 5px;
     cursor: pointer;
-    background: linear-gradient(to bottom, #212222, #1a1c1f);
+    background: #212222;
+}
+
+.nodeRating{
+    margin: 3px 2px;
+    width: 35%;
 }
 
 .nodePhone{
@@ -213,7 +221,6 @@ ul {
 .imgPhone{
     height: 20px;
     width: 20px;
-    padding-top: 5px;
-    margin-right: 5px;
+    margin: 5px 15px 0px 2px;
     float: left;
 }

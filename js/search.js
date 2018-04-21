@@ -69,6 +69,7 @@ $(document).ready(function () {
                     listNode.appendChild(nodeName);
                     var nodeRating = document.createElement('img');
                     nodeRating.className = 'nodeRating';
+                    nodeRating.src = "images/Stars.png";
                     if (places[fit][1].rating) {
                     }
                     listNode.appendChild(nodeRating);
