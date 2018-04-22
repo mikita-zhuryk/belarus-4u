@@ -13,7 +13,6 @@ var deferred = $.Deferred();
 var mapDiv;
 var cookie_string = "expires=9/8/2020 00:00:00";
 var cache = new Object();
-var lastLoaded = -1;
 var pending = true;
 var resultArr;
 var list;
@@ -93,6 +92,10 @@ function createNode(place) {
     else {
         nodePhone.innerHTML = "No data for phone number";
     }
+    var imgPhone = document.createElement('img');
+    imgPhone.className = 'imgPhone';
+    imgPhone.src = "images/Phone.png";
+    nodePhone.appendChild(imgPhone);
     listNode.appendChild(nodePhone);
     listNode.addEventListener('click', function () {
         var lastID = -1;
@@ -165,19 +168,49 @@ function createInfoWnd(place) {
 }
 
 function loadSome() {
-        list = document.getElementById('list');
-        if ((list.scrollHeight - (list.scrollTop + list.clientHeight)) <= 400) {
-            for (var i = 0; i < places.length; i++) {
-                if (places[i][0] == resultArr[lastLoaded + 1].place_id) {
-                    lastLoaded++;
+    var lastLoaded = -1;
+    var found = false;
+    list = document.getElementById('list');
+    if ((list.scrollHeight - (list.scrollTop + list.clientHeight)) <= 400) {
+        for (var i = 0; i < resultArr.length; i++) {
+            for (var j = 0; j < places.length; j++) {
+                if (resultArr[i].place_id == places[j][0]) {
+                    found = true;
+                    break;
                 }
             }
-            service.getDetails({ placeId: resultArr[lastLoaded + 1].place_id }, function (PlaceResult, status) {
-                createNode(PlaceResult);
-                lastLoaded++;
-                pending = true;
-            });
+            if (!found) {
+                lastLoaded = i - 1;
+                break;
+            }
         }
+        service.getDetails({ placeId: resultArr[lastLoaded + 1].place_id }, function (PlaceResult, PlacesServiceStatus) {
+            if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OK) {
+                places.push([PlaceResult.place_id, PlaceResult, parseID(text)]);
+                createNode(PlaceResult);
+            }
+            else {
+                if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.NOT_FOUND) {
+                    console.log("NOT_FOUND");
+                }
+                if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.INVALID_REQUEST) {
+                    console.log("INVALID_REQUEST");
+                }
+                if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OVER_QUERY_LIMIT) {
+                    console.log("OVER_QUERY_LIMIT");
+                }
+                if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.REQUEST_DENIED) {
+                    console.log("REQUEST_DENIED");
+                }
+                if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
+                    console.log("ZERO_RESULTS");
+                }
+                if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.UNKNOWN_ERROR) {
+                    console.log("UNKNOWN_ERROR");
+                }
+            }
+        });
+    }
 }
 
 $(document).ready(function () {
@@ -186,7 +219,6 @@ $(document).ready(function () {
         if (!service) {
             service = new google.maps.places.PlacesService(map);
         }
-        lastLoaded = -1;
         performSearch(text);
         deferred.done(function () {
             if (displayMenu == true) {
@@ -325,7 +357,6 @@ function initPlaces(Results, number) {
                 if (places[j][0] == Results[i].place_id) {
                     alreadyFound = j;
                     alreadyLoaded++;
-                    lastLoaded++;
                     loadedThis++;
                     break;
                 }
@@ -335,7 +366,6 @@ function initPlaces(Results, number) {
             service.getDetails({ placeId: Results[i].place_id }, function (PlaceResult, PlacesServiceStatus) {
                 if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OK) {
                     places.push([PlaceResult.place_id, PlaceResult, parseID(text)]);
-                    lastLoaded++;
                     loadedThis++;
                     if (loadedThis == number + alreadyLoaded) {
                         deferred.resolve();
