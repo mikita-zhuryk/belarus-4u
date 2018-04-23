@@ -171,6 +171,17 @@ function createInfoWnd(place) {
     document.body.appendChild(infoWnd);
 }
 
+function removeMarkers(markers) {
+    if (markers.length) {
+        for (var i = 0; i < markers.length; i++) {
+            google.maps.event.clearInstanceListeners(markers[i]);
+            markers[i].setMap(null);
+            markers[i] = 0;
+        }
+        markers.length = 0;
+    }
+}
+
 function loadSome() {
     var lastLoaded = -1;
     var found = false;
@@ -218,33 +229,64 @@ function loadSome() {
     }
 }
 
+function showMenu() {
+    if (displayMenu == false) {
+        var list = document.getElementById('list');
+        list.removeEventListener("scroll", loadSome, false);
+        var child;
+        while (list.hasChildNodes()) {
+            child = list.lastChild;
+            child.parentNode.removeChild(child);
+        }
+        deleteInfoWnd();
+        document.getElementById('listHead').style.visibility = "hidden";
+        $('.menu').show(10);
+        displayMenu = true;
+    }
+}
+
+function hideMenu(text) {
+    if (displayMenu == true) {
+        var list = document.getElementById('list');
+        list.addEventListener("scroll", loadSome, false);
+        $('.menu').hide(10);
+        $('#listHead').text(text);
+        document.getElementById('listHead').style.visibility = "visible";
+        displayMenu = false;
+    }
+}
+
 function search(text) {
     gText = text;
+    //removeMarkers(markers);
+    if (displayMenu == false) {
+        showMenu();
+    }
     if (!service) {
         service = new google.maps.places.PlacesService(map);
     }
     performSearch(text);
     deferred.done(function () {
-        if (displayMenu == true) {
-            var list = document.getElementById('list');
-            list.addEventListener("scroll", loadSome, false);
-            $('.menu').hide(10);
-            $('#listHead').text(text);
-            document.getElementById('listHead').style.visibility = "visible";
-            displayMenu = false;
+            hideMenu(text);
             var i = 0;
             var fit = -1;
+            var lastFit = -1;
+            var fitted = 0;
             while (i < places.length) {
                 fit = -1;
                 if (places[i][2] == parseID(text)) {
                     fit = i;
+                    fitted++;
                 }
                 if (fit !== -1) {
                     createNode(places[fit][1]);
+                    lastFit = fit;
                 }
                 i++;
             }
-        }
+            if (fitted == 1) {
+                createInfoWnd(places[fit][1]);
+            }
         deferred = $.Deferred();
     })
 }
@@ -266,21 +308,9 @@ $(document).ready(function () {
 })
 
 $(document).ready(function () {
-    $('#listHead').click(function showMenu() {
-        if (displayMenu == false) {
-            var list = document.getElementById('list');
-            list.removeEventListener("scroll", loadSome, false);
-            var child;
-            while (list.hasChildNodes()) {
-                child = list.lastChild;
-                child.parentNode.removeChild(child);
-            }
-            deleteInfoWnd();
-            document.getElementById('listHead').style.visibility = "hidden";
-            $('.menu').show(10);
-            displayMenu = true;
-        }
-    })
+    $('.listHead').click(function () {
+        showMenu();
+    });
 })
 
 //$(document).ready(function (){
@@ -322,14 +352,7 @@ function callback(Results, PlacesServiceStatus) {
             initLength = length;
         }
         if ((lastSearch[0] !== request.location) || (lastSearch[1] !== request.radius) || (lastSearch[2] !== request.type)) {
-            if (markers.length) {
-                for (var i = 0; i < markers.length; i++) {
-                    google.maps.event.clearInstanceListeners(markers[i]);
-                    markers[i].setMap(null);
-                    markers[i] = 0;
-                }
-                markers.length = 0;
-            }
+            removeMarkers(markers);
             for (var i = 0; i < length; i++) {
                 var marker = new google.maps.Marker({
                     map: map,
