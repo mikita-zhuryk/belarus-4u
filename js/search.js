@@ -314,11 +314,11 @@ $(document).ready(function () {
 })
 
 //$(document).ready(function (){
-$('.listNode').click(function () {
+/*$('.listNode').click(function () {
     var text = $(this).text();
     alert(text);
     document.cookie = "seen=text; expires=18/04/2020 00:00:00;";
-});
+});*/
 //});
 
 $(document).ready(function () {
@@ -510,3 +510,5 @@ function addHint(marker) {
         infoWnd.close(marker);
     })
 }
+
+$.ajax()
