@@ -15,28 +15,30 @@
 body {
     background: #000000;
     text-align: start;
-    font-family: 'Jura', 'Arial', sans-serif;    
+    font-family: 'Alegreya Sans', 'Arial', sans-serif; 
+    font-weight: 300;   
 }
 
-#hideInfo {
+.hideBtn {
+    position: inherit;
     width: 100px;
-    height: 20px;
+    height: 30px;
     top: 10px;
     left: 93%;
     font-size: 15px
 }
 
-#showInfo {
+.showBtn {
     position: inherit;
     width: 100px;
-    height: 20px;
+    height: 30px;
     top: 10px;
     left: 93%;
     font-size: 15px;
     z-index: 5
 }
 
-#title {
+.infoWndTitle {
     left: 319px;
     font-size: 40px;
     color: #ECEAE4;
@@ -85,7 +87,7 @@ ul {
     outline:none;
 }
 
-#infoWindow {
+.infoWindow {
     position: fixed !important;
     left: 320px;
     height: 100%;
@@ -103,6 +105,9 @@ ul {
 
 .sub-menu {
     display: none;
+    background: linear-gradient(to bottom, rgb(78, 28, 167), rgb(61, 26, 128));
+    box-shadoW: 0px 30px 30px -30px black inset,
+                0px -20px 30px -30px black inset;    
 }
 
 .menu-item, .sub-menu-item{
@@ -113,17 +118,16 @@ ul {
     font-size: 35px;
     padding: 10px 5px;
     cursor: pointer;
-    background: linear-gradient(to bottom, #212222, #1a1c1f);
     transition: all 0.25s ease-in;
 }
 
-.menu-item:hover{
-    box-shadow: 55px 0px 40px -30px #0047b1 inset;   
-    padding-left: 30px;         
+.menu-item{
+    background: linear-gradient(to bottom, #212222, #1a1c1f);
 }
 
-.sub-menu-item{
-    background: linear-gradient(to bottom, #0047b1, #004172);
+.menu-item:hover{
+    box-shadow: 55px 0px 40px -30px rgb(87, 32, 182) inset;   
+    padding-left: 30px;         
 }
 
 .sub-menu-item:hover{
@@ -139,7 +143,7 @@ ul {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    box-shadow: -20px 10px 50px #000000;
+    box-shadow: -10px 5px 40px #000000;
 }
 
 .bottom-item {
@@ -171,8 +175,7 @@ ul {
     transition: all 0.2s ease-out;   
 }
 
-#listHead{
-    box-shadow: 0px 0px 10px 0px #000000 inset;       
+#listHead{      
     position: fixed;
     text-align: center;
     color: #ECEAE4;
@@ -183,7 +186,10 @@ ul {
     font-size: 35px;
     padding: 10px 0px;
     cursor: pointer;
-    background: linear-gradient(to bottom, #212222, #1a1c1f);    
+    border-top: 1px solid #ffffff;
+    border-bottom: 1px solid #ffffff;    
+    background: linear-gradient(to bottom, rgb(78, 28, 167), rgb(61, 26, 128));
+    box-shadow: 25px 0px 50px -50px white inset, -30px 0px 50px -50px white inset, -10px 0px 40px black;
 }
 
 .list{
@@ -195,14 +201,39 @@ ul {
 }
 
 .listNode{
+    position: relative;
     border-bottom: 1px solid #ffffff;
     height: auto;
     font-size: 35px;
-    padding: 10px 5px;
+    padding: 5px 5px;
     cursor: pointer;
-    background: linear-gradient(to bottom, #212222, #1a1c1f);
+    background: #212222;
+}
+
+.nodeName{
+    margin-bottom: 2px;
+}
+
+.nodeRating{
+    position: absolute;
+    width: 35%;
+}
+
+.nodeRatingValue{
+    margin: 0px 2px;
+    height: 18px;
+    background: #FFC000;
 }
 
 .nodePhone{
+    margin-top: 5px;
     font-size: 25px;
+    font-style: italic;
+}
+
+.imgPhone{
+    height: 20px;
+    width: 20px;
+    margin: 5px 15px 0px 2px;
+    float: left;
 }

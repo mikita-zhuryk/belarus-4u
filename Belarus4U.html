@@ -3,7 +3,7 @@
     <head>
         <title>Belarus4U</title>
         <link href="CSS/style.css" type="text/css" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css?family=Jura" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans:100,100i,300,300i,400,400i,500,500i,700" rel="stylesheet">
         <script src='js/jquery-3.3.1.min.js'></script>
         <script src="js/menu-animation.js"></script>
 	    <script src = 'js/search.js'></script>
@@ -18,14 +18,14 @@
         <div id="main">
             <header id="search">
                 <form>
-                    <input type="text" placeholder="Search...">
+                    <input id = "searchBox" type="text" onchange = "search(this.value)" autocomplete="on" placeholder="Search...">
                 </form>
             </header>
             <ul class="menu">
                 <li class = "menu-item">Food</li>
                 <ul class="sub-menu">
                     <li class="sub-menu-item">Cafe</li>                           
-                    <li class="sub-menu-item">Takeaway</li>
+                    <li class="sub-menu-item">Meal Takeaway</li>
                     <li class="sub-menu-item">Delivery</li>
                     <li class="sub-menu-item">Restaurant</li>
                     <li class="sub-menu-item">Bar</li>
@@ -50,11 +50,11 @@
                     <li class="sub-menu-item">Spa</li>
                 </ul>
             </ul>
-            <!-- <a id="categories" class="categories" href="#"></a> -->
-            <div class "listHead"><a id="listHead"></a></div>
+            <div class = "listHead"><a id="listHead"></a></div>
             <ul class = "list" id = "list"></ul>
+            <button id = "setPos"></button>
             <ul class="bottom-menu">
-                <li class="bottom-item"><a class="bottom-ref" href="#"><img class="bottom-icons" src="images\History.png" alt="Clock" /></a></li>
+                <li class="bottom-item"><a class="bottom-ref" href="#" id = "history-btn"><img class="bottom-icons" src="images\History.png" alt="Clock" /></a></li>
                 <li class="bottom-item"><a class="bottom-ref" href="#"><img class="bottom-icons" src="images\Dice.png" alt="Dice" /></a></li>
                 <li class="bottom-item"><a class="bottom-ref" href = "#" id = "home-btn"><img class="bottom-icons" src="images\Home.png" alt="Home" /></a></li>
                 <li class="bottom-item"><a class="bottom-ref" href="#"><img class="bottom-icons" src="images\Sorting.png" alt="Sorting" /></a></li>
