@@ -119,6 +119,9 @@ function createInfoWnd(place) {
     hideBtn.className = "hideBtn";
     hideBtn.id = "hideBtn";
     hideBtn.innerHTML = "Show map";
+    var visited = document.createElement("checkbox");
+    visited.className = "visitedCheckBox";
+    visited.id = "visitedCheckBox";
     hideBtn.addEventListener("click", function () {
         mapDiv.style.visibility = "visible";
         infoWnd.style.visibility = "hidden";
@@ -134,6 +137,7 @@ function createInfoWnd(place) {
             mapDiv.insertBefore(showBtn, mapDiv.firstChild);
         }
     });
+    infoWnd.appendChild(visited);
     infoWnd.appendChild(title);
     infoWnd.appendChild(hideBtn);
     document.body.appendChild(infoWnd);
