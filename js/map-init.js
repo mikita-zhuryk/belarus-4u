@@ -22,6 +22,7 @@ function initMap() {
         fullscreenControl: false
     };
     map = new google.maps.Map(document.getElementById("map"), mapOptions);
+    var autocomplete = new google.maps.places.Autocomplete(document.getElementById('searchBox'));
     var promise = new Promise(function (resolve, reject) {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
