@@ -108,7 +108,7 @@ function createNode(place) {
             var text = place.place_id;
             cookie_string += "seen=" + text + "; ";
             document.cookie = cookie_string;
-            alert(document.cookie);//adding cookies with the place ID
+          //  alert(document.cookie);//adding cookies with the place ID
             // var now = new Date(milliseconds);
             //var time = now.getTime();
             //alert(time);

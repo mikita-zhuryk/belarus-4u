@@ -237,3 +237,10 @@ ul {
     margin: 5px 15px 0px 2px;
     float: left;
 }
+
+.visitedCheckBox{
+    height: 30px;
+    width: 30px;
+    position: relative;
+    z-index: 10;    
+}
