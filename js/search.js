@@ -39,6 +39,7 @@ function performSearch(text) {
 
 function parseID(text) {
     var res = 0;
+    var chr = 0;
     switch (text) {
         case "Cafe": { res = 1; break; }
         case "Meal Takeaway": { res = 2; break; }
@@ -54,6 +55,14 @@ function parseID(text) {
         case "Zoo": { res = 12; break; }
         case "Casino": { res = 13; break; }
         case "Spa": { res = 14; break; }
+        default: {
+            if (text.length === 0) return res;
+            for (i = 0; i < text.length; i++) {
+                chr = text.charCodeAt(i);
+                res = ((res << 5) - res) + chr;
+                res |= 0; // Convert to 32bit integer
+            }
+        }
     }
     return res;
 }
@@ -230,30 +239,26 @@ function loadSome() {
 }
 
 function showMenu() {
-    if (displayMenu == false) {
-        var list = document.getElementById('list');
-        list.removeEventListener("scroll", loadSome, false);
-        var child;
-        while (list.hasChildNodes()) {
-            child = list.lastChild;
-            child.parentNode.removeChild(child);
-        }
-        deleteInfoWnd();
-        document.getElementById('listHead').style.visibility = "hidden";
-        $('.menu').show(10);
-        displayMenu = true;
+    var list = document.getElementById('list');
+    list.removeEventListener("scroll", loadSome, false);
+    var child;
+    while (list.hasChildNodes()) {
+        child = list.lastChild;
+        child.parentNode.removeChild(child);
     }
+    deleteInfoWnd();
+    document.getElementById('listHead').style.visibility = "hidden";
+    $('.menu').show(10);
+    displayMenu = true;
 }
 
 function hideMenu(text) {
-    if (displayMenu == true) {
-        var list = document.getElementById('list');
-        list.addEventListener("scroll", loadSome, false);
-        $('.menu').hide(10);
-        $('#listHead').text(text);
-        document.getElementById('listHead').style.visibility = "visible";
-        displayMenu = false;
-    }
+    var list = document.getElementById('list');
+    list.addEventListener("scroll", loadSome, false);
+    $('.menu').hide(10);
+    $('#listHead').text(text);
+    document.getElementById('listHead').style.visibility = "visible";
+    displayMenu = false;
 }
 
 function search(text) {
@@ -267,26 +272,26 @@ function search(text) {
     }
     performSearch(text);
     deferred.done(function () {
-            hideMenu(text);
-            var i = 0;
-            var fit = -1;
-            var lastFit = -1;
-            var fitted = 0;
-            while (i < places.length) {
-                fit = -1;
-                if (places[i][2] == parseID(text)) {
-                    fit = i;
-                    fitted++;
-                }
-                if (fit !== -1) {
-                    createNode(places[fit][1]);
-                    lastFit = fit;
-                }
-                i++;
+        hideMenu(text);
+        var i = 0;
+        var fit = -1;
+        var lastFit = -1;
+        var fitted = 0;
+        while (i < places.length) {
+            fit = -1;
+            if (places[i][2] == parseID(text)) {
+                fit = i;
+                fitted++;
             }
-            if (fitted == 1) {
-                createInfoWnd(places[fit][1]);
+            if (fit !== -1) {
+                createNode(places[fit][1]);
+                lastFit = fit;
             }
+            i++;
+        }
+        if (fitted == 1) {
+            createInfoWnd(places[fit][1]);
+        }
         deferred = $.Deferred();
     })
 }
