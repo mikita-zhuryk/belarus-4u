@@ -24,7 +24,7 @@ body {
     width: 100px;
     height: 30px;
     top: 10px;
-    left: 93%;
+    left: 90%;
     font-size: 15px
 }
 
@@ -33,7 +33,7 @@ body {
     width: 100px;
     height: 30px;
     top: 10px;
-    left: 93%;
+    left: 90%;
     font-size: 15px;
     z-index: 5
 }
@@ -65,6 +65,13 @@ ul {
     float: left;
     overflow: hidden;
     border-right: 1px solid #ffffff;
+}
+
+.filterWnd {
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 115px);
+    overflow: auto;
 }
 
 #search {
@@ -236,4 +243,12 @@ ul {
     width: 20px;
     margin: 5px 15px 0px 2px;
     float: left;
+}
+
+#setPos {
+    position: absolute;
+    width: 100px;
+    height: 30px;
+    left: 90%;
+    top: 15%;
 }
