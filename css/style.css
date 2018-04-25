@@ -11,6 +11,12 @@
     z-index: auto;
 }
 
+#setPos{
+    left: 450px;
+    top: 15px;
+    position: fixed;
+}
+
 body {
     background: #000000;
     text-align: start;
@@ -38,6 +44,13 @@ ul {
     float: left;
     overflow: hidden;
     border-right: 1px solid #ECEAE4;
+}
+
+.filterWnd {
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 115px);
+    overflow: auto;
 }
 
 #search {
@@ -233,7 +246,7 @@ ul {
 .hideBtn, .showBtn{
     top: 20px;
     right: 20px;
-    position: inherit;
+    position: absolute;
     height: 40px;
     width: 95px;
     border: none;

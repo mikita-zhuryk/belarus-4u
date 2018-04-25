@@ -1,4 +1,3 @@
-var circleDrawn = false;
 var displayMenu = true;
 var MAXIMUM_NUMBER_OF_MARKERS = 20;
 var radius = 3500;
@@ -17,17 +16,9 @@ var pending = true;
 var resultArr;
 var list;
 
-$(document).ready(function () { mapDiv = document.getElementById('map'); })
+$(document).ready(function () { mapDiv = document.getElementById('mapHandler'); })
 
 function performSearch(text) {
-    if (!circleDrawn) {
-        var circle = new google.maps.Circle({
-            map: map,
-            center: mapOptions.center,
-            radius: radius
-        })
-        circleDrawn = true;
-    }
     request = {
         location: mapOptions.center,
         radius: radius - 300,
@@ -137,6 +128,7 @@ function deleteInfoWnd() {
     }
     if (mapDiv.style.visibility == "hidden") {
         mapDiv.style.visibility = "visible";
+        document.getElementById('map').style.visibility = "visible";
     }
     if (mapDiv.firstChild.id == 'showBtn') {
         mapDiv.removeChild(mapDiv.firstChild);
@@ -214,7 +206,7 @@ function loadSome() {
         }
         service.getDetails({ placeId: resultArr[lastLoaded + 1].place_id }, function (PlaceResult, PlacesServiceStatus) {
             if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OK) {
-                places.push([PlaceResult.place_id, PlaceResult, parseID(gText)]);
+                places.push([PlaceResult.place_id, PlaceResult, parseID(gText), request.location]);
                 createNode(PlaceResult);
             }
             else {
@@ -282,7 +274,7 @@ function search(text) {
         var fitted = 0;
         while (i < places.length) {
             fit = -1;
-            if (places[i][2] == parseID(text)) {
+            if ((places[i][2] == parseID(text)) && (places[i][3] == mapOptions.center)) {
                 fit = i;
                 fitted++;
             }
@@ -414,7 +406,7 @@ function initPlaces(Results, number) {
         if (alreadyFound == -1) {
             service.getDetails({ placeId: Results[i].place_id }, function (PlaceResult, PlacesServiceStatus) {
                 if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OK) {
-                    places.push([PlaceResult.place_id, PlaceResult, parseID(gText)]);
+                    places.push([PlaceResult.place_id, PlaceResult, parseID(gText), request.location]);
                     loadedThis++;
                     if (loadedThis == number) {
                         deferred.resolve();
@@ -473,7 +465,7 @@ function addHint(marker) {
             else {
                 service.getDetails({ placeId: marker.title }, function (PlaceResult, PlacesServiceStatus) {
                     if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OK) {
-                        places.push([marker.title, PlaceResult, parseID(gText)]);
+                        places.push([marker.title, PlaceResult, parseID(gText), request.location]);
                         createNode(PlaceResult);
                         placeInfo = places[places.length - 1][1];
                         resolve(placeInfo);

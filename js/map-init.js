@@ -1,5 +1,7 @@
 var mapOptions;
 var map;
+var circle;
+var circleDrawn = false;
 
 $(document).ready(function () {
     $('#setPos').click(function () {
@@ -7,6 +9,17 @@ $(document).ready(function () {
             mapOptions.center = pos.latLng;
             map.setCenter(mapOptions.center);
             map.setZoom(13);
+            if (circleDrawn) {
+                circle.setMap(null);
+                circle = 0;
+                circleDrawn = false;
+            }
+            circle = new google.maps.Circle({
+                map: map,
+                center: mapOptions.center,
+                radius: radius
+            });
+            circleDrawn = true;
             google.maps.event.clearListeners(map, 'click');
         })
     })
@@ -47,16 +60,22 @@ function initMap() {
                     path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
                     fillColor: "#00AA00"
                 }
-            })
+            });
+            if (circleDrawn) {
+                circle.setMap(null);
+                circle = 0;
+                circleDrawn = false;
+            }
+            circle = new google.maps.Circle({
+                map: map,
+                center: mapOptions.center,
+                radius: radius
+            });
+            circleDrawn = true;
             console.log(result);
         },
         error => {
-            map.addListener('click', function(pos) {
-                mapOptions.center = pos.latLng;
-                map.setCenter(mapOptions.center);
-                map.setZoom(13);
-                google.maps.event.clearListeners(map, 'click');
-            })
+            $('#setPos').trigger('click');
         }
     );
 }
