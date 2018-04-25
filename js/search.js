@@ -70,20 +70,20 @@ function createNode(place) {
         nodeName.innerHTML = "No data for name";
     }
     listNode.appendChild(nodeName);
-    var nodeRating = document.createElement('img');
-    nodeRating.className = 'nodeRating';
-    nodeRating.src = 'images/Stars.png';
-    nodeRating.title = "Rating " + place.rating;
-    listNode.appendChild(nodeRating);
     var nodeRatingValue = document.createElement('div');
     nodeRatingValue.className = 'nodeRatingValue';
     if (place.rating !== undefined) {
-        nodeRatingValue.style.width = 100 * place.rating / 5 + 8 + "px";
+        nodeRatingValue.style.width = 105 * place.rating / 5 + "px";
     }
     else {
         nodeRatingValue.style.width = 0 + "px";
     }
     listNode.appendChild(nodeRatingValue);
+    var nodeRating = document.createElement('img');
+    nodeRating.className = 'nodeRating';
+    nodeRating.src = 'images/Stars.png';
+    nodeRating.title = "Rating " + place.rating;
+    nodeRatingValue.appendChild(nodeRating);
     var nodePhone = document.createElement('p');
     nodePhone.className = 'nodePhone';
     if (place.formatted_phone_number) {
@@ -99,16 +99,18 @@ function createNode(place) {
     listNode.appendChild(nodePhone);
     listNode.addEventListener('click', function () {
         var lastID = -1;
-        if (document.getElementById('infoWindow')) {
-            lastID = document.getElementsByClassName("infoWndTitle")[0].id;
-            deleteInfoWnd();
+        if (document.getElementsByClassName('infoWindow')[0].style.visibility == "visible") {
+            lastID = document.getElementsByClassName("titleWnd")[0].id;
         }
-        if ((lastID == -1) || (lastID !== place.place_id)) {
-            createInfoWnd(place);
-            var text = place.place_id;
-            cookie_string += "seen=" + text + "; ";
-            document.cookie = cookie_string;
-          //  alert(document.cookie);//adding cookies with the place ID
+        if (lastID == place.place_id) {
+            hideInfoWnd();
+        }
+        else {
+            showInfoWnd(place);
+            // var text = place.place_id;
+            // cookie_string += "seen=" + text + "; ";
+            // document.cookie = cookie_string;
+            // alert(document.cookie); //adding cookies with the place ID
             // var now = new Date(milliseconds);
             //var time = now.getTime();
             //alert(time);
@@ -122,9 +124,9 @@ function createNode(place) {
     document.getElementById('list').appendChild(listNode);
 }
 
-function deleteInfoWnd() {
-    if (document.getElementById('infoWindow')) {
-        document.body.removeChild(document.getElementById('infoWindow'));
+function hideInfoWnd() {
+    if (document.getElementsByClassName('infoWindow')[0].style.visibility == "visible") {
+        document.getElementsByClassName('infoWindow')[0].style.visibility = "hidden";
     }
     if (mapDiv.style.visibility == "hidden") {
         mapDiv.style.visibility = "visible";
@@ -135,26 +137,33 @@ function deleteInfoWnd() {
     }
 }
 
-function createInfoWnd(place) {
+function showInfoWnd(place) {
     mapDiv.style.visibility = "hidden";
-    document.getElementById('map').style.visibility = "hidden";
-    var infoWnd = document.createElement("div");
-    infoWnd.className = "infoWindow";
-    infoWnd.id = "infoWindow";
-    var title = document.createElement("p");
-    title.className = "infoWndTitle";
-    title.id = place.place_id;
-    title.innerHTML = place.name;
-    var hideBtn = document.createElement("button");
-    hideBtn.className = "hideBtn";
-    hideBtn.id = "hideBtn";
-    hideBtn.innerHTML = "Show map";
-    var visited = document.createElement("checkbox");
-    visited.className = "visitedCheckBox";
-    visited.id = "visitedCheckBox";
+    var titleWnd = document.getElementsByClassName("titleWnd")[0];
+    if (place.name) {
+        titleWnd.innerHTML = place.name;
+    }
+    else {
+        titleWnd.innerHTML = "No data for name";
+    }
+    titleWnd.id = place.place_id;
+    var rateWnd = document.getElementsByClassName("rateWnd")[0];
+    rateWnd.style.width = 234 * place.rating / 5 + "px";
+    if (place.rating !== undefined) {
+        rateWnd.style.width = 234 * place.rating / 5 + "px";
+    }
+    else {
+        rateWnd.style.width = 0 + "px";
+    }
+
+    /////////////////////////////////////////////
+
+    var infoWindow = document.getElementsByClassName("infoWindow")[0];
+    infoWindow.style.visibility = "visible";
+    var hideBtn = document.getElementsByClassName('hideBtn')[0];
     hideBtn.addEventListener("click", function () {
         mapDiv.style.visibility = "visible";
-        infoWnd.style.visibility = "hidden";
+        infoWindow.style.visibility = "hidden";
         if (mapDiv.firstChild.id !== 'showBtn') {
             var showBtn = document.createElement("button");
             showBtn.className = "showBtn";
@@ -162,15 +171,11 @@ function createInfoWnd(place) {
             showBtn.innerHTML = "Show info";
             showBtn.addEventListener("click", function () {
                 mapDiv.style.visibility = "hidden";
-                infoWnd.style.visibility = "visible";
+                infoWindow.style.visibility = "visible";
             });
             mapDiv.insertBefore(showBtn, mapDiv.firstChild);
         }
     });
-    infoWnd.appendChild(visited);
-    infoWnd.appendChild(title);
-    infoWnd.appendChild(hideBtn);
-    document.body.appendChild(infoWnd);
 }
 
 function removeMarkers(markers) {
@@ -239,7 +244,7 @@ function showMenu() {
         child = list.lastChild;
         child.parentNode.removeChild(child);
     }
-    deleteInfoWnd();
+    hideInfoWnd();
     document.getElementById('listHead').style.visibility = "hidden";
     $('.menu').show(10);
     displayMenu = true;
@@ -247,7 +252,7 @@ function showMenu() {
 
 function hideMenu(text) {
     var list = document.getElementById('list');
-    list.addEventListener("scroll", loadSome, false);
+     list.addEventListener("scroll", loadSome, false);
     $('.menu').hide(10);
     $('#listHead').text(text);
     document.getElementById('listHead').style.visibility = "visible";
@@ -283,7 +288,7 @@ function search(text) {
             i++;
         }
         if (fitted == 1) {
-            createInfoWnd(places[fit][1]);
+            showInfoWnd(places[fit][1]);
         }
         deferred = $.Deferred();
     })
@@ -326,7 +331,7 @@ $(document).ready(function () {
                 var child = document.getElementById('list').lastChild;
                 child.parentNode.removeChild(child);
             }
-            deleteInfoWnd();
+            hideInfoWnd();
             document.getElementById('listHead').style.visibility = "hidden";
             //  $('.sub-menu-item').slideUp();
             $('.menu').show(1000);
