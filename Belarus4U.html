@@ -9,6 +9,8 @@
     <script src="js/menu-animation.js"></script>
     <script src='js/search.js'></script>
     <script src='js/filters.js'></script>
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 </head>
 
 <body>
@@ -57,9 +59,18 @@
         <div class="listHead">
             <a id="listHead"></a>
         </div>
-        <div class = "filterWnd" style = "display: none">
-            <a id = 'searchRad'></a>
-            <ion-list id = "priceLevel"></ion-list>
+        <div class="filterWnd" style="display: none">
+            <div class="slider" id = "range-slider"></div>
+            <p>
+                <label for="amount" style = "color: #ECEAE4;">Search radius: </label>
+                <input type="text" id="amount" style="border:0; color:#f6931f; font-weight:bold;" value = "3500 m"/>
+            </p>
+            <div class="slider" id = "price-slider"></div>
+            <p>
+                <label for="amount" style = "color: #ECEAE4;">Price level: </label>
+                <input type="text" id="amount" style="border:0; color:#f6931f; font-weight:bold;" value = "[0, 4]"/>
+            </p>
+            <ion-list id="priceLevel"></ion-list>
         </div>
         <ul class="list" id="list"></ul>
         <ul class="bottom-menu">
@@ -79,7 +90,7 @@
                 </a>
             </li>
             <li class="bottom-item">
-                <a class="bottom-ref" href="#" id = "filter-btn">
+                <a class="bottom-ref" href="#" id="filter-btn">
                     <img class="bottom-icons" src="images\Sorting.png" alt="Sorting" />
                 </a>
             </li>
@@ -90,21 +101,27 @@
             </li>
         </ul>
     </div>
-    
-    <div class = "infoWindow">
-        <p class = "titleWnd">Place name</p>
-        <div class = "rateWnd"><img class = "starsWnd" src = "images/Stars.png"></div>
-        <button class = "hideBtn">Show map</button>
-        <div class = "gallery"><div class = "moreWndLine"><img class = "moreWnd" src = "images/More.png"></div></div>
-        <div class = "placeInfo">Info about place        
+
+    <div class="infoWindow">
+        <p class="titleWnd">Place name</p>
+        <div class="rateWnd">
+            <img class="starsWnd" src="images/Stars.png">
+        </div>
+        <button class="hideBtn">Show map</button>
+        <div class="gallery">
+            <div class="moreWndLine">
+                <img class="moreWnd" src="images/More.png">
+            </div>
+        </div>
+        <div class="placeInfo">Info about place
             <label class="container">I've been there
                 <input type="checkbox">
                 <span class="checkmark"></span>
             </label>
         </div>
-        <div class = "reviews">Reviews</div>
+        <div class="reviews">Reviews</div>
     </div>
-    
+
 </body>
 
 </html>
