@@ -25,7 +25,9 @@ function performSearch(text) {
         keyword: text,
         type: text,
         minPriceLevel: 0,
-        maxPriceLevel: 4
+        maxPriceLevel: 4,
+        openNow: false,
+        rankBy: google.maps.places.RankBy.DISTANCE
     };
     service.radarSearch(request, callback);
 }

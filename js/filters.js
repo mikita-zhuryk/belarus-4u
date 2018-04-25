@@ -1,3 +1,6 @@
+$.getScript('search.js', function () {
+    console.log("Search.js loaded");
+})
 var filtersShown = false;
 var listHeadStr;
 
@@ -11,26 +14,29 @@ $(document).ready(function () {
         slide: function (event, ui) {
             radius = $("#range-slider").slider("value");
             map.setZoom(Math.floor(13 / Math.sqrt(Math.sqrt(Math.sqrt(radius / 3500)))));
-            $('#amount').val(radius + " m");
+            $('#radius').val(radius + " m");
             drawCircle();
         },
         stop: function (event, ui) {
             radius = $("#range-slider").slider("value");
             map.setZoom(calcZoom());
-            $('#amount').val(radius + " m");
+            $('#radius').val(radius + " m");
             drawCircle();
         }
     });
     $('#price-slider').slider({
         min: 0,
         max: 4,
-        value: [0, 4],
+        values: [0, 4],
         step: 1,
         range: true,
         slide: function (event, ui) {
-            request.minPriceLevel = $('#price-slider').slider("value[0]");
-            request.maxPriceLevel = $('#price-slider').slider("value[value.length - 1]");
+            request.minPriceLevel = $('#price-slider').slider("value");
+            request.maxPriceLevel = $('#price-slider').slider("value");
         }
+    })
+    document.getElementById('openNowCheck').addEventListener('change', function () {
+        request.openNow = document.getElementById('openNowCheck').checked;
     })
     $('#filter-btn').click(function () {
         var filterWnd = document.getElementsByClassName('filterWnd')[0];

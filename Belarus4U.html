@@ -62,15 +62,18 @@
         <div class="filterWnd" style="display: none">
             <div class="slider" id = "range-slider"></div>
             <p>
-                <label for="amount" style = "color: #ECEAE4;">Search radius: </label>
-                <input type="text" id="amount" style="border:0; color:#f6931f; font-weight:bold;" value = "3500 m"/>
+                <label for="radius" style = "color: #ECEAE4;">Search radius: </label>
+                <input type="text" id="radius" style="border:0; color:#f6931f; font-weight:bold;" value = "3500 m"/>
             </p>
             <div class="slider" id = "price-slider"></div>
             <p>
-                <label for="amount" style = "color: #ECEAE4;">Price level: </label>
-                <input type="text" id="amount" style="border:0; color:#f6931f; font-weight:bold;" value = "[0, 4]"/>
+                <label for="price" style = "color: #ECEAE4;">Price level: </label>
+                <input type="text" id="price" style="border:0; color:#f6931f; font-weight:bold;" value = "[0, 4]"/>
             </p>
-            <ion-list id="priceLevel"></ion-list>
+            <label class="container" style = "color: #ECEAE4;">Open now
+                <input type="checkbox" id = 'openNowCheck'>
+                <span class="checkmark"></span>
+            </label>
         </div>
         <ul class="list" id="list"></ul>
         <ul class="bottom-menu">
