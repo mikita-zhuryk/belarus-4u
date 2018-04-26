@@ -3,12 +3,14 @@
 
 <head>
     <title>Belarus4U</title>
-    <link href="CSS/style.css" type="text/css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans:100,100i,300,300i,400,400i,500,500i,700" rel="stylesheet">
+    <link href="CSS/style.css" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans:100,100i,300,300i,400,400i,500,500i,700" rel="stylesheet"/>
     <script src='js/jquery-3.3.1.min.js'></script>
     <script src="js/menu-animation.js"></script>
     <script src='js/search.js'></script>
     <script src='js/filters.js'></script>
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 </head>
 
 <body>
@@ -57,9 +59,21 @@
         <div class="listHead">
             <a id="listHead"></a>
         </div>
-        <div class = "filterWnd" style = "display: none">
-            <a id = 'searchRad'></a>
-            <ion-list id = "priceLevel"></ion-list>
+        <div class="filterWnd" style="display: none">
+            <div class="slider" id = "range-slider"></div>
+            <p>
+                <label for="radius" style = "color: #ECEAE4;">Search radius: </label>
+                <input type="text" id="radius" style="border:0; color:#f6931f; font-weight:bold;" value = "3500 m"/>
+            </p>
+            <div class="slider" id = "price-slider"></div>
+            <p>
+                <label for="price" style = "color: #ECEAE4;">Price level: </label>
+                <input type="text" id="price" style="border:0; color:#f6931f; font-weight:bold;" value = "[0, 4]"/>
+            </p>
+            <label class="container" style = "color: #ECEAE4;">Open now
+                <input type="checkbox" id = 'openNowCheck'>
+                <span class="checkmark"></span>
+            </label>
         </div>
         <ul class="list" id="list"></ul>
         <ul class="bottom-menu">
@@ -79,7 +93,7 @@
                 </a>
             </li>
             <li class="bottom-item">
-                <a class="bottom-ref" href="#" id = "filter-btn">
+                <a class="bottom-ref" href="#" id="filter-btn">
                     <img class="bottom-icons" src="images\Sorting.png" alt="Sorting" />
                 </a>
             </li>
@@ -93,7 +107,7 @@
     
     <div id = "infoWindow">
         <div id = "identifyWnd" visibility = "hidden">Place ID</div>
-        <p id = "titleWnd"></p>
+        <p class = "titleWnd"></p>
         <div id = "rateWnd"><img id = "starsWnd" src = "images/Stars.png"></div>
         <button id = "hideBtn">Show map</button>
         <div id = "gallery"><img id = "photoWnd"><div id = "moreWndLine"><img id = "moreWnd" src = "images/More.png"></div></div>
@@ -110,7 +124,7 @@
         </div>
         <div id = "reviews">Reviews</div>
     </div>
-    
+
 </body>
 
 </html>

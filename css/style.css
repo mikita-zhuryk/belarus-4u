@@ -35,6 +35,12 @@ a:hover{
     color: rgb(78, 28, 167);
 }
 
+a.disabled{
+    pointer-events: none;
+    cursor: default;
+    color: #ECEAE4;
+}
+
 li {
     color: #ECEAE4;
 }
@@ -241,7 +247,15 @@ ul {
     visibility: hidden;
 }
 
-#titleWnd{
+.filterWnd {
+    margin-top: 60px;
+}
+
+.slider {
+    margin-top: 15px;
+}
+
+.titleWnd{
     margin-top: 5px;
     font-size: 70px;
     color: #ECEAE4;
