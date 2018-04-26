@@ -13,7 +13,7 @@
 
 <body>
     <div id="mapHandler">
-        <div id="map" style="position: relative; overflow: hidden; visibility: visible;"></div>
+        <div id="map"></div>
         <button id="setPos">Set position</button>
     </div>
     <script src='js/map-init.js'></script>
@@ -90,6 +90,21 @@
             </li>
         </ul>
     </div>
+    
+    <div class = "infoWindow">
+        <p class = "titleWnd">Place name</p>
+        <div class = "rateWnd"><img class = "starsWnd" src = "images/Stars.png"></div>
+        <button class = "hideBtn">Show map</button>
+        <div class = "gallery"><div class = "moreWndLine"><img class = "moreWnd" src = "images/More.png"></div></div>
+        <div class = "placeInfo">Info about place        
+            <label class="container">I've been there
+                <input type="checkbox">
+                <span class="checkmark"></span>
+            </label>
+        </div>
+        <div class = "reviews">Reviews</div>
+    </div>
+    
 </body>
 
 </html>

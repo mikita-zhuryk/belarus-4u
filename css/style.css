@@ -7,9 +7,14 @@
     position: fixed !important;
     left: 320px;
     height: 100%;
-    top: 0px;
     width: calc(100% - 320px);
     z-index: auto;
+}
+
+#setPos{
+    left: 450px;
+    top: 15px;
+    position: fixed;
 }
 
 body {
@@ -17,32 +22,6 @@ body {
     text-align: start;
     font-family: 'Alegreya Sans', 'Arial', sans-serif; 
     font-weight: 300;   
-}
-
-.hideBtn {
-    position: inherit;
-    width: 100px;
-    height: 30px;
-    top: 10px;
-    left: 90%;
-    font-size: 15px
-}
-
-.showBtn {
-    position: inherit;
-    width: 100px;
-    height: 30px;
-    top: 10px;
-    left: 90%;
-    font-size: 15px;
-    z-index: 5
-}
-
-.infoWndTitle {
-    left: 319px;
-    font-size: 40px;
-    color: #ECEAE4;
-    padding: 0px 5px;
 }
 
 a {
@@ -64,7 +43,7 @@ ul {
     background: #212222;
     float: left;
     overflow: hidden;
-    border-right: 1px solid #ffffff;
+    border-right: 1px solid #ECEAE4;
 }
 
 .filterWnd {
@@ -75,11 +54,11 @@ ul {
 }
 
 #search {
+
     height: 55px;
-    /* border-bottom: 1px solid #ffffff; */
     background: #ff0000;
     overflow: hidden;
-    box-shadow: -10px -20px 50px #D8BFD8;
+    box-shadow: -10px -20px 50px #D8BFD8 inset;
 }
 
 #search input {
@@ -94,20 +73,12 @@ ul {
     outline:none;
 }
 
-.infoWindow {
-    position: fixed !important;
-    left: 320px;
-    height: 100%;
-    top: 0px;
-    width: calc(100% - 360px);
-    z-index: auto;
-}
-
 .menu{
     display: flex;
     flex-direction: column;
     height: calc(100% - 115px);
     overflow: auto;
+    border-top: 1px solid #ECEAE4;
 }
 
 .sub-menu {
@@ -118,9 +89,7 @@ ul {
 }
 
 .menu-item, .sub-menu-item{
-    margin-bottom: -1px;
-    border-bottom: 1px solid #ffffff;
-    border-top: 1px solid #ffffff;
+    border-bottom: 1px solid #ECEAE4;
     height: 40px;
     font-size: 35px;
     padding: 10px 5px;
@@ -158,7 +127,7 @@ ul {
     height: 60px;
     width: 20%;
     font: medium 16px;
-    border: 1px solid #ffffff;
+    border: 1px solid #ECEAE4;
     display: inherit;
     transition: all 0.2s ease-out;  
 }
@@ -193,10 +162,8 @@ ul {
     font-size: 35px;
     padding: 10px 0px;
     cursor: pointer;
-    border-top: 1px solid #ffffff;
-    border-bottom: 1px solid #ffffff;    
-    background: linear-gradient(to bottom, rgb(78, 28, 167), rgb(61, 26, 128));
-    box-shadow: 25px 0px 50px -50px white inset, -30px 0px 50px -50px white inset, -10px 0px 40px black;
+    background: rgb(78, 28, 167);
+    box-shadow: 0 -4px rgb(61, 26, 128) inset;
 }
 
 .list{
@@ -209,7 +176,7 @@ ul {
 
 .listNode{
     position: relative;
-    border-bottom: 1px solid #ffffff;
+    border-bottom: 1px solid #ECEAE4;
     height: auto;
     font-size: 35px;
     padding: 5px 5px;
@@ -223,7 +190,7 @@ ul {
 
 .nodeRating{
     position: absolute;
-    width: 35%;
+    height: 18px;
 }
 
 .nodeRatingValue{
@@ -245,10 +212,163 @@ ul {
     float: left;
 }
 
-#setPos {
+.infoWindow{
+    position: fixed;
+    height: 100%;
+    width: calc(100% - 320px);
+    left: 320px;
+    background: #212222;
+    z-index: 0;
+    overflow: auto;   
+    visibility: hidden;
+}
+
+.titleWnd{
+    margin-top: 5px;
+    font-size: 70px;
+    color: #ECEAE4;
+    font-weight: 400;
+    text-align: center;
+}
+
+.rateWnd{
+    top: 90px;
+    margin-left: calc(50% - 115px);
+    margin-bottom: 15px;
+    height: 40px;
+    background: #FFC000;
+}
+
+.starsWnd{
+    height: 40px;
+}
+
+.hideBtn, .showBtn{
+    top: 20px;
+    right: 20px;
     position: absolute;
-    width: 100px;
-    height: 30px;
-    left: 90%;
-    top: 15%;
+    height: 40px;
+    width: 95px;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 400;
+    color: white;
+    background: rgb(78, 28, 167);
+    box-shadow: 0 -3px rgb(61, 26, 128) inset;
+    transition: 0.2s;
+    z-index: 1;
+}
+
+.hideBtn:hover, .showBtn:hover{
+    background: rgb(61, 26, 128);
+}
+
+.hideBtn:active, .showBtn:active{
+    color: rgb(52, 22, 107);
+    background: white;
+    box-shadow: 0 -3px rgb(184, 184, 184) inset;
+    transition: 0.2s
+}
+
+.gallery{
+    position: relative;
+    float: left;
+    height: calc(75% + 32px);
+    width: 40%;
+    background: #757575;
+    margin-left: 50px;
+    border: 1px #ECEAE4 solid;
+}
+
+.moreWndLine{
+    cursor: pointer;
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    background: rgb(78, 28, 167);
+    box-shadow: 0 -5px rgb(61, 26, 128) inset, 0 -5px #0000008e;
+}
+
+.moreWnd{
+    margin-left: calc(50% - 17px);
+    height: 34px;
+}
+
+.placeInfo{
+    padding: 3px;
+    width: 50%;
+    height: 20%;
+    margin-left: calc(40% + 70px);
+    margin-bottom: 20px;
+    color: white;
+    font-size: 35px;
+    box-shadow: 0px 0px 10px  #000000 inset;
+}
+
+.container {
+    position: relative;
+    padding-left: 30px;
+    cursor: pointer;
+    font-size: 25px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+  
+.container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+  
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #eee;
+}
+  
+.container:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+  
+.container input:checked ~ .checkmark {
+    background-color: rgb(78, 28, 167);
+}
+  
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+  
+.container input:checked ~ .checkmark:after {
+    display: block;
+}
+  
+.container .checkmark:after {
+    left: 7px;
+    top: 3px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.reviews{
+    padding: 3px;
+    bottom: 20px;
+    width: 50%;
+    height: 55%;
+    color: white;
+    font-size: 35px;
+    margin-left: calc(40% + 70px);
+    box-shadow: 0px 0px 10px  #000000 inset;
 }

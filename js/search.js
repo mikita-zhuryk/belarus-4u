@@ -101,10 +101,17 @@ function createNode(place) {
         var lastID = -1;
         if (document.getElementsByClassName('infoWindow')[0].style.visibility == "visible") {
             lastID = document.getElementsByClassName("titleWnd")[0].id;
+<<<<<<< HEAD
         }
         if (lastID == place.place_id) {
             hideInfoWnd();
         }
+=======
+        }
+        if (lastID == place.place_id) {
+            hideInfoWnd();
+        }
+>>>>>>> b98dcf00eedd3d44a30f279faa773a5dfd7cb1fc
         else {
             showInfoWnd(place);
             // var text = place.place_id;
