@@ -26,6 +26,13 @@ body {
 
 a {
     text-decoration: none;
+    color: rgb(130, 57, 255);
+    transition: all 0.05s ease-in;    
+    cursor: pointer;
+}
+
+a:hover{
+    color: rgb(78, 28, 167);
 }
 
 li {
@@ -78,18 +85,18 @@ ul {
     flex-direction: column;
     height: calc(100% - 115px);
     overflow: auto;
-    border-top: 1px solid #ECEAE4;
+    border-top: 2px solid #ECEAE4;
 }
 
 .sub-menu {
     display: none;
-    background: linear-gradient(to bottom, rgb(78, 28, 167), rgb(61, 26, 128));
+    /* background: linear-gradient(to bottom, , rgb(61, 26, 128)); */
+    background: rgb(78, 28, 167);
     box-shadoW: 0px 30px 30px -30px black inset,
                 0px -20px 30px -30px black inset;    
 }
 
 .menu-item, .sub-menu-item{
-    border-bottom: 1px solid #ECEAE4;
     height: 40px;
     font-size: 35px;
     padding: 10px 5px;
@@ -98,21 +105,24 @@ ul {
 }
 
 .menu-item{
-    background: linear-gradient(to bottom, #212222, #1a1c1f);
+    background: #212222;
 }
 
 .menu-item:hover{
-    box-shadow: 55px 0px 40px -30px rgb(87, 32, 182) inset;   
-    padding-left: 30px;         
+    background: #181818;    
+}
+
+.menu-item.click{
+    background: #181818;  
 }
 
 .sub-menu-item:hover{
-    box-shadow: 55px 0px 40px -30px #212222 inset;
+    background: rgb(48, 20, 100);
     padding-left: 30px;    
 }
 
 .bottom-menu {
-    width: 320px;
+    width: 319px;
     position: fixed;
     bottom: 0px;
     left: 0px;
@@ -127,9 +137,13 @@ ul {
     height: 60px;
     width: 20%;
     font: medium 16px;
-    border: 1px solid #ECEAE4;
+    border-top: 2px solid #ECEAE4;
     display: inherit;
     transition: all 0.2s ease-out;  
+}
+
+.bottom-item:hover{
+    background: #181818;
 }
 
 .bottom-item:hover .bottom-icons {
@@ -176,12 +190,10 @@ ul {
 
 .listNode{
     position: relative;
-    border-bottom: 1px solid #ECEAE4;
     height: auto;
     font-size: 35px;
     padding: 5px 5px;
     cursor: pointer;
-    background: #212222;
 }
 
 .nodeName{
@@ -212,18 +224,24 @@ ul {
     float: left;
 }
 
-.infoWindow{
+#infoWindow{
     position: fixed;
     height: 100%;
     width: calc(100% - 320px);
     left: 320px;
     background: #212222;
     z-index: 0;
-    overflow: auto;   
+    overflow: auto;
+    visibility: hidden;  
+}
+
+#identifyWnd{
+    height: 0px;
+    width: 0px;
     visibility: hidden;
 }
 
-.titleWnd{
+#titleWnd{
     margin-top: 5px;
     font-size: 70px;
     color: #ECEAE4;
@@ -231,7 +249,7 @@ ul {
     text-align: center;
 }
 
-.rateWnd{
+#rateWnd{
     top: 90px;
     margin-left: calc(50% - 115px);
     margin-bottom: 15px;
@@ -239,11 +257,11 @@ ul {
     background: #FFC000;
 }
 
-.starsWnd{
+#starsWnd{
     height: 40px;
 }
 
-.hideBtn, .showBtn{
+#hideBtn, #showBtn{
     top: 20px;
     right: 20px;
     position: absolute;
@@ -260,28 +278,27 @@ ul {
     z-index: 1;
 }
 
-.hideBtn:hover, .showBtn:hover{
+#hideBtn:hover, #showBtn:hover{
     background: rgb(61, 26, 128);
 }
 
-.hideBtn:active, .showBtn:active{
+#hideBtn:active, #showBtn:active{
     color: rgb(52, 22, 107);
     background: white;
     box-shadow: 0 -3px rgb(184, 184, 184) inset;
     transition: 0.2s
 }
 
-.gallery{
+#gallery{
     position: relative;
     float: left;
-    height: calc(75% + 32px);
-    width: 40%;
+    height: 590px;
+    width: 485px;
     background: #757575;
     margin-left: 50px;
-    border: 1px #ECEAE4 solid;
 }
 
-.moreWndLine{
+#moreWndLine{
     cursor: pointer;
     position: absolute;
     bottom: 0px;
@@ -290,25 +307,36 @@ ul {
     box-shadow: 0 -5px rgb(61, 26, 128) inset, 0 -5px #0000008e;
 }
 
-.moreWnd{
+#moreWnd{
     margin-left: calc(50% - 17px);
     height: 34px;
 }
 
-.placeInfo{
-    padding: 3px;
-    width: 50%;
-    height: 20%;
+#placeInfoWnd{
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+    padding: 10px;
+    width: 580px;
+    height: 150px;
     margin-left: calc(40% + 70px);
     margin-bottom: 20px;
     color: white;
-    font-size: 35px;
+    font-size: 30px;
     box-shadow: 0px 0px 10px  #000000 inset;
 }
 
-.container {
+#placeInfoWnd img{
+    height: 30px;
+    margin-right: 25px;
+}
+
+#placeInfoWnd div, label{
+    margin-left: 10px;
+}
+
+#container {
     position: relative;
-    padding-left: 30px;
     cursor: pointer;
     font-size: 25px;
     -webkit-user-select: none;
@@ -316,41 +344,45 @@ ul {
     -ms-user-select: none;
     user-select: none;
 }
+
+#afterCheckbox{
+    padding-left: 45px;
+}
   
-.container input {
+#container input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
 }
   
-.checkmark {
+#checkmark {
     position: absolute;
-    top: 0;
-    left: 0;
+    bottom: 7px;
+    left: -5px;
     height: 20px;
     width: 20px;
     background-color: #eee;
 }
   
-.container:hover input ~ .checkmark {
+#container:hover input ~ #checkmark {
     background-color: #ccc;
 }
   
-.container input:checked ~ .checkmark {
+#container input:checked ~ #checkmark {
     background-color: rgb(78, 28, 167);
 }
   
-.checkmark:after {
+#checkmark:after {
     content: "";
     position: absolute;
     display: none;
 }
   
-.container input:checked ~ .checkmark:after {
+#container input:checked ~ #checkmark:after {
     display: block;
 }
   
-.container .checkmark:after {
+#container #checkmark:after {
     left: 7px;
     top: 3px;
     width: 5px;
@@ -362,11 +394,11 @@ ul {
     transform: rotate(45deg);
 }
 
-.reviews{
-    padding: 3px;
+#reviews{
+    padding: 10px;
     bottom: 20px;
-    width: 50%;
-    height: 55%;
+    width: 580px;
+    height: 380px;
     color: white;
     font-size: 35px;
     margin-left: calc(40% + 70px);

@@ -61,6 +61,9 @@ function parseID(text) {
 function createNode(place) {
     var listNode = document.createElement('li');
     listNode.className = 'listNode';
+    if((document.getElementById('list').children.length) % 2 == 1){
+        listNode.style.background = "#181818";
+    }
     var nodeName = document.createElement('p');
     nodeName.className = 'nodeName';
     if (place.name) {
@@ -98,66 +101,75 @@ function createNode(place) {
     nodePhone.appendChild(imgPhone);
     listNode.appendChild(nodePhone);
     listNode.addEventListener('click', function () {
-        var lastID = -1;
-        if (document.getElementById('infoWindow')) {
-            lastID = document.getElementsByClassName("infoWndTitle")[0].id;
-            deleteInfoWnd();
+        //var lastID = -1;
+        if(document.getElementById('infoWindow').style.visibility == "visible"){
+            if(document.getElementsByName("identifyWnd").innerHTML == place.place_id){
+                hideInfoWnd();
+            }
+            else{
+                updateInfoWnd(place);
+                document.getElementsByName("identifyWnd").innerHTML = place.place_id;
+            }
         }
-        if ((lastID == -1) || (lastID !== place.place_id)) {
-            createInfoWnd(place);
-            // var text = place.place_id;
-            // cookie_string += "seen=" + text + "; ";
-            // document.cookie = cookie_string;
-            // alert(document.cookie); //adding cookies with the place ID
-            // var now = new Date(milliseconds);
-            //var time = now.getTime();
-            //alert(time);
-            //var cookie_string = time.toString(time);
-            //  cookie_string += "; expires=9/8/2020";
-            /* cache.text = place; // adding the viewed object to the cache
-             alert(cache.text.name);
-             alert(cache.text.formatted_phone_number);*/
+        else{
+            updateInfoWnd(place);
+            document.getElementsByName("identifyWnd").innerHTML = place.place_id;
+
         }
     });
     document.getElementById('list').appendChild(listNode);
 }
 
-function deleteInfoWnd() {
-    if (document.getElementById('infoWindow')) {
-        document.body.removeChild(document.getElementById('infoWindow'));
-    }
-    if (mapDiv.style.visibility == "hidden") {
-        mapDiv.style.visibility = "visible";
-        document.getElementById('map').style.visibility = "visible";
-    }
+function hideInfoWnd() {
+    document.getElementById('infoWindow').style.visibility = "hidden";
     if (mapDiv.firstChild.id == 'showBtn') {
         mapDiv.removeChild(mapDiv.firstChild);
     }
+    mapDiv.style.visibility = "visible";
 }
 
-function createInfoWnd(place) {
+function updateInfoWnd(place) {
     mapDiv.style.visibility = "hidden";
-    var titleWnd = document.getElementsByClassName("titleWnd")[0];
+    var titleWnd = document.getElementById("titleWnd");
     if (place.name) {
         titleWnd.innerHTML = place.name;
     }
     else {
         titleWnd.innerHTML = "No data for name";
     }
-    var rateWnd = document.getElementsByClassName("rateWnd")[0];
-    rateWnd.style.width = 234 * place.rating / 5 + "px";
-    if (place.rating !== undefined) {
+    var rateWnd = document.getElementById("rateWnd");
+    if (place.rating){
         rateWnd.style.width = 234 * place.rating / 5 + "px";
     }
-    else {
+    else{
         rateWnd.style.width = 0 + "px";
     }
+    if (place.formatted_address !== undefined){
+        document.getElementById("placeAddressWnd").innerHTML = place.formatted_addressace;
+    }
+    else{
+        document.getElementById("placeAddressWnd").innerHTML = "No data for address";
+    }
+    if(place.international_phone_number !== undefined){
+        document.getElementById("placePhoneWnd").innerHTML = place.international_phone_number;
+    }
+    else{
+        document.getElementById("placePhoneWnd").innerHTML = "No data for phone number";
+    }
+    if(place.website !== undefined){
+        document.getElementById("websiteWnd").innerHTML = place.website;
+        document.getElementById("websiteWnd").href = place.website;
+    }
+    else{
+        document.getElementById("websiteWnd").innerHTML = "No data for website";    
+    }
+    //document.getElementById("photoWnd").src = place.photos[0].getUrl({'maxWidth': 1000, 'maxHeight': 1000});
 
     /////////////////////////////////////////////
 
-    var infoWindow = document.getElementsByClassName("infoWindow")[0];
+    var infoWindow = document.getElementById("infoWindow")
     infoWindow.style.visibility = "visible";
-    var hideBtn = document.getElementsByClassName('hideBtn')[0];
+    var hideBtn = document.getElementById('hideBtn');
     hideBtn.addEventListener("click", function () {
         mapDiv.style.visibility = "visible";
         infoWindow.style.visibility = "hidden";
@@ -241,7 +253,7 @@ function showMenu() {
         child = list.lastChild;
         child.parentNode.removeChild(child);
     }
-    deleteInfoWnd();
+    hideInfoWnd();
     document.getElementById('listHead').style.visibility = "hidden";
     $('.menu').show(10);
     displayMenu = true;
@@ -249,7 +261,7 @@ function showMenu() {
 
 function hideMenu(text) {
     var list = document.getElementById('list');
-    list.addEventListener("scroll", loadSome, false);
+    list.addEventListener("scroll", loadSome, false); 
     $('.menu').hide(10);
     $('#listHead').text(text);
     document.getElementById('listHead').style.visibility = "visible";
@@ -285,7 +297,7 @@ function search(text) {
             i++;
         }
         if (fitted == 1) {
-            createInfoWnd(places[fit][1]);
+            updateInfoWnd(places[fit][1]);
         }
         deferred = $.Deferred();
     })
@@ -328,7 +340,7 @@ $(document).ready(function () {
                 var child = document.getElementById('list').lastChild;
                 child.parentNode.removeChild(child);
             }
-            deleteInfoWnd();
+            hideInfoWnd();
             document.getElementById('listHead').style.visibility = "hidden";
             //  $('.sub-menu-item').slideUp();
             $('.menu').show(1000);
