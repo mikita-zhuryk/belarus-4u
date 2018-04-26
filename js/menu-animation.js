@@ -9,7 +9,7 @@ function f_acc() {
   $('.sub-menu').not($(this).next()).slideUp(900);
   // открываем или скрываем блок под заголовком, по которому кликнули
   $(this).next().slideToggle(900);
-  alert('DONE');
+  //alert('DONE');
 }
 
 $(document).ready(function (){
