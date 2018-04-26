@@ -1,16 +1,37 @@
 var mapOptions;
 var map;
+var circle;
+var circleDrawn = false;
+
+function drawCircle() {
+    if (circleDrawn) {
+        circle.setMap(null);
+        circle = 0;
+        circleDrawn = false;
+    }
+    circle = new google.maps.Circle({
+        map: map,
+        center: mapOptions.center,
+        radius: radius
+    });
+    circleDrawn = true;
+}
 
 $(document).ready(function () {
     $('#setPos').click(function () {
         map.addListener('click', function(pos) {
             mapOptions.center = pos.latLng;
             map.setCenter(mapOptions.center);
-            map.setZoom(13);
+            map.setZoom(calcZoom());
+            drawCircle();
             google.maps.event.clearListeners(map, 'click');
         })
     })
 })
+
+function calcZoom () {
+    return Math.floor(13 / Math.sqrt(Math.sqrt(Math.sqrt(radius / 3500))));
+}
 
 function initMap() {
     let flag;
@@ -40,23 +61,19 @@ function initMap() {
     promise.then(
         result => {
             map.setCenter(mapOptions.center);
-            map.setZoom(13);
+            map.setZoom(calcZoom());
             var marker = new google.maps.Marker({
                 position: mapOptions.center,
                 icon: {
                     path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
                     fillColor: "#00AA00"
                 }
-            })
+            });
+            drawCircle();
             console.log(result);
         },
         error => {
-            map.addListener('click', function(pos) {
-                mapOptions.center = pos.latLng;
-                map.setCenter(mapOptions.center);
-                map.setZoom(13);
-                google.maps.event.clearListeners(map, 'click');
-            })
+            $('#setPos').trigger('click');
         }
     );
 }

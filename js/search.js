@@ -1,14 +1,13 @@
-var circleDrawn = false;
 var displayMenu = true;
-var MAXIMUM_NUMBER_OF_MARKERS = 20;
 var radius = 3500;
+var INITIAL_PLACES = 5 * radius / 3500;
+var MAXIMUM_NUMBER_OF_MARKERS = INITIAL_PLACES * 2;
 var request;
 var gText;
 var service;
 var markers = [];
 var places = [];
 var lastSearch = [];
-var INITIAL_PLACES = 7;
 var deferred = $.Deferred();
 var mapDiv;
 var cookie_string = "expires=9/8/2020 00:00:00";
@@ -17,28 +16,25 @@ var pending = true;
 var resultArr;
 var list;
 
-$(document).ready(function () { mapDiv = document.getElementById('map'); })
+$(document).ready(function () { mapDiv = document.getElementById('mapHandler'); })
 
 function performSearch(text) {
-    if (!circleDrawn) {
-        var circle = new google.maps.Circle({
-            map: map,
-            center: mapOptions.center,
-            radius: radius
-        })
-        circleDrawn = true;
-    }
     request = {
         location: mapOptions.center,
         radius: radius - 300,
         keyword: text,
-        type: text
+        type: text,
+        minPriceLevel: 0,
+        maxPriceLevel: 4,
+        openNow: false,
+        rankBy: google.maps.places.RankBy.DISTANCE
     };
     service.radarSearch(request, callback);
 }
 
 function parseID(text) {
     var res = 0;
+    var chr = 0;
     switch (text) {
         case "Cafe": { res = 1; break; }
         case "Meal Takeaway": { res = 2; break; }
@@ -54,6 +50,14 @@ function parseID(text) {
         case "Zoo": { res = 12; break; }
         case "Casino": { res = 13; break; }
         case "Spa": { res = 14; break; }
+        default: {
+            if (text.length === 0) return res;
+            for (i = 0; i < text.length; i++) {
+                chr = text.charCodeAt(i);
+                res = ((res << 5) - res) + chr;
+                res |= 0; // Convert to 32bit integer
+            }
+        }
     }
     return res;
 }
@@ -70,20 +74,20 @@ function createNode(place) {
         nodeName.innerHTML = "No data for name";
     }
     listNode.appendChild(nodeName);
-    var nodeRating = document.createElement('img');
-    nodeRating.className = 'nodeRating';
-    nodeRating.src = 'images/Stars.png';
-    nodeRating.title = "Rating " + place.rating;
-    listNode.appendChild(nodeRating);
     var nodeRatingValue = document.createElement('div');
     nodeRatingValue.className = 'nodeRatingValue';
     if (place.rating !== undefined) {
-        nodeRatingValue.style.width = 100 * place.rating / 5 + 8 + "px";
+        nodeRatingValue.style.width = 105 * place.rating / 5 + "px";
     }
     else {
         nodeRatingValue.style.width = 0 + "px";
     }
     listNode.appendChild(nodeRatingValue);
+    var nodeRating = document.createElement('img');
+    nodeRating.className = 'nodeRating';
+    nodeRating.src = 'images/Stars.png';
+    nodeRating.title = "Rating " + place.rating;
+    nodeRatingValue.appendChild(nodeRating);
     var nodePhone = document.createElement('p');
     nodePhone.className = 'nodePhone';
     if (place.formatted_phone_number) {
@@ -99,16 +103,18 @@ function createNode(place) {
     listNode.appendChild(nodePhone);
     listNode.addEventListener('click', function () {
         var lastID = -1;
-        if (document.getElementById('infoWindow')) {
-            lastID = document.getElementsByClassName("infoWndTitle")[0].id;
-            deleteInfoWnd();
+        if (document.getElementsByClassName('infoWindow')[0].style.visibility == "visible") {
+            lastID = document.getElementsByClassName("titleWnd")[0].id;
         }
-        if ((lastID == -1) || (lastID !== place.place_id)) {
-            createInfoWnd(place);
-            var text = place.place_id;
-            cookie_string += "seen=" + text + "; ";
-            document.cookie = cookie_string;
-            alert(document.cookie);//adding cookies with the place ID
+        if (lastID == place.place_id) {
+            hideInfoWnd();
+        }
+        else {
+            showInfoWnd(place);
+            // var text = place.place_id;
+            // cookie_string += "seen=" + text + "; ";
+            // document.cookie = cookie_string;
+            // alert(document.cookie); //adding cookies with the place ID
             // var now = new Date(milliseconds);
             //var time = now.getTime();
             //alert(time);
@@ -122,37 +128,46 @@ function createNode(place) {
     document.getElementById('list').appendChild(listNode);
 }
 
-function deleteInfoWnd() {
-    if (document.getElementById('infoWindow')) {
-        document.body.removeChild(document.getElementById('infoWindow'));
+function hideInfoWnd() {
+    if (document.getElementsByClassName('infoWindow')[0].style.visibility == "visible") {
+        document.getElementsByClassName('infoWindow')[0].style.visibility = "hidden";
     }
     if (mapDiv.style.visibility == "hidden") {
         mapDiv.style.visibility = "visible";
+        document.getElementById('map').style.visibility = "visible";
     }
     if (mapDiv.firstChild.id == 'showBtn') {
         mapDiv.removeChild(mapDiv.firstChild);
     }
 }
 
-function createInfoWnd(place) {
+function showInfoWnd(place) {
     mapDiv.style.visibility = "hidden";
-    var infoWnd = document.createElement("div");
-    infoWnd.className = "infoWindow";
-    infoWnd.id = "infoWindow";
-    var title = document.createElement("p");
-    title.className = "infoWndTitle";
-    title.id = place.place_id;
-    title.innerHTML = place.name;
-    var hideBtn = document.createElement("button");
-    hideBtn.className = "hideBtn";
-    hideBtn.id = "hideBtn";
-    hideBtn.innerHTML = "Show map";
-    var visited = document.createElement("checkbox");
-    visited.className = "visitedCheckBox";
-    visited.id = "visitedCheckBox";
+    var titleWnd = document.getElementsByClassName("titleWnd")[0];
+    if (place.name) {
+        titleWnd.innerHTML = place.name;
+    }
+    else {
+        titleWnd.innerHTML = "No data for name";
+    }
+    titleWnd.id = place.place_id;
+    var rateWnd = document.getElementsByClassName("rateWnd")[0];
+    rateWnd.style.width = 234 * place.rating / 5 + "px";
+    if (place.rating !== undefined) {
+        rateWnd.style.width = 234 * place.rating / 5 + "px";
+    }
+    else {
+        rateWnd.style.width = 0 + "px";
+    }
+
+    /////////////////////////////////////////////
+
+    var infoWindow = document.getElementsByClassName("infoWindow")[0];
+    infoWindow.style.visibility = "visible";
+    var hideBtn = document.getElementsByClassName('hideBtn')[0];
     hideBtn.addEventListener("click", function () {
         mapDiv.style.visibility = "visible";
-        infoWnd.style.visibility = "hidden";
+        infoWindow.style.visibility = "hidden";
         if (mapDiv.firstChild.id !== 'showBtn') {
             var showBtn = document.createElement("button");
             showBtn.className = "showBtn";
@@ -160,15 +175,11 @@ function createInfoWnd(place) {
             showBtn.innerHTML = "Show info";
             showBtn.addEventListener("click", function () {
                 mapDiv.style.visibility = "hidden";
-                infoWnd.style.visibility = "visible";
+                infoWindow.style.visibility = "visible";
             });
             mapDiv.insertBefore(showBtn, mapDiv.firstChild);
         }
     });
-    infoWnd.appendChild(visited);
-    infoWnd.appendChild(title);
-    infoWnd.appendChild(hideBtn);
-    document.body.appendChild(infoWnd);
 }
 
 function removeMarkers(markers) {
@@ -202,7 +213,7 @@ function loadSome() {
         }
         service.getDetails({ placeId: resultArr[lastLoaded + 1].place_id }, function (PlaceResult, PlacesServiceStatus) {
             if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OK) {
-                places.push([PlaceResult.place_id, PlaceResult, parseID(gText)]);
+                places.push([PlaceResult.place_id, PlaceResult, parseID(gText), request.location]);
                 createNode(PlaceResult);
             }
             else {
@@ -230,30 +241,28 @@ function loadSome() {
 }
 
 function showMenu() {
-    if (displayMenu == false) {
-        var list = document.getElementById('list');
-        list.removeEventListener("scroll", loadSome, false);
-        var child;
-        while (list.hasChildNodes()) {
-            child = list.lastChild;
-            child.parentNode.removeChild(child);
-        }
-        deleteInfoWnd();
-        document.getElementById('listHead').style.visibility = "hidden";
-        $('.menu').show(10);
-        displayMenu = true;
+    var list = document.getElementById('list');
+    list.removeEventListener("scroll", loadSome, false);
+    var child;
+    while (list.hasChildNodes()) {
+        child = list.lastChild;
+        child.parentNode.removeChild(child);
     }
+    hideInfoWnd();
+    document.getElementById('listHead').style.visibility = "hidden";
+    $('.filterWnd').hide(10);
+    $('.menu').show(10);
+    displayMenu = true;
 }
 
 function hideMenu(text) {
-    if (displayMenu == true) {
-        var list = document.getElementById('list');
-        list.addEventListener("scroll", loadSome, false);
-        $('.menu').hide(10);
-        $('#listHead').text(text);
-        document.getElementById('listHead').style.visibility = "visible";
-        displayMenu = false;
-    }
+    var list = document.getElementById('list');
+    list.addEventListener("scroll", loadSome, false);
+    $('.filterWnd').hide(10);
+    $('.menu').hide(10);
+    $('#listHead').text(text);
+    document.getElementById('listHead').style.visibility = "visible";
+    displayMenu = false;
 }
 
 function search(text) {
@@ -267,26 +276,26 @@ function search(text) {
     }
     performSearch(text);
     deferred.done(function () {
-            hideMenu(text);
-            var i = 0;
-            var fit = -1;
-            var lastFit = -1;
-            var fitted = 0;
-            while (i < places.length) {
-                fit = -1;
-                if (places[i][2] == parseID(text)) {
-                    fit = i;
-                    fitted++;
-                }
-                if (fit !== -1) {
-                    createNode(places[fit][1]);
-                    lastFit = fit;
-                }
-                i++;
+        hideMenu(text);
+        var i = 0;
+        var fit = -1;
+        var lastFit = -1;
+        var fitted = 0;
+        while (i < places.length) {
+            fit = -1;
+            if ((places[i][2] == parseID(text)) && (places[i][3] == mapOptions.center)) {
+                fit = i;
+                fitted++;
             }
-            if (fitted == 1) {
-                createInfoWnd(places[fit][1]);
+            if (fit !== -1) {
+                createNode(places[fit][1]);
+                lastFit = fit;
             }
+            i++;
+        }
+        if (fitted == 1) {
+            showInfoWnd(places[fit][1]);
+        }
         deferred = $.Deferred();
     })
 }
@@ -314,24 +323,17 @@ $(document).ready(function () {
 })
 
 //$(document).ready(function (){
-$('.listNode').click(function () {
-    var text = $(this).text();
-    alert(text);
-    document.cookie = "seen=text; expires=18/04/2020 00:00:00;";
-});
+// $('.listNode').click(function () {
+//     var text = $(this).text();
+//     alert(text);
+//     document.cookie = "seen=text; expires=18/04/2020 00:00:00;";
+// });
 //});
 
 $(document).ready(function () {
     $('#home-btn').click(function () {
         if (displayMenu == false) {
-            while (document.getElementById('list').hasChildNodes()) {
-                var child = document.getElementById('list').lastChild;
-                child.parentNode.removeChild(child);
-            }
-            deleteInfoWnd();
-            document.getElementById('listHead').style.visibility = "hidden";
-            //  $('.sub-menu-item').slideUp();
-            $('.menu').show(1000);
+            showMenu();
             displayMenu = true;
         }
     })
@@ -399,6 +401,7 @@ function initPlaces(Results, number) {
                 if (places[j][0] == Results[i].place_id) {
                     alreadyFound = j;
                     alreadyLoaded++;
+                    loadedThis++;
                     break;
                 }
             }
@@ -406,7 +409,7 @@ function initPlaces(Results, number) {
         if (alreadyFound == -1) {
             service.getDetails({ placeId: Results[i].place_id }, function (PlaceResult, PlacesServiceStatus) {
                 if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OK) {
-                    places.push([PlaceResult.place_id, PlaceResult, parseID(gText)]);
+                    places.push([PlaceResult.place_id, PlaceResult, parseID(gText), request.location]);
                     loadedThis++;
                     if (loadedThis == number) {
                         deferred.resolve();
@@ -435,7 +438,7 @@ function initPlaces(Results, number) {
             })
         }
         else {
-            if (loadedThis == number + alreadyLoaded) {
+            if (loadedThis == number) {
                 deferred.resolve();
             }
         }
@@ -465,7 +468,7 @@ function addHint(marker) {
             else {
                 service.getDetails({ placeId: marker.title }, function (PlaceResult, PlacesServiceStatus) {
                     if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OK) {
-                        places.push([marker.title, PlaceResult, parseID(gText)]);
+                        places.push([marker.title, PlaceResult, parseID(gText), request.location]);
                         createNode(PlaceResult);
                         placeInfo = places[places.length - 1][1];
                         resolve(placeInfo);
