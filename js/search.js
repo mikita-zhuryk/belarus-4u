@@ -111,18 +111,7 @@ function createNode(place) {
         }
         else {
             showInfoWnd(place);
-            // var text = place.place_id;
-            // cookie_string += "seen=" + text + "; ";
-            // document.cookie = cookie_string;
-            // alert(document.cookie); //adding cookies with the place ID
-            // var now = new Date(milliseconds);
-            //var time = now.getTime();
-            //alert(time);
-            //var cookie_string = time.toString(time);
-            //  cookie_string += "; expires=9/8/2020";
-            /* cache.text = place; // adding the viewed object to the cache
-             alert(cache.text.name);
-             alert(cache.text.formatted_phone_number);*/
+           
         }
     });
     document.getElementById('list').appendChild(listNode);
@@ -338,6 +327,13 @@ $(document).ready(function () {
         }
     })
 })
+
+
+$(document).ready(function () {
+    ('#checkBeen').click(function () {
+        document.cookie = id + "=" + "privet";
+    });
+});
 
 function callback(Results, PlacesServiceStatus) {
     if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OK) {
