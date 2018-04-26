@@ -24,6 +24,9 @@ $(document).ready(function () {
             map.setCenter(mapOptions.center);
             map.setZoom(calcZoom());
             drawCircle();
+            if (document.getElementById('list').hasChildNodes()) {
+                search(document.getElementById('listHead').innerHTML);
+            }
             google.maps.event.clearListeners(map, 'click');
         })
     })
