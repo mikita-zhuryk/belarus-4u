@@ -5,16 +5,10 @@ $(document).ready(function () {
 });
 
 function f_acc() {
+  $('.menu-item').not($(this)).removeClass("click");
+  $(this).toggleClass("click");
   //скрываем все кроме того, что должны открыть
   $('.sub-menu').not($(this).next()).slideUp(900);
   // открываем или скрываем блок под заголовком, по которому кликнули
-  $(this).next().slideToggle(900);
-  //alert('DONE');
+  $(this).next().slideToggle(900);  
 }
-
-/*$(document).ready(function (){
-  $('#history-btn').click(function (){
-    var x = document.cookie;
-    alert(x);
-  });
-});*/
