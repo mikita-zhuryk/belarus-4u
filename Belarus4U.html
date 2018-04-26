@@ -104,25 +104,25 @@
             </li>
         </ul>
     </div>
-
-    <div class="infoWindow">
-        <p class="titleWnd">Place name</p>
-        <div class="rateWnd">
-            <img class="starsWnd" src="images/Stars.png">
-        </div>
-        <button class="hideBtn">Show map</button>
-        <div class="gallery">
-            <div class="moreWndLine">
-                <img class="moreWnd" src="images/More.png">
+    
+    <div id = "infoWindow">
+        <div id = "identifyWnd" visibility = "hidden">Place ID</div>
+        <p class = "titleWnd"></p>
+        <div id = "rateWnd"><img id = "starsWnd" src = "images/Stars.png"></div>
+        <button id = "hideBtn">Show map</button>
+        <div id = "gallery"><img id = "photoWnd"><div id = "moreWndLine"><img id = "moreWnd" src = "images/More.png"></div></div>
+        <div id = "placeInfoWnd">
+            <div class = "infoWnd"><img src = "images\Address.png" alt = "Adderss"><span id = "placeAddressWnd"></span></div>
+            <div class = "infoWnd"><img src = "images\Phone.png" alt = "Phone number"><span id = "placePhoneWnd"></span></div>
+            <div class = "infoWnd"><img src = "images\Website.png" alt = "Website"><a target = "_blank" id = "websiteWnd"></a></div>
+            <div class = "infoWnd">
+                <label id="container">
+                    <input type="checkbox">
+                    <span id="checkmark"></span>
+                </label><span id = "afterCheckbox">I've been here</span>
             </div>
         </div>
-        <div class="placeInfo">Info about place
-            <label class="container">I've been there
-                <input type="checkbox" id = "checkBeen">
-                <span class="checkmark"></span>
-            </label>
-        </div>
-        <div class="reviews">Reviews</div>
+        <div id = "reviews">Reviews</div>
     </div>
 
 </body>

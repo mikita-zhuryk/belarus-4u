@@ -65,6 +65,9 @@ function parseID(text) {
 function createNode(place) {
     var listNode = document.createElement('li');
     listNode.className = 'listNode';
+    if((document.getElementById('list').children.length) % 2 == 1){
+        listNode.style.background = "#181818";
+    }
     var nodeName = document.createElement('p');
     nodeName.className = 'nodeName';
     if (place.name) {
@@ -102,69 +105,79 @@ function createNode(place) {
     nodePhone.appendChild(imgPhone);
     listNode.appendChild(nodePhone);
     listNode.addEventListener('click', function () {
-        var lastID = -1;
-        if (document.getElementsByClassName('infoWindow')[0].style.visibility == "visible") {
-            lastID = document.getElementsByClassName("titleWnd")[0].id;
+        //var lastID = -1;
+        if(document.getElementById('infoWindow').style.visibility == "visible"){
+            if(document.getElementsByName("identifyWnd").innerHTML == place.place_id){
+                hideInfoWnd();
+            }
+            else{
+                updateInfoWnd(place);
+                document.getElementsByName("identifyWnd").innerHTML = place.place_id;
+            }
         }
-        if (lastID == place.place_id) {
-            hideInfoWnd();
-        }
-        else {
-            showInfoWnd(place);
-            // var text = place.place_id;
-            // cookie_string += "seen=" + text + "; ";
-            // document.cookie = cookie_string;
-            // alert(document.cookie); //adding cookies with the place ID
-            // var now = new Date(milliseconds);
-            //var time = now.getTime();
-            //alert(time);
-            //var cookie_string = time.toString(time);
-            //  cookie_string += "; expires=9/8/2020";
-            /* cache.text = place; // adding the viewed object to the cache
-             alert(cache.text.name);
-             alert(cache.text.formatted_phone_number);*/
+        else{
+            updateInfoWnd(place);
+            document.getElementsByName("identifyWnd").innerHTML = place.place_id;
+
         }
     });
     document.getElementById('list').appendChild(listNode);
 }
 
 function hideInfoWnd() {
-    if (document.getElementsByClassName('infoWindow')[0].style.visibility == "visible") {
-        document.getElementsByClassName('infoWindow')[0].style.visibility = "hidden";
-    }
-    if (mapDiv.style.visibility == "hidden") {
-        mapDiv.style.visibility = "visible";
-        document.getElementById('map').style.visibility = "visible";
-    }
+    document.getElementById('infoWindow').style.visibility = "hidden";
     if (mapDiv.firstChild.id == 'showBtn') {
         mapDiv.removeChild(mapDiv.firstChild);
     }
+    mapDiv.style.visibility = "visible";
 }
 
-function showInfoWnd(place) {
+function updateInfoWnd(place) {
     mapDiv.style.visibility = "hidden";
     var titleWnd = document.getElementsByClassName("titleWnd")[0];
+    titleWnd.id = place.place_id;
+    document.getElementById("websiteWnd").href = undefined;
+    document.getElementById("websiteWnd").classList.remove("disabled");    
     if (place.name) {
         titleWnd.innerHTML = place.name;
     }
     else {
         titleWnd.innerHTML = "No data for name";
     }
-    titleWnd.id = place.place_id;
-    var rateWnd = document.getElementsByClassName("rateWnd")[0];
-    rateWnd.style.width = 234 * place.rating / 5 + "px";
-    if (place.rating !== undefined) {
+    var rateWnd = document.getElementById("rateWnd");
+    if (place.rating){
         rateWnd.style.width = 234 * place.rating / 5 + "px";
     }
-    else {
+    else{
         rateWnd.style.width = 0 + "px";
     }
+    if (place.formatted_address !== undefined){
+        document.getElementById("placeAddressWnd").innerHTML = place.formatted_address;
+    }
+    else{
+        document.getElementById("placeAddressWnd").innerHTML = "No data for address";
+    }
+    if(place.international_phone_number !== undefined){
+        document.getElementById("placePhoneWnd").innerHTML = place.international_phone_number;
+    }
+    else{
+        document.getElementById("placePhoneWnd").innerHTML = "No data for phone number";
+    }
+    if(place.website !== undefined){
+        document.getElementById("websiteWnd").innerHTML = place.website;
+        document.getElementById("websiteWnd").href = place.website;
+    }
+    else{
+        document.getElementById("websiteWnd").innerHTML = "No data for website";
+        document.getElementById("websiteWnd").classList.add('disabled');
+    }
+    //document.getElementById("photoWnd").src = place.photos[0].getUrl({'maxWidth': 1000, 'maxHeight': 1000});
 
     /////////////////////////////////////////////
 
-    var infoWindow = document.getElementsByClassName("infoWindow")[0];
+    var infoWindow = document.getElementById("infoWindow")
     infoWindow.style.visibility = "visible";
-    var hideBtn = document.getElementsByClassName('hideBtn')[0];
+    var hideBtn = document.getElementById('hideBtn');
     hideBtn.addEventListener("click", function () {
         mapDiv.style.visibility = "visible";
         infoWindow.style.visibility = "hidden";
@@ -294,7 +307,7 @@ function search(text) {
             i++;
         }
         if (fitted == 1) {
-            showInfoWnd(places[fit][1]);
+            updateInfoWnd(places[fit][1]);
         }
         deferred = $.Deferred();
     })
