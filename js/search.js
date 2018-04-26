@@ -1,13 +1,13 @@
 var displayMenu = true;
-var MAXIMUM_NUMBER_OF_MARKERS = 20;
 var radius = 3500;
+var INITIAL_PLACES = 5 * radius / 3500;
+var MAXIMUM_NUMBER_OF_MARKERS = INITIAL_PLACES * 2;
 var request;
 var gText;
 var service;
 var markers = [];
 var places = [];
 var lastSearch = [];
-var INITIAL_PLACES = 7;
 var deferred = $.Deferred();
 var mapDiv;
 var cookie_string = "expires=9/8/2020 00:00:00";
@@ -23,7 +23,11 @@ function performSearch(text) {
         location: mapOptions.center,
         radius: radius - 300,
         keyword: text,
-        type: text
+        type: text,
+        minPriceLevel: 0,
+        maxPriceLevel: 4,
+        openNow: false,
+        rankBy: google.maps.places.RankBy.DISTANCE
     };
     service.radarSearch(request, callback);
 }
@@ -101,17 +105,10 @@ function createNode(place) {
         var lastID = -1;
         if (document.getElementsByClassName('infoWindow')[0].style.visibility == "visible") {
             lastID = document.getElementsByClassName("titleWnd")[0].id;
-<<<<<<< HEAD
         }
         if (lastID == place.place_id) {
             hideInfoWnd();
         }
-=======
-        }
-        if (lastID == place.place_id) {
-            hideInfoWnd();
-        }
->>>>>>> b98dcf00eedd3d44a30f279faa773a5dfd7cb1fc
         else {
             showInfoWnd(place);
             // var text = place.place_id;
@@ -253,13 +250,15 @@ function showMenu() {
     }
     hideInfoWnd();
     document.getElementById('listHead').style.visibility = "hidden";
+    $('.filterWnd').hide(10);
     $('.menu').show(10);
     displayMenu = true;
 }
 
 function hideMenu(text) {
     var list = document.getElementById('list');
-     list.addEventListener("scroll", loadSome, false);
+    list.addEventListener("scroll", loadSome, false);
+    $('.filterWnd').hide(10);
     $('.menu').hide(10);
     $('#listHead').text(text);
     document.getElementById('listHead').style.visibility = "visible";
@@ -334,14 +333,7 @@ $(document).ready(function () {
 $(document).ready(function () {
     $('#home-btn').click(function () {
         if (displayMenu == false) {
-            while (document.getElementById('list').hasChildNodes()) {
-                var child = document.getElementById('list').lastChild;
-                child.parentNode.removeChild(child);
-            }
-            hideInfoWnd();
-            document.getElementById('listHead').style.visibility = "hidden";
-            //  $('.sub-menu-item').slideUp();
-            $('.menu').show(1000);
+            showMenu();
             displayMenu = true;
         }
     })
@@ -409,6 +401,7 @@ function initPlaces(Results, number) {
                 if (places[j][0] == Results[i].place_id) {
                     alreadyFound = j;
                     alreadyLoaded++;
+                    loadedThis++;
                     break;
                 }
             }
@@ -445,7 +438,7 @@ function initPlaces(Results, number) {
             })
         }
         else {
-            if (loadedThis == number + alreadyLoaded) {
+            if (loadedThis == number) {
                 deferred.resolve();
             }
         }

@@ -223,6 +223,14 @@ ul {
     visibility: hidden;
 }
 
+.filterWnd {
+    margin-top: 60px;
+}
+
+.slider {
+    margin-top: 15px;
+}
+
 .titleWnd{
     margin-top: 5px;
     font-size: 70px;
