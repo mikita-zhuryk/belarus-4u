@@ -1,7 +1,7 @@
 var displayMenu = true;
 var radius = 3500;
-var INITIAL_PLACES = 5 * radius / 3500;
-var MAXIMUM_NUMBER_OF_MARKERS = INITIAL_PLACES * 2;
+var INITIAL_PLACES = 8 * radius / 3500;
+var MAXIMUM_NUMBER_OF_MARKERS = INITIAL_PLACES * 3;
 var request;
 var gText;
 var service;
@@ -21,11 +21,11 @@ $(document).ready(function () { mapDiv = document.getElementById('mapHandler'); 
 function performSearch(text) {
     request = {
         location: mapOptions.center,
-        radius: radius - 300,
+        radius: radius * 0.7,
         keyword: text,
         type: text,
-       // minPriceLevel: 0,
-       // maxPriceLevel: 4,
+        //minPriceLevel: 0,
+        //maxPriceLevel: 4,
         openNow: false,
         rankBy: google.maps.places.RankBy.DISTANCE
     };
@@ -393,14 +393,12 @@ function callback(Results, PlacesServiceStatus) {
 function initPlaces(Results, number) {
     var alreadyFound = -1;
     var loadedThis = 0;
-    var alreadyLoaded = 0;
-    for (var i = 0; (i < number + alreadyLoaded) && (i < resultArr.length); i++) {
+    for (var i = 0; (i < number) && (i < resultArr.length); i++) {
         alreadyFound = -1;
         if (places.length) {
             for (var j = 0; j < places.length; j++) {
                 if (places[j][0] == Results[i].place_id) {
                     alreadyFound = j;
-                    alreadyLoaded++;
                     loadedThis++;
                     break;
                 }
