@@ -407,6 +407,11 @@ ul {
     transform: rotate(45deg);
 }
 
+#photoWnd {
+    height: 550px;
+    width: 485px;
+}
+
 #reviews{
     padding: 10px;
     bottom: 20px;
@@ -416,4 +421,8 @@ ul {
     font-size: 35px;
     margin-left: calc(40% + 70px);
     box-shadow: 0px 0px 10px  #000000 inset;
+}
+
+.review{
+    font-size: 14px;
 }

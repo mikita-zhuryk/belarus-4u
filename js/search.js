@@ -15,8 +15,13 @@ var cache = new Object();
 var pending = true;
 var resultArr;
 var list;
+var minRating = 1.0;
+var maxRating = 5.0;
 
-$(document).ready(function () { mapDiv = document.getElementById('mapHandler'); })
+$(window).on('load', function () {
+    mapDiv = document.getElementById('mapHandler');
+
+})
 
 function performSearch(text) {
     request = {
@@ -26,7 +31,7 @@ function performSearch(text) {
         type: text,
         //minPriceLevel: 0,
         //maxPriceLevel: 4,
-        openNow: false,
+        openNow: document.getElementById('openNowCheck').checked,
         rankBy: google.maps.places.RankBy.DISTANCE
     };
     service.radarSearch(request, callback);
@@ -65,7 +70,7 @@ function parseID(text) {
 function createNode(place) {
     var listNode = document.createElement('li');
     listNode.className = 'listNode';
-    if((document.getElementById('list').children.length) % 2 == 1){
+    if ((document.getElementById('list').children.length) % 2 == 1) {
         listNode.style.background = "#181818";
     }
     var nodeName = document.createElement('p');
@@ -106,16 +111,16 @@ function createNode(place) {
     listNode.appendChild(nodePhone);
     listNode.addEventListener('click', function () {
         //var lastID = -1;
-        if(document.getElementById('infoWindow').style.visibility == "visible"){
-            if(document.getElementsByName("identifyWnd").innerHTML == place.place_id){
+        if (document.getElementById('infoWindow').style.visibility == "visible") {
+            if (document.getElementsByName("identifyWnd").innerHTML == place.place_id) {
                 hideInfoWnd();
             }
-            else{
+            else {
                 updateInfoWnd(place);
                 document.getElementsByName("identifyWnd").innerHTML = place.place_id;
             }
         }
-        else{
+        else {
             updateInfoWnd(place);
             document.getElementsByName("identifyWnd").innerHTML = place.place_id;
 
@@ -137,7 +142,7 @@ function updateInfoWnd(place) {
     var titleWnd = document.getElementsByClassName("titleWnd")[0];
     titleWnd.id = place.place_id;
     document.getElementById("websiteWnd").href = undefined;
-    document.getElementById("websiteWnd").classList.remove("disabled");    
+    document.getElementById("websiteWnd").classList.remove("disabled");
     if (place.name) {
         titleWnd.innerHTML = place.name;
     }
@@ -145,34 +150,41 @@ function updateInfoWnd(place) {
         titleWnd.innerHTML = "No data for name";
     }
     var rateWnd = document.getElementById("rateWnd");
-    if (place.rating){
+    if (place.rating) {
         rateWnd.style.width = 234 * place.rating / 5 + "px";
     }
-    else{
+    else {
         rateWnd.style.width = 0 + "px";
     }
-    if (place.formatted_address !== undefined){
+    if (place.formatted_address !== undefined) {
         document.getElementById("placeAddressWnd").innerHTML = place.formatted_address;
     }
-    else{
+    else {
         document.getElementById("placeAddressWnd").innerHTML = "No data for address";
     }
-    if(place.international_phone_number !== undefined){
+    if (place.international_phone_number !== undefined) {
         document.getElementById("placePhoneWnd").innerHTML = place.international_phone_number;
     }
-    else{
+    else {
         document.getElementById("placePhoneWnd").innerHTML = "No data for phone number";
     }
-    if(place.website !== undefined){
+    if (place.website !== undefined) {
         document.getElementById("websiteWnd").innerHTML = place.website;
         document.getElementById("websiteWnd").href = place.website;
     }
-    else{
+    else {
         document.getElementById("websiteWnd").innerHTML = "No data for website";
         document.getElementById("websiteWnd").classList.add('disabled');
     }
-    //document.getElementById("photoWnd").src = place.photos[0].getUrl({'maxWidth': 1000, 'maxHeight': 1000});
-
+    if (place.photos.length > 2) {
+        document.getElementById("photoWnd").src = place.photos[1].getUrl({ maxWidth: 1000, maxHeight: 1000 });
+    }
+    var reviews = document.getElementsByClassName('review');
+    for (var i = 0; i < reviews.length; i++) {
+        if (place.reviews[i] !== undefined) {
+            reviews[i].innerHTML = (i + 1).toString() + '. ' + place.reviews[i].text;
+        }
+    }
     /////////////////////////////////////////////
 
     var infoWindow = document.getElementById("infoWindow")
@@ -224,32 +236,39 @@ function loadSome() {
                 break;
             }
         }
-        service.getDetails({ placeId: resultArr[lastLoaded + 1].place_id }, function (PlaceResult, PlacesServiceStatus) {
-            if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OK) {
-                places.push([PlaceResult.place_id, PlaceResult, parseID(gText), request.location]);
-                createNode(PlaceResult);
-            }
-            else {
-                if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.NOT_FOUND) {
-                    console.log("NOT_FOUND");
+        if (i !== resultArr.length - 1) {
+            service.getDetails({ placeId: resultArr[lastLoaded + 1].place_id }, function (PlaceResult, PlacesServiceStatus) {
+                if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OK) {
+                    places.push([PlaceResult.place_id, PlaceResult, parseID(gText), request.location]);
+                    if (((!($('#openNowCheck').checked)) || (PlaceResult.openNow)) && ((!($('#hasPhoto').checked)) || (PlaceResult.photos.length)) && (PlaceResult.rating >= minRating) && (PlaceResult.rating <= maxRating)) {
+                        createNode(PlaceResult);
+                    }
+                    else {
+                        loadSome();
+                    }
                 }
-                if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.INVALID_REQUEST) {
-                    console.log("INVALID_REQUEST");
+                else {
+                    if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.NOT_FOUND) {
+                        console.log("NOT_FOUND");
+                    }
+                    if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.INVALID_REQUEST) {
+                        console.log("INVALID_REQUEST");
+                    }
+                    if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OVER_QUERY_LIMIT) {
+                        console.log("OVER_QUERY_LIMIT");
+                    }
+                    if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.REQUEST_DENIED) {
+                        console.log("REQUEST_DENIED");
+                    }
+                    if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
+                        console.log("ZERO_RESULTS");
+                    }
+                    if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.UNKNOWN_ERROR) {
+                        console.log("UNKNOWN_ERROR");
+                    }
                 }
-                if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OVER_QUERY_LIMIT) {
-                    console.log("OVER_QUERY_LIMIT");
-                }
-                if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.REQUEST_DENIED) {
-                    console.log("REQUEST_DENIED");
-                }
-                if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
-                    console.log("ZERO_RESULTS");
-                }
-                if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.UNKNOWN_ERROR) {
-                    console.log("UNKNOWN_ERROR");
-                }
-            }
-        });
+            });
+        }
     }
 }
 
@@ -296,7 +315,8 @@ function search(text) {
         var fitted = 0;
         while (i < places.length) {
             fit = -1;
-            if ((places[i][2] == parseID(text)) && (places[i][3] == mapOptions.center)) {
+            if ((places[i][2] == parseID(text)) && (places[i][3] == mapOptions.center) && ((!($('#openNowCheck').checked)) || (places[i][1].openNow)) && ((!($('#hasPhoto').checked)) || (places[i][1].photos.length)) && (places[i][1].rating >= minRating) && (places[i][1].rating <= maxRating)) {
+                //if ((places[i][2] == parseID(text)) && (places[i][3] == mapOptions.center) && ((!($('#hasPhoto').checked)) || (places[i][1].photos.length)) && (places[i][1].price_level >= request.minPriceLevel) && (places[i][1].price_level <= request.maxPriceLevel)) {
                 fit = i;
                 fitted++;
             }
@@ -308,6 +328,11 @@ function search(text) {
         }
         if (fitted == 1) {
             updateInfoWnd(places[fit][1]);
+        }
+        if (fitted < INITIAL_PLACES) {
+            for (var i = 0; i < INITIAL_PLACES - fitted; i++) {
+                loadSome();
+            }
         }
         deferred = $.Deferred();
     })
@@ -353,6 +378,7 @@ $(document).ready(function () {
 })
 
 function callback(Results, PlacesServiceStatus) {
+    console.log(request.keyword);
     if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OK) {
         resultArr = Results;
         var initLength = INITIAL_PLACES;
@@ -366,7 +392,8 @@ function callback(Results, PlacesServiceStatus) {
         if (length < INITIAL_PLACES) {
             initLength = length;
         }
-        if ((lastSearch[0] !== request.location) || (lastSearch[1] !== request.radius) || (lastSearch[2] !== request.type)) {
+        if ((lastSearch[0] !== request.location) || (lastSearch[1] !== request.radius) || (lastSearch[2] !== request.type) || (lastSearch[3] !== request.openNow) || (lastSearch[4] !== minRating) || (lastSearch[5] !== maxRating)) {
+            //if ((lastSearch[0] !== request.location) || (lastSearch[1] !== request.radius) || (lastSearch[2] !== request.type) || (lastSearch[3] !== request.minPriceLevel) || (lastSearch[4] !== request.maxPriceLevel) || (lastSearch[5] !== request.openNow)) {
             removeMarkers(markers);
             for (var i = 0; i < length; i++) {
                 var marker = new google.maps.Marker({
@@ -379,7 +406,8 @@ function callback(Results, PlacesServiceStatus) {
             }
         }
         initPlaces(Results, initLength);
-        lastSearch = [request.location, request.radius, request.type];
+        lastSearch = [request.location, request.radius, request.type, request.openNow, minRating, maxRating];
+        //lastSearch = [request.location, request.radius, request.type, request.minPriceLevel, request.maxPriceLevel, request.openNow];
     }
     else {
         if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.NOT_FOUND) {
@@ -460,9 +488,6 @@ function addHint(marker) {
     var alreadyFound;
     var placeInfo;
     var infoWnd;
-    marker.addListener('click', function () {
-
-    })
     marker.addListener('mouseover', function () {
         alreadyFound = -1;
         for (var i = 0; i < places.length; i++) {
@@ -480,7 +505,9 @@ function addHint(marker) {
                 service.getDetails({ placeId: marker.title }, function (PlaceResult, PlacesServiceStatus) {
                     if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OK) {
                         places.push([marker.title, PlaceResult, parseID(gText), request.location]);
-                        createNode(PlaceResult);
+                        if (((!($('#openNowCheck').checked)) || (PlaceResult.openNow)) && ((!($('#hasPhoto').checked)) || (PlaceResult.photos.length)) && (PlaceResult.rating >= minRating) && (PlaceResult.rating <= maxRating)) {
+                            createNode(PlaceResult);
+                        }
                         placeInfo = places[places.length - 1][1];
                         resolve(placeInfo);
                     }
@@ -510,9 +537,19 @@ function addHint(marker) {
         })
         promise.then(
             result => {
+                var contentStr = "";
+                if (result.name !== undefined) {
+                    contentStr += result.name;
+                }
+                if (result.rating !== undefined) {
+                    contentStr += "; Rating: " + result.rating;
+                }
+                if (result.openNow) {
+                    contentStr += "; Open now";
+                }
                 infoWnd = new google.maps.InfoWindow({
-                    content: result.name
                 })
+                infoWnd.setContent(contentStr);
                 infoWnd.open(map, marker);
             },
             error => {
@@ -522,6 +559,9 @@ function addHint(marker) {
     marker.addListener('mouseout', function () {
         setTimeout(function () { }, 1000);
         infoWnd.close(marker);
+    })
+    marker.addListener('click', function () {
+        updateInfoWnd(placeInfo);
     })
 }
 
