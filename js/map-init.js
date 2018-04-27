@@ -2,6 +2,8 @@ var mapOptions;
 var map;
 var circle;
 var circleDrawn = false;
+var pos;
+var posMarker;
 
 function drawCircle() {
     if (circleDrawn) {
@@ -15,16 +17,20 @@ function drawCircle() {
         radius: radius
     });
     circleDrawn = true;
-    var marker = new google.maps.Marker({
+    if (posMarker !== undefined) {
+        posMarker.setMap(null);
+        posMarker = 0;
+    }
+    posMarker = new google.maps.Marker({
         position: circle.center,
         map: map,
         animation: google.maps.Animation.DROP,
         draggable: false
     });
-    var pos = new google.maps.InfoWindow({
+    pos = new google.maps.InfoWindow({
         content: 'You are here'
     });
-    pos.open(map, marker);
+    pos.open(map, posMarker);
 }
 
 $(document).ready(function () {

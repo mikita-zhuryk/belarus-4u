@@ -193,8 +193,15 @@ function updateInfoWnd(place) {
         document.getElementById("websiteWnd").innerHTML = "No data for website";
         document.getElementById("websiteWnd").classList.add('disabled');
     }
-    //document.getElementById("photoWnd").src = place.photos[0].getUrl({'maxWidth': 1000, 'maxHeight': 1000});
-
+    if (place.photos.length > 2) {
+        document.getElementById("photoWnd").src = place.photos[1].getUrl({ maxWidth: 1000, maxHeight: 1000 });
+    }
+    var reviews = document.getElementsByClassName('review');
+    for (var i = 0; i < reviews.length; i++) {
+        if (place.reviews[i] !== undefined) {
+            reviews[i].innerHTML = (i + 1).toString() + '. ' + place.reviews[i].text;
+        }
+    }
     /////////////////////////////////////////////
 
     var infoWindow = document.getElementById("infoWindow")
