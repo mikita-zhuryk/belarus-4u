@@ -27,21 +27,43 @@ $(document).ready(function () {
     $('#price-slider').slider({
         min: 0,
         max: 4,
-        values: [0, 4],
+        values: [0, 3],
         step: 1,
         range: true,
         slide: function (event, ui) {
-            request.minPriceLevel = $('#price-slider').slider("value");
-            request.maxPriceLevel = $('#price-slider').slider("value");
+            $('#price').val("[" + ui.values[0] + ", " + ui.values[1] + "]");
+            request.minPriceLevel = ui.values[0];
+            request.maxPriceLevel = ui.values[1];
+        },
+        stop: function (event, ui) {
+            $('#price').val("[" + ui.values[0] + ", " + ui.values[1] + "]");
+            request.minPriceLevel = ui.values[0];
+            request.maxPriceLevel = ui.values[1];
         }
     })
-    document.getElementById('openNowCheck').addEventListener('change', function () {
-        request.openNow = document.getElementById('openNowCheck').checked;
-    })
+    $("#rating-slider").slider({
+        min: 1.0,
+        max: 5.0,
+        values: [3.5, 5.0],
+        step: 0.1,
+        range: true,
+        slide: function (event, ui) {
+            $('#rating').val("[" + ui.values[0] + ", " + ui.values[1] + "]");
+            minRating = ui.values[0];
+            maxRating = ui.values[1];
+        },
+        stop: function (event, ui) {
+            $('#rating').val("[" + ui.values[0] + ", " + ui.values[1] + "]");
+            minRating = ui.values[0];
+            maxRating = ui.values[1];
+        }
+    });
     $('#filter-btn').click(function () {
         var filterWnd = document.getElementsByClassName('filterWnd')[0];
         if (!filtersShown) {
-            listHeadStr = document.getElementById('listHead').innerHTML;
+            if (document.getElementById('list').hasChildNodes()) {
+                listHeadStr = document.getElementById('listHead').innerHTML;
+            }
             filtersShown = true;
             hideMenu("Filters");
             //filterWnd.style.visibility = "visible";
