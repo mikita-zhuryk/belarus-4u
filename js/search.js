@@ -106,6 +106,9 @@ function createNode(place) {
     listNode.appendChild(nodePhone);
     listNode.addEventListener('click', function () {
         //var lastID = -1;
+        if (checkBeenCheck(place)) {
+            document.getElementById('checkBeen').checked;
+        }
         if(document.getElementById('infoWindow').style.visibility == "visible"){
             if(document.getElementsByName("identifyWnd").innerHTML == place.place_id){
                 hideInfoWnd();
@@ -132,7 +135,21 @@ function hideInfoWnd() {
     mapDiv.style.visibility = "visible";
 }
 
+function writeCookie(cb ) {
+    cb = document.getElementById('checkBeen');
+    if(cb.checked) {
+        var text = place.place_id;
+        var date = new Date();
+        date.setMonth(date.getMonth() + 5);
+        document.cookie = id + date.toString() + "=" + text + ";";
+        alert("HELLO" + document.cookie);
+    }
+}
+
 function updateInfoWnd(place) {
+   if (checkBeenCheck(place)) {
+       document.getElementById('checkBeen').checked;
+   }    
     mapDiv.style.visibility = "hidden";
     var titleWnd = document.getElementsByClassName("titleWnd")[0];
     titleWnd.id = place.place_id;
@@ -194,6 +211,35 @@ function updateInfoWnd(place) {
         }
     });
 }
+
+function checkBeenCheck(place) {
+    var text = place.place_id;
+    var r = document.cookie.match("(^|;) ?" + text + "=([^;]*)(;|$)");
+    if (r) {
+     //   document.getElementById('checkBeen').checked;
+        alert("kek" + r);
+        return true;
+    }
+    else {
+     //   document.getElementById('checkBeen').checked = false;
+        return false;
+    }
+}
+
+$(document).ready(function (place) {
+    $('#cvisitCheck').click( function(place) {
+        if (!   checkBeenCheck(place)) {
+            document.getElementById('checkBeen').checked;
+           // alert("Visited, the writing cookie");
+            var text = place.place_id;
+            var date = new Date();
+            date.setMonth(date.getMonth() + 5);
+            document.cookie = id + date.toString() + "=" + text + ";";
+            alert("id" + date.toString() + "=" + text + ";");   
+            alert(document.cookie);
+        }
+    });
+});
 
 function removeMarkers(markers) {
     if (markers.length) {
@@ -354,8 +400,12 @@ $(document).ready(function () {
 
 
 $(document).ready(function () {
-    ('#checkBeen').click(function () {
-        document.cookie = id + "=" + "privet";
+    ('#checkBeen').onchange(function (place) {
+        if(this.checked) {
+            alert("HELLO WORLD!");
+            var text = place.place_id;
+            document.cookie = id + "=" + text + ";";
+        }
     });
 });
 

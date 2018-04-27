@@ -11,6 +11,18 @@
     <script src='js/filters.js'></script>
     <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <script type="text/javascript">
+    function writeCookie() {
+    cb = document.getElementById('checkBeen');
+    if(cb.checked) {
+        var text = place.place_id;
+        var date = new Date();
+        date.setMonth(date.getMonth() + 5);
+        document.cookie = id + date.toString() + "=" + text + ";";
+        alert("HELLO" + document.cookie);
+    }
+}
+    </script>
 </head>
 
 <body>
@@ -115,10 +127,10 @@
             <div class = "infoWnd"><img src = "images\Address.png" alt = "Adderss"><span id = "placeAddressWnd"></span></div>
             <div class = "infoWnd"><img src = "images\Phone.png" alt = "Phone number"><span id = "placePhoneWnd"></span></div>
             <div class = "infoWnd"><img src = "images\Website.png" alt = "Website"><a target = "_blank" id = "websiteWnd"></a></div>
-            <div class = "infoWnd">
-                <label id="container">
-                    <input type="checkbox">
-                    <span id="checkmark"></span>
+            <div class = "infoWnd" id="visitCheck">
+                <label id="container" >
+                    <input type="checkbox" id="checkBeen">
+                   <span id="checkmark"></span>
                 </label><span id = "afterCheckbox">I've been here</span>
             </div>
         </div>
@@ -126,5 +138,4 @@
     </div>
 
 </body>
-
 </html>
