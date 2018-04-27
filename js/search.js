@@ -20,7 +20,6 @@ var maxRating = 5.0;
 
 $(window).on('load', function () {
     mapDiv = document.getElementById('mapHandler');
-
 })
 
 function performSearch(text) {
@@ -114,8 +113,8 @@ function createNode(place) {
         if (checkBeenCheck(place)) {
             document.getElementById('checkBeen').checked;
         }
-        if(document.getElementById('infoWindow').style.visibility == "visible"){
-            if(document.getElementsByName("identifyWnd").innerHTML == place.place_id){
+        if (document.getElementById('infoWindow').style.visibility == "visible") {
+            if (document.getElementsByName("identifyWnd").innerHTML == place.place_id) {
                 hideInfoWnd();
             }
             else {
@@ -140,21 +139,27 @@ function hideInfoWnd() {
     mapDiv.style.visibility = "visible";
 }
 
-function writeCookie(cb ) {
-    cb = document.getElementById('checkBeen');
-    if(cb.checked) {
-        var text = place.place_id;
+function writeCookie(place) {
+    var text = place.place_id;
+    var exp = new RegExp("[=^;*|$()]*" + text + "[=^;*|$()]*");
+    var r = document.cookie.match(exp);
+    if (!r) {
         var date = new Date();
         date.setMonth(date.getMonth() + 5);
-        document.cookie = id + date.toString() + "=" + text + ";";
-        alert("HELLO" + document.cookie);
+        document.cookie = "Date = " + date + "; id = " + text + "; ";
     }
 }
 
 function updateInfoWnd(place) {
-   if (checkBeenCheck(place)) {
-       document.getElementById('checkBeen').checked;
-   }    
+    document.getElementById('checkBeen').checked = false;
+    if (checkBeenCheck(place)) {
+        document.getElementById('checkBeen').checked = true;
+    }
+    //$('#checkBeen').on('input', writeCookie(place));
+    document.getElementById('checkBeen').addEventListener('input', function () {
+        writeCookie(place);
+        //document.getElementById('checkBeen').removeEventListener('input');
+    })
     mapDiv.style.visibility = "hidden";
     var titleWnd = document.getElementsByClassName("titleWnd")[0];
     titleWnd.id = place.place_id;
@@ -193,6 +198,7 @@ function updateInfoWnd(place) {
         document.getElementById("websiteWnd").innerHTML = "No data for website";
         document.getElementById("websiteWnd").classList.add('disabled');
     }
+    document.getElementById("photoWnd").src = 'images/noData.jpg';
     if (place.photos.length > 2) {
         document.getElementById("photoWnd").src = place.photos[1].getUrl({ maxWidth: 1000, maxHeight: 1000 });
     }
@@ -226,28 +232,28 @@ function updateInfoWnd(place) {
 
 function checkBeenCheck(place) {
     var text = place.place_id;
-    var r = document.cookie.match("(^|;) ?" + text + "=([^;]*)(;|$)");
+    var exp = new RegExp("[=^;*|$()]*" + text + "[=^;*|$()]*");
+    var r = document.cookie.match(exp);
     if (r) {
-     //   document.getElementById('checkBeen').checked;
-        alert("kek" + r);
+        //   document.getElementById('checkBeen').checked;
         return true;
     }
     else {
-     //   document.getElementById('checkBeen').checked = false;
+        //   document.getElementById('checkBeen').checked = false;
         return false;
     }
 }
 
 $(document).ready(function (place) {
-    $('#cvisitCheck').click( function(place) {
-        if (!   checkBeenCheck(place)) {
+    $('#cvisitCheck').click(function (place) {
+        if (!checkBeenCheck(place)) {
             document.getElementById('checkBeen').checked;
-           // alert("Visited, the writing cookie");
+            // alert("Visited, the writing cookie");
             var text = place.place_id;
             var date = new Date();
             date.setMonth(date.getMonth() + 5);
             document.cookie = id + date.toString() + "=" + text + ";";
-            alert("id" + date.toString() + "=" + text + ";");   
+            alert("id" + date.toString() + "=" + text + ";");
             alert(document.cookie);
         }
     });
@@ -423,16 +429,37 @@ $(document).ready(function () {
     })
 })
 
-
 $(document).ready(function () {
-    ('#checkBeen').onchange(function (place) {
-        if(this.checked) {
-            alert("HELLO WORLD!");
-            var text = place.place_id;
-            document.cookie = id + "=" + text + ";";
+    $('#history-btn').click(function () {
+        console.log(document.cookie);
+        if (!displayMenu || ($('#listHead').innerHTML == "Search history")) {
+            showMenu();
         }
-    });
-});
+        else {
+            var exp = new RegExp('id = \w*');
+            var r = document.cookie.match(exp);
+            hideMenu("Search history");
+            while (r) {
+                for (var i = 0; i < places.length; i++) {
+                    if (places[i][0] == r.splice(0, 5)) {
+                        createNode(places[i][1]);
+                    }
+                }
+                r = document.cookie.match(exp);
+            }
+        }
+    })
+})
+
+// $(document).ready(function () {
+//     ('#checkBeen').onchange(function (place) {
+//         if (this.checked) {
+//             alert("HELLO WORLD!");
+//             var text = place.place_id;
+//             document.cookie = id + "=" + text + ";";
+//         }
+//     });
+// });
 
 function callback(Results, PlacesServiceStatus) {
     console.log(request.keyword);
