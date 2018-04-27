@@ -9,6 +9,7 @@
     <script src="js/menu-animation.js"></script>
     <script src='js/search.js'></script>
     <script src='js/filters.js'></script>
+    <script src='js/map-init.js'></script>
     <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
     <script type="text/javascript">
@@ -30,7 +31,6 @@
         <div id="map"></div>
         <button id="setPos">Set position</button>
     </div>
-    <script src='js/map-init.js'></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXV8gSn-UN0WqdWdJOnRfMdvLTHQmQBAw&callback=initMap&libraries=places">
     </script>
     <div id="main">
@@ -82,8 +82,19 @@
                 <label for="price" style = "color: #ECEAE4;">Price level: </label>
                 <input type="text" id="price" style="border:0; color:#f6931f; font-weight:bold;" value = "[0, 4]"/>
             </p>
-            <label class="container" style = "color: #ECEAE4;">Open now
-                <input type="checkbox" id = 'openNowCheck'>
+            <div class="slider" id = "rating-slider"></div>
+            <p>
+                <label for="rating" style = "color: #ECEAE4;">Place rating: </label>
+                <input type="text" id="rating" style="border:0; color:#f6931f; font-weight:bold;" value = "[3, 5]"/>
+            </p>
+            <label class="container" style = "color: #ECEAE4;">
+                <input type="checkbox" id = 'openNowCheck'/>
+                Open now
+                <span class="checkmark"></span>
+            </label>
+            <label class="container" style = "color: #ECEAE4;">
+                <input type="checkbox" id = 'hasPhoto'/>
+                Has photos available
                 <span class="checkmark"></span>
             </label>
         </div>
