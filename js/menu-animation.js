@@ -1,6 +1,6 @@
 $(document).ready(function () {
   //прикрепляем клик по заголовкам acc-head
-  //$('.menu-item').on('click', f_acc);
+ // $('.menu-item').on('click', f_acc);
   $('.menu-item').click(f_acc);
 });
 
