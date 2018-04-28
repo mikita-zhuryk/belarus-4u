@@ -68,7 +68,7 @@
             <div class="slider" id = "price-slider"></div>
             <p>
                 <label for="price" style = "color: #ECEAE4;">Price level: </label>
-                <input type="text" id="price" style="border:0; color:#f6931f; font-weight:bold;" value = "[0, 4]"/>
+                <input type="text" id="price" style="border:0; color:#f6931f; font-weight:bold;" value = "[0, 3]"/>
             </p>
             <div class="slider" id = "rating-slider"></div>
             <p>
@@ -115,7 +115,6 @@
             </li>
         </ul>
     </div>
-    
     <div id = "infoWindow">
         <div id = "identifyWnd" visibility = "hidden">Place ID</div>
         <p class = "titleWnd"></p>
@@ -133,10 +132,12 @@
                 </label><span id = "afterCheckbox">I've been there</span>
             </div>
         </div>
-        <div id = "reviews">Reviews
-            <p class = "review"></p>
-            <p class = "review"></p>
-            <p class = "review"></p>
+        <div id = "reviews"><div id = "miniHeadWnd">Reviews</div>
+            <div id = "reviewsWnd">
+                <div class = "review"><img src = "images\User-1.png"><span class = "reviewText"></span></div>
+                <div class = "review"><img src = "images\User-2.png"><span class = "reviewText"></span></div>
+                <div class = "review"><img src = "images\User-3.png"><span class = "reviewText"></span></div>
+            </div>
         </div>
     </div>
 

@@ -157,7 +157,12 @@ function updateInfoWnd(place) {
         rateWnd.style.width = 0 + "px";
     }
     if (place.formatted_address !== undefined) {
-        document.getElementById("placeAddressWnd").innerHTML = place.formatted_address;
+        if(place.formatted_address.length > 38){
+            document.getElementById("placeAddressWnd").innerHTML = place.formatted_address.substring(0, 38) + "...";
+        }
+        else{
+            document.getElementById("placeAddressWnd").innerHTML = place.formatted_address;
+        }
     }
     else {
         document.getElementById("placeAddressWnd").innerHTML = "No data for address";
@@ -179,10 +184,10 @@ function updateInfoWnd(place) {
     if (place.photos.length > 2) {
         document.getElementById("photoWnd").src = place.photos[1].getUrl({ maxWidth: 1000, maxHeight: 1000 });
     }
-    var reviews = document.getElementsByClassName('review');
+    var reviews = document.getElementsByClassName('reviewText');
     for (var i = 0; i < reviews.length; i++) {
         if (place.reviews[i] !== undefined) {
-            reviews[i].innerHTML = (i + 1).toString() + '. ' + place.reviews[i].text;
+            reviews[i].innerHTML = "  " + place.reviews[i].text;
         }
     }
     /////////////////////////////////////////////
