@@ -6,31 +6,33 @@ var pos;
 var posMarker;
 
 function drawCircle() {
-    if (circleDrawn) {
-        circle.setMap(null);
-        circle = 0;
-        circleDrawn = false;
+    if ((circle == undefined) || ((circle.center.lat() !== map.center.lat()) && (circle.center.lng() !== map.center.lng()))) {
+        if (circleDrawn) {
+            circle.setMap(null);
+            circle = 0;
+            circleDrawn = false;
+        }
+        circle = new google.maps.Circle({
+            map: map,
+            center: mapOptions.center,
+            radius: radius
+        });
+        circleDrawn = true;
+        if (posMarker !== undefined) {
+            posMarker.setMap(null);
+            posMarker = 0;
+        }
+        posMarker = new google.maps.Marker({
+            position: circle.center,
+            map: map,
+            animation: google.maps.Animation.DROP,
+            draggable: false
+        });
+        pos = new google.maps.InfoWindow({
+            content: 'You are here'
+        });
+        pos.open(map, posMarker);
     }
-    circle = new google.maps.Circle({
-        map: map,
-        center: mapOptions.center,
-        radius: radius
-    });
-    circleDrawn = true;
-    if (posMarker !== undefined) {
-        posMarker.setMap(null);
-        posMarker = 0;
-    }
-    posMarker = new google.maps.Marker({
-        position: circle.center,
-        map: map,
-        animation: google.maps.Animation.DROP,
-        draggable: false
-    });
-    pos = new google.maps.InfoWindow({
-        content: 'You are here'
-    });
-    pos.open(map, posMarker);
 }
 
 $(document).ready(function () {
@@ -134,7 +136,7 @@ function initMap() {
                 elementType: 'labels.text.stroke',
                 stylers: [{ color: '#17263c' }]
             }
-        ], {name: 'Night mode'})
+        ], { name: 'Night mode' })
     mapOptions = {
         zoom: 7,
         center: { lat: 53.67253, lng: 28.0726279 },
@@ -148,29 +150,17 @@ function initMap() {
     map = new google.maps.Map(document.getElementById("map"), mapOptions);
     map.mapTypes.set('styled_map', StyledMap);
     var autocomplete = new google.maps.places.Autocomplete(document.getElementById('searchBox'));
-    var promise = new Promise(function (resolve, reject) {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                function (position) {
-                    mapOptions.center = { lat: position.coords.latitude, lng: position.coords.longitude };
-                    console.log(mapOptions.center);
-                    flag = true;
-                    resolve("Location acquired");
-                },
-                function () {
-                    reject("Problem geolocating");
-                })
-        }
-    });
-    promise.then(
-        result => {
-            map.setCenter(mapOptions.center);
-            map.setZoom(calcZoom());
-            drawCircle();
-            console.log(result);
-        },
-        error => {
-            $('#setPos').trigger('click');
-        }
-    );
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            function (position) {
+                mapOptions.center = { lat: position.coords.latitude, lng: position.coords.longitude };
+                flag = true;
+                map.setCenter(mapOptions.center);
+                map.setZoom(calcZoom());
+                drawCircle();
+            },
+            function () {
+                $('#setPos').trigger('click');
+            })
+    }
 }
