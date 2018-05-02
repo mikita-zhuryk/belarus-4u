@@ -340,7 +340,7 @@ ul {
     color: white;
     font-size: 30px;
     box-shadow: 0px 0px 0px 5px #181818 inset;
-    overflow: hidden;
+    overflow: auto;
 }
 
 #placeInfoWnd img{

@@ -9,7 +9,7 @@ $(document).ready(function () {
         min: 100,
         max: 50000,
         value: 3500,
-        step: 50,
+        step: 100,
         range: "min",
         slide: function (event, ui) {
             radius = $("#range-slider").slider("value");
@@ -58,6 +58,10 @@ $(document).ready(function () {
             maxRating = ui.values[1];
         }
     });
+    $("#radius").on('input', function () {
+        radius = document.getElementById('radius').value;
+    })
+    //TODO: Make textboxes inputable (with string splitting)
     $('#filter-btn').click(function () {
         var filterWnd = document.getElementsByClassName('filterWnd')[0];
         if (!filtersShown) {

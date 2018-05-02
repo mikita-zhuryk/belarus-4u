@@ -23,6 +23,7 @@ $(window).on('load', function () {
 })
 
 function performSearch(text) {
+    drawCircle();
     request = {
         location: mapOptions.center,
         radius: radius * 0.7,
