@@ -20,7 +20,6 @@ var maxRating = 5.0;
 
 $(window).on('load', function () {
     mapDiv = document.getElementById('mapHandler');
-    document.cookie = "Date = " + new Date();
 })
 
 function performSearch(text) {
@@ -112,6 +111,9 @@ function createNode(place) {
     listNode.appendChild(nodePhone);
     listNode.addEventListener('click', function () {
         //var lastID = -1;
+        if (checkBeenCheck(place)) {
+            document.getElementById('checkBeen').checked;
+        }
         if (document.getElementById('infoWindow').style.visibility == "visible") {
             if (document.getElementsByName("identifyWnd").innerHTML == place.place_id) {
                 hideInfoWnd();
@@ -139,28 +141,25 @@ function hideInfoWnd() {
 }
 
 function writeCookie(place) {
-    //if (document.getElementById('checkBeen').checked) {
     var text = place.place_id;
-    var exp = new RegExp("id = " + text + ";");
+    var exp = new RegExp("[=^;*|$()]*" + text + "[=^;*|$()]*");
     var r = document.cookie.match(exp);
-    if (!r || (r == undefined) || (r.length == 0)) {
-        document.cookie += "id = " + text.toString();
+    if (!r) {
+        var date = new Date();
+        date.setMonth(date.getMonth() + 5);
+        document.cookie = "Date = " + date + "; id = " + text + "; ";
     }
-    //document.getElementById('checkBeen').removeEventListener('change', writeCookie(place));
-    //}
 }
 
 function updateInfoWnd(place) {
-    if (checkBeen(place)) {
+    document.getElementById('checkBeen').checked = false;
+    if (checkBeenCheck(place)) {
         document.getElementById('checkBeen').checked = true;
     }
-    else {
-        document.getElementById('checkBeen').checked = false;
-    }
-    $('#checkBeen').change(function () {
-        if (this.checked) {
-            writeCookie(place);
-        }
+    //$('#checkBeen').on('input', writeCookie(place));
+    document.getElementById('checkBeen').addEventListener('input', function () {
+        writeCookie(place);
+        //document.getElementById('checkBeen').removeEventListener('input');
     })
     mapDiv.style.visibility = "hidden";
     var titleWnd = document.getElementsByClassName("titleWnd")[0];
@@ -181,10 +180,10 @@ function updateInfoWnd(place) {
         rateWnd.style.width = 0 + "px";
     }
     if (place.formatted_address !== undefined) {
-        if (place.formatted_address.length > 38) {
+        if(place.formatted_address.length > 38){
             document.getElementById("placeAddressWnd").innerHTML = place.formatted_address.substring(0, 38) + "...";
         }
-        else {
+        else{
             document.getElementById("placeAddressWnd").innerHTML = place.formatted_address;
         }
     }
@@ -237,9 +236,9 @@ function updateInfoWnd(place) {
     });
 }
 
-function checkBeen(place) {
+function checkBeenCheck(place) {
     var text = place.place_id;
-    var exp = new RegExp("id = " + text.toString());
+    var exp = new RegExp("[=^;*|$()]*" + text + "[=^;*|$()]*");
     var r = document.cookie.match(exp);
     if (r) {
         //   document.getElementById('checkBeen').checked;
@@ -251,20 +250,20 @@ function checkBeen(place) {
     }
 }
 
-// $(document).ready(function (place) {
-//     $('#cvisitCheck').click(function (place) {
-//         if (!checkBeenCheck(place)) {
-//             document.getElementById('checkBeen').checked;
-//             // alert("Visited, the writing cookie");
-//             var text = place.place_id;
-//             var date = new Date();
-//             date.setMonth(date.getMonth() + 5);
-//             document.cookie = id + date.toString() + "=" + text + ";";
-//             alert("id" + date.toString() + "=" + text + ";");
-//             alert(document.cookie);
-//         }
-//     });
-// });
+$(document).ready(function (place) {
+    $('#cvisitCheck').click(function (place) {
+        if (!checkBeenCheck(place)) {
+            document.getElementById('checkBeen').checked;
+            // alert("Visited, the writing cookie");
+            var text = place.place_id;
+            var date = new Date();
+            date.setMonth(date.getMonth() + 5);
+            document.cookie = id + date.toString() + "=" + text + ";";
+            alert("id" + date.toString() + "=" + text + ";");
+            alert(document.cookie);
+        }
+    });
+});
 
 function removeMarkers(markers) {
     if (markers.length) {
@@ -438,21 +437,21 @@ $(document).ready(function () {
 
 $(document).ready(function () {
     $('#history-btn').click(function () {
-        if (!displayMenu && (document.getElementById('listHead').innerHTML == "Search history")) {
+        console.log(document.cookie);
+        if (!displayMenu || ($('#listHead').innerHTML == "Search history")) {
             showMenu();
         }
         else {
-            showMenu();
-            hideMenu("Search history");
-            var exp = new RegExp('id = \w{27}');
+            var exp = new RegExp('id = \w*');
             var r = document.cookie.match(exp);
-            for (var i = 0; i < r.length; i++) {
-                id = r[i];
-                for (var j = 0; j < places.length; j++) {
-                    if (places[j][0] == id.split(" ")[2]) {
-                        createNode(places[j][1]);
+            hideMenu("Search history");
+            while (r) {
+                for (var i = 0; i < places.length; i++) {
+                    if (places[i][0] == r.splice(0, 5)) {
+                        createNode(places[i][1]);
                     }
                 }
+                r = document.cookie.match(exp);
             }
         }
     })
