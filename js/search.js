@@ -15,6 +15,7 @@ var resultArr;
 var list;
 var minRating = 1.0;
 var maxRating = 5.0;
+var locked = false;
 
 $(window).on('load', function () {
     mapDiv = document.getElementById('mapHandler');
@@ -215,10 +216,12 @@ function updateInfoWnd(place) {
     else {
         document.getElementById("gallery").style.background = 'url(images/noData.jpg) no-repeat center top';
     }
-    var reviews = document.getElementsByClassName('reviewText');
-    for (var i = 0; i < reviews.length; i++) {
-        if (place.reviews[i] !== undefined) {
-            reviews[i].innerHTML = "  " + place.reviews[i].text;
+    if (place.reviews !== undefined) {
+        var reviews = document.getElementsByClassName('reviewText');
+        for (var i = 0; i < reviews.length; i++) {
+            if (place.reviews[i] !== undefined) {
+                reviews[i].innerHTML = "  " + place.reviews[i].text;
+            }
         }
     }
     /////////////////////////////////////////////
@@ -252,7 +255,7 @@ function checkBeen(place) {
     }
     else {
         return false;
-}
+    }
 }
 
 function removeMarkers(markers) {
@@ -267,69 +270,74 @@ function removeMarkers(markers) {
 }
 
 function loadSome() {
-    var lastLoaded = -1;
-    var found = false;
-    list = document.getElementById('list');
-    if ((list.scrollHeight - (list.scrollTop + list.clientHeight)) <= 250) {
-        for (var i = 0; i < resultArr.length; i++) {
-            found = false;
-            for (var j = 0; j < places.length; j++) {
-                if (resultArr[i].place_id == places[j][0]) {
-                    found = true;
+    if (locked) return;
+    else {
+        var lastLoaded = -1;
+        var found = false;
+        list = document.getElementById('list');
+        if (((list.scrollHeight - (list.scrollTop + list.clientHeight)) <= 20) && ((list.scrollHeight - (list.scrollTop + list.clientHeight)) > 0)) {
+            locked = true;
+            for (var i = 0; i < resultArr.length; i++) {
+                found = false;
+                for (var j = 0; j < places.length; j++) {
+                    if (resultArr[i].place_id == places[j][0]) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    lastLoaded = i - 1;
                     break;
                 }
             }
-            if (!found) {
-                lastLoaded = i - 1;
-                break;
-            }
-        }
-        if (i !== resultArr.length - 1) {
-            service.getDetails({ placeId: resultArr[lastLoaded + 1].place_id }, function (PlaceResult, PlacesServiceStatus) {
-                if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OK) {
-                    places.push([PlaceResult.place_id, PlaceResult, parseID(gText), request.location]);
-                    if (((!($('#openNowCheck').checked)) || (PlaceResult.openNow)) && ((!($('#hasPhoto').checked)) || (PlaceResult.photos.length)) && (PlaceResult.rating >= minRating) && (PlaceResult.rating <= maxRating)) {
-                        var marker = new google.maps.Marker({
-                            map: map,
-                            position: PlaceResult.geometry.location,
-                            title: PlaceResult.place_id
-                        });
-                        addHint(marker);
-                        markers.push(marker);
-                        createNode(PlaceResult);
+            if (lastLoaded !== resultArr.length - 1) {
+                service.getDetails({ placeId: resultArr[lastLoaded + 1].place_id }, function (PlaceResult, PlacesServiceStatus) {
+                    if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OK) {
+                        places.push([PlaceResult.place_id, PlaceResult, parseID(gText), request.location]);
+                        if (((!($('#openNowCheck').checked)) || (PlaceResult.openNow)) && ((!($('#hasPhoto').checked)) || (PlaceResult.photos.length)) && (PlaceResult.rating >= minRating) && (PlaceResult.rating <= maxRating)) {
+                            var marker = new google.maps.Marker({
+                                map: map,
+                                position: PlaceResult.geometry.location,
+                                title: PlaceResult.place_id
+                            });
+                            addHint(marker);
+                            markers.push(marker);
+                            createNode(PlaceResult);
+                            locked = false;
+                        }
+                        else {
+                            loadSome();
+                        }
                     }
                     else {
-                        loadSome();
+                        if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.NOT_FOUND) {
+                            console.log("NOT_FOUND");
+                        }
+                        if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.INVALID_REQUEST) {
+                            console.log("INVALID_REQUEST");
+                        }
+                        if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OVER_QUERY_LIMIT) {
+                            console.log("OVER_QUERY_LIMIT");
+                        }
+                        if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.REQUEST_DENIED) {
+                            console.log("REQUEST_DENIED");
+                        }
+                        if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
+                            console.log("ZERO_RESULTS");
+                        }
+                        if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.UNKNOWN_ERROR) {
+                            console.log("UNKNOWN_ERROR");
+                        }
                     }
-                }
-                else {
-                    if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.NOT_FOUND) {
-                        console.log("NOT_FOUND");
-                    }
-                    if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.INVALID_REQUEST) {
-                        console.log("INVALID_REQUEST");
-                    }
-                    if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OVER_QUERY_LIMIT) {
-                        console.log("OVER_QUERY_LIMIT");
-                    }
-                    if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.REQUEST_DENIED) {
-                        console.log("REQUEST_DENIED");
-                    }
-                    if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
-                        console.log("ZERO_RESULTS");
-                    }
-                    if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.UNKNOWN_ERROR) {
-                        console.log("UNKNOWN_ERROR");
-                    }
-                }
-            });
+                });
+            }
         }
     }
 }
 
 function showMenu() {
     var list = document.getElementById('list');
-    list.removeEventListener("scroll", loadSome, false);
+    list.removeEventListener("scroll", loadSome, true);
     var child;
     while (list.hasChildNodes()) {
         child = list.lastChild;
@@ -345,7 +353,7 @@ function showMenu() {
 function hideMenu(text) {
     var list = document.getElementById('list');
     if (text !== "History") {
-        list.addEventListener("scroll", loadSome, false);
+        list.addEventListener("scroll", loadSome, true);
     }
     $('.filterWnd').hide(10);
     $('.menu').hide(10);
