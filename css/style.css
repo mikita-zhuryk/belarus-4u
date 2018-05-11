@@ -3,6 +3,22 @@
     margin: 0px;
 }
 
+*:focus {
+    outline: none;
+}
+
+::-webkit-scrollbar{
+    width:12px;
+}
+
+::-webkit-scrollbar-thumb{
+    background-color: #aaa;
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background-color: #777;
+}
+
 #map {
     position: fixed !important;
     left: 320px;
@@ -11,13 +27,34 @@
     z-index: auto;
 }
 
-#setPos{
+#setPos {
+    text-align: center;
+    left: 447px;
+    top: 10px;
+    width: 85px;
+    height: 29.5px;
+    position: fixed;
+    background: white;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    border: none;
+    box-shadow: 0px 1px 3px -2px rgba(0, 0, 0, 0.596);
+    color: #565656;
+    font-weight: 400;
+    font-family:  'Alegreya Sans';  
+    transition: color 0.1s ease-out;
+    transition: font-weight 0.1s ease-out;                
 }
 
-#setPos{
-    left: 450px;
-    top: 15px;
-    position: fixed;
+#setPos:hover {
+   background: #EBEBEB;
+   cursor: pointer;
+   color: black;
+}
+#setPos:focus {
+    transition: 0.5s;   
+   font-weight: 500;
+   color: black;
 }
 
 body {
@@ -147,7 +184,7 @@ ul {
     font: medium 16px;
     border-top: 2px solid #ECEAE4;
     display: inherit;
-    transition: all 0.2s ease-out;  
+    transition: all 0.2s ease-out;
 }
 
 .bottom-item:hover{
@@ -204,6 +241,13 @@ ul {
     cursor: pointer;
 }
 
+.listNodeBorder{
+    margin-left: -5px;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, #ECEAE4, #212222);
+}
+
 .nodeName{
     margin-bottom: 2px;
 }
@@ -239,7 +283,7 @@ ul {
     left: 320px;
     background: #212222;
     z-index: 0;
-    overflow: auto;
+    overflow: hidden;
     visibility: hidden;  
 }
 
@@ -247,14 +291,6 @@ ul {
     height: 0px;
     width: 0px;
     visibility: hidden;
-}
-
-.filterWnd {
-    margin-top: 60px;
-}
-
-.slider {
-    margin-top: 15px;
 }
 
 .titleWnd{
@@ -308,50 +344,41 @@ ul {
 #gallery{
     position: relative;
     float: left;
-    height: 590px;
-    width: 485px;
+    height: calc(96% - 130px);
+    width: 42%;
     background: #757575;
-    margin-left: 50px;
-}
-
-#moreWndLine{
-    cursor: pointer;
-    position: absolute;
-    bottom: 0px;
-    width: 100%;
-    background: rgb(78, 28, 167);
-    box-shadow: 0 -5px rgb(61, 26, 128) inset, 0 -5px #0000008e;
-}
-
-#moreWnd{
-    margin-left: calc(50% - 17px);
-    height: 34px;
+    background-size: cover;
+    -moz-background-size: 100%;
+    margin-left: 3%;
+    overflow: hidden;
+    box-shadow: 0px 0px 0px 5px #181818 inset;
 }
 
 #placeInfoWnd{
     display: flex;
     flex-direction: column;
-    /* align-content: space-between; */
-    padding: 10px;
-    /* width: 580px; */
-    height: 150px;
-    margin-left: 600px;
-    margin-bottom: 20px;
+    justify-content: space-between;
+    padding: 10px 0px 10px 10px;
+    width: calc(51% - 20px);
+    height: calc(24% - 30px);
+    margin: 10px 0px 1% 46%;
     color: white;
-    font-size: 30px;
-    box-shadow: 0px 0px 0px 5px #181818 inset;
+    font-size: 27px;
+    font-weight: 300;    
+    border: 5px solid #181818 ;
     overflow: auto;
 }
 
 #placeInfoWnd img{
-    height: 30px;
+    height: 27px;
     margin-right: 25px;
 }
 
 #placeInfoWnd div, label{
     margin-left: 10px;
 }
-#container {
+
+.container {
     position: relative;
     cursor: pointer;
     font-size: 25px;
@@ -361,17 +388,17 @@ ul {
     user-select: none;
 }
 
-#afterCheckbox{
+.afterCheckbox{
     padding-left: 45px;
 }
   
-#container input {
+.container input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
 }
   
-#checkmark {
+.checkmark {
     position: absolute;
     bottom: 7px;
     left: -5px;
@@ -380,25 +407,25 @@ ul {
     background-color: #eee;
 }
   
-#container:hover input ~ #checkmark {
+.container:hover input ~ .checkmark {
     background-color: #ccc;
 }
   
-#container input:checked ~ #checkmark {
+.container input:checked ~ .checkmark {
     background-color: rgb(78, 28, 167);
 }
   
-#checkmark:after {
+.checkmark:after {
     content: "";
     position: absolute;
     display: none;
 }
   
-#container input:checked ~ #checkmark:after {
+.container input:checked ~ .checkmark:after {
     display: block;
 }
   
-#container #checkmark:after {
+.container .checkmark:after {
     left: 7px;
     top: 3px;
     width: 5px;
@@ -418,20 +445,20 @@ ul {
 #reviews{
     display: flex;
     flex-direction: column;
-    margin-bottom: 20px;
-    /* width: 600px; */
-    height: 400px;
+    width: 51%;
+    height: calc(70% - 130px);
     color: white;
-    font-size: 35px;
-    margin-left: 600px;
+    font-size: 25px;
+    font-weight: 300;
+    margin-left: 46%;
     background: #181818;
-    overflow: hidden;
 }
 
 #miniHeadWnd{
     text-align: center;
     height: auto;
     width: 100%;
+    font-weight: 400;    
     background: rgb(78, 28, 167);
     box-shadow: 0 -5px rgb(61, 26, 128) inset;    
 }
@@ -449,4 +476,40 @@ ul {
 
 .review img{
     height: 30px;
+}
+
+.filterWnd {
+    margin-top: 60px;
+}
+
+.slider {
+    /* margin: 15px 5px 5px 5px; */
+    width:230px;
+    height:11px;
+    background:url(slider-bg.png);
+    position: relative;
+    margin: 0 auto;
+    padding: 0 10px;
+}
+
+.sliders-input{
+    border:0; 
+    width: 100px;
+    color:#ECEAE4; 
+    background: #212222;
+    font-size: 18px;
+}
+
+#checkBoxOpen, #checkBoxPhoto{
+    position: absolute;
+    top: 6px;
+    left: 5px;
+    float: left;
+}
+
+.afterCheckboxFilter{
+    margin-top: 5px;
+    color: #ECEAE4;
+    font-size: 20px;
+    padding-left: 45px;
 }

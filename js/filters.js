@@ -1,27 +1,23 @@
-$.getScript('search.js', function () {
-    console.log("Search.js loaded");
-})
+// $(document).ready(function () {
+//     $.getScript('search.js', function () {
+//         console.log("Search.js loaded");
+//     })
+// })
 var filtersShown = false;
 var listHeadStr;
 
 $(document).ready(function () {
     $("#range-slider").slider({
         min: 100,
-        max: 50000,
+        max: 10000,
         value: 3500,
         step: 100,
         range: "min",
         slide: function (event, ui) {
-            radius = $("#range-slider").slider("value");
-            map.setZoom(Math.floor(13 / Math.sqrt(Math.sqrt(Math.sqrt(radius / 3500)))));
+            radius = ui.value;
             $('#radius').val(radius + " m");
-            drawCircle();
-        },
-        stop: function (event, ui) {
-            radius = $("#range-slider").slider("value");
             map.setZoom(calcZoom());
-            $('#radius').val(radius + " m");
-            drawCircle();
+            drawCircle(true);
         }
     });
     $('#price-slider').slider({
@@ -60,6 +56,7 @@ $(document).ready(function () {
     });
     $("#radius").on('input', function () {
         radius = document.getElementById('radius').value;
+        $("#range-slider").slider.value = radius;
     })
     //TODO: Make textboxes inputable (with string splitting)
     $('#filter-btn').click(function () {
