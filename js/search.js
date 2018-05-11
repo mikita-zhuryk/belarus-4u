@@ -151,12 +151,15 @@ function writeCookie(place) {
 function updateInfoWnd(place) {
     if (checkBeen(place)) {
         document.getElementById('checkBeen').checked = true;
+        document.getElementById('reviewForm').style.visibility = "visible";
     }
     else {
         document.getElementById('checkBeen').checked = false;
+        document.getElementById('reviewForm').style.visibility = "hidden";
     }
     $('#checkBeen').change(function () {
         if (this.checked) {
+            document.getElementById('reviewForm').style.visibility = "visible";
             writeCookie(place);
         }
     })

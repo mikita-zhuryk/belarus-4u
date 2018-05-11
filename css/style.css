@@ -513,3 +513,18 @@ ul {
     font-size: 20px;
     padding-left: 45px;
 }
+
+#userReview {
+    position: inherit;
+    width: 70%;
+    height: 40px;
+    font-size: 14px;
+    overflow: hidden;
+}
+
+#leaveReview {
+    position: inherit;
+    width: 20%;
+    height: 40px;
+    font-size: 14px;
+}
