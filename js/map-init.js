@@ -5,8 +5,8 @@ var circleDrawn = false;
 var pos;
 var posMarker;
 
-function drawCircle() {
-    if ((circle == undefined) || ((circle.center.lat() !== map.center.lat()) && (circle.center.lng() !== map.center.lng()))) {
+function drawCircle(redraw = false) {
+    if (redraw || (circle == undefined) || ((circle.center.lat() !== map.center.lat()) && (circle.center.lng() !== map.center.lng()))) {
         if (circleDrawn) {
             circle.setMap(null);
             circle = 0;

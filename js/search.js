@@ -60,7 +60,7 @@ function parseID(text) {
             for (i = 0; i < text.length; i++) {
                 chr = text.charCodeAt(i);
                 res = ((res << 5) - res) + chr;
-                res |= 0; // Convert to 32bit integer
+                res |= 0;
             }
         }
     }
@@ -113,10 +113,6 @@ function createNode(place) {
     bottomBorder.className = "listNodeBorder";
     listNode.appendChild(bottomBorder);
     listNode.addEventListener('click', function () {
-        //var lastID = -1;
-        if (checkBeenCheck(place)) {
-            document.getElementById('checkBeen').checked;
-        }
         if (document.getElementById('infoWindow').style.visibility == "visible") {
             if (document.getElementsByName("identifyWnd").innerHTML == place.place_id) {
                 hideInfoWnd();
@@ -145,7 +141,7 @@ function hideInfoWnd() {
 
 function writeCookie(place) {
     var text = place.place_id;
-    var exp = new RegExp("[=^;*|$()]*" + text + "[=^;*|$()]*");
+    var exp = new RegExp("id = " + text);
     var r = document.cookie.match(exp);
     if (!r) {
         var date = new Date();
@@ -170,10 +166,10 @@ function updateInfoWnd(place) {
     document.getElementById("websiteWnd").href = undefined;
     document.getElementById("websiteWnd").classList.remove("disabled");
     if (place.name.length) {
-        if(place.name.length >= 33){
+        if (place.name.length >= 33) {
             titleWnd.innerHTML = place.name.substring(0, 32) + "...";
         }
-        else{
+        else {
             titleWnd.innerHTML = place.name;
         }
     }
@@ -212,10 +208,12 @@ function updateInfoWnd(place) {
         document.getElementById("websiteWnd").innerHTML = "No data for website";
         document.getElementById("websiteWnd").classList.add('disabled');
     }
-    if (place.photos.length > 2) {
-        document.getElementById("gallery").style.background = "url(" + place.photos[1].getUrl({ maxWidth: 1000, maxHeight: 1000 }) + ") no-repeat center top";
+    if (place.photos !== undefined) {
+        if (place.photos.length > 2) {
+            document.getElementById("gallery").style.background = "url(" + place.photos[1].getUrl({ maxWidth: 1000, maxHeight: 1000 }) + ") no-repeat center top";
+        }
     }
-    else{
+    else {
         document.getElementById("gallery").style.background = 'url(images/noData.jpg) no-repeat center top';
     }
     var reviews = document.getElementsByClassName('reviewText');
@@ -251,29 +249,12 @@ function checkBeenCheck(place) {
     var exp = new RegExp("[=^;*|$()]*" + text + "[=^;*|$()]*");
     var r = document.cookie.match(exp);
     if (r) {
-        //   document.getElementById('checkBeen').checked;
         return true;
     }
     else {
-        //   document.getElementById('checkBeen').checked = false;
         return false;
     }
 }
-
-$(document).ready(function (place) {
-    $('#cvisitCheck').click(function (place) {
-        if (!checkBeenCheck(place)) {
-            document.getElementById('checkBeen').checked;
-            // alert("Visited, the writing cookie");
-            var text = place.place_id;
-            var date = new Date();
-            date.setMonth(date.getMonth() + 5);
-            document.cookie = id + date.toString() + "=" + text + ";";
-            alert("id" + date.toString() + "=" + text + ";");
-            alert(document.cookie);
-        }
-    });
-});
 
 function removeMarkers(markers) {
     if (markers.length) {
@@ -309,6 +290,13 @@ function loadSome() {
                 if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OK) {
                     places.push([PlaceResult.place_id, PlaceResult, parseID(gText), request.location]);
                     if (((!($('#openNowCheck').checked)) || (PlaceResult.openNow)) && ((!($('#hasPhoto').checked)) || (PlaceResult.photos.length)) && (PlaceResult.rating >= minRating) && (PlaceResult.rating <= maxRating)) {
+                        var marker = new google.maps.Marker({
+                            map: map,
+                            position: PlaceResult.geometry.location,
+                            title: PlaceResult.place_id
+                        });
+                        addHint(marker);
+                        markers.push(marker);
                         createNode(PlaceResult);
                     }
                     else {
@@ -357,7 +345,9 @@ function showMenu() {
 
 function hideMenu(text) {
     var list = document.getElementById('list');
-    list.addEventListener("scroll", loadSome, false);
+    if (text !== "History") {
+        list.addEventListener("scroll", loadSome, false);
+    }
     $('.filterWnd').hide(10);
     $('.menu').hide(10);
     $('#listHead').text(text);
@@ -428,14 +418,6 @@ $(document).ready(function () {
     });
 })
 
-//$(document).ready(function (){
-/*$('.listNode').click(function () {
-    var text = $(this).text();
-    alert(text);
-    document.cookie = "seen=text; expires=18/04/2020 00:00:00;";
-});*/
-//});
-
 $(document).ready(function () {
     $('#home-btn').click(function () {
         if (displayMenu == false) {
@@ -447,18 +429,20 @@ $(document).ready(function () {
 
 $(document).ready(function () {
     $('#history-btn').click(function () {
-        console.log(document.cookie);
-        if (!displayMenu || ($('#listHead').innerHTML == "Search history")) {
+        if (!displayMenu && (document.getElementById('listHead').innerHTML == "History")) {
             showMenu();
         }
         else {
-            var exp = new RegExp('id = \w*');
+            showMenu();
+            hideMenu("History");
+            var exp = new RegExp('id = [-_A-Za-z0-9]{27}', 'g');
             var r = document.cookie.match(exp);
-            hideMenu("Search history");
-            while (r) {
-                for (var i = 0; i < places.length; i++) {
-                    if (places[i][0] == r.splice(0, 5)) {
-                        createNode(places[i][1]);
+            for (var i = 0; i < r.length; i++) {
+                id = r[i];
+                for (var j = 0; j < places.length; j++) {
+                    if (places[j][0] == id.split(" ")[2]) {
+                        createNode(places[j][1]);
+                        break;
                     }
                 }
                 r = document.cookie.match(exp);
@@ -466,16 +450,6 @@ $(document).ready(function () {
         }
     })
 })
-
-// $(document).ready(function () {
-//     ('#checkBeen').onchange(function (place) {
-//         if (this.checked) {
-//             alert("HELLO WORLD!");
-//             var text = place.place_id;
-//             document.cookie = id + "=" + text + ";";
-//         }
-//     });
-// });
 
 function callback(Results, PlacesServiceStatus) {
     console.log(request.keyword);
@@ -548,8 +522,10 @@ function initPlaces(Results, number) {
         if (alreadyFound == -1) {
             service.getDetails({ placeId: Results[i].place_id }, function (PlaceResult, PlacesServiceStatus) {
                 if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OK) {
-                    places.push([PlaceResult.place_id, PlaceResult, parseID(gText), request.location]);
-                    loadedThis++;
+                    if (((!($('#openNowCheck').checked)) || (PlaceResult.openNow)) && ((!($('#hasPhoto').checked)) || (PlaceResult.photos.length)) && (PlaceResult.rating >= minRating) && (PlaceResult.rating <= maxRating)) {
+                        places.push([PlaceResult.place_id, PlaceResult, parseID(gText), request.location]);
+                        loadedThis++;
+                    }
                     if (loadedThis == number) {
                         deferred.resolve();
                     }
@@ -605,9 +581,7 @@ function addHint(marker) {
                 service.getDetails({ placeId: marker.title }, function (PlaceResult, PlacesServiceStatus) {
                     if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OK) {
                         places.push([marker.title, PlaceResult, parseID(gText), request.location]);
-                        if (((!($('#openNowCheck').checked)) || (PlaceResult.openNow)) && ((!($('#hasPhoto').checked)) || (PlaceResult.photos.length)) && (PlaceResult.rating >= minRating) && (PlaceResult.rating <= maxRating)) {
-                            createNode(PlaceResult);
-                        }
+                        createNode(PlaceResult);
                         placeInfo = places[places.length - 1][1];
                         resolve(placeInfo);
                     }
