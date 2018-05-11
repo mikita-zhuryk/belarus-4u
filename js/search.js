@@ -524,8 +524,8 @@ function initPlaces(Results, number) {
                 if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OK) {
                     if (((!($('#openNowCheck').checked)) || (PlaceResult.openNow)) && ((!($('#hasPhoto').checked)) || (PlaceResult.photos.length)) && (PlaceResult.rating >= minRating) && (PlaceResult.rating <= maxRating)) {
                         places.push([PlaceResult.place_id, PlaceResult, parseID(gText), request.location]);
-                        loadedThis++;
                     }
+                    loadedThis++;
                     if (loadedThis == number) {
                         deferred.resolve();
                     }
