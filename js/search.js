@@ -113,13 +113,6 @@ function createNode(place) {
     bottomBorder.className = "listNodeBorder";
     listNode.appendChild(bottomBorder);
     listNode.addEventListener('click', function () {
-<<<<<<< HEAD
-=======
-        //var lastID = -1;
-        if (checkBeenCheck(place)) {
-            document.getElementById('checkBeen').checked;
-        }
->>>>>>> 0638ff7a13082a0a2987f588d5a3796cd28a582d
         if (document.getElementById('infoWindow').style.visibility == "visible") {
             if (document.getElementsByName("identifyWnd").innerHTML == place.place_id) {
                 hideInfoWnd();
@@ -148,11 +141,7 @@ function hideInfoWnd() {
 
 function writeCookie(place) {
     var text = place.place_id;
-<<<<<<< HEAD
     var exp = new RegExp("id = " + text);
-=======
-    var exp = new RegExp("[=^;*|$()]*" + text + "[=^;*|$()]*");
->>>>>>> 0638ff7a13082a0a2987f588d5a3796cd28a582d
     var r = document.cookie.match(exp);
     if (!r) {
         var date = new Date();
@@ -177,17 +166,10 @@ function updateInfoWnd(place) {
     document.getElementById("websiteWnd").href = undefined;
     document.getElementById("websiteWnd").classList.remove("disabled");
     if (place.name.length) {
-<<<<<<< HEAD
         if (place.name.length >= 33) {
             titleWnd.innerHTML = place.name.substring(0, 32) + "...";
         }
         else {
-=======
-        if(place.name.length >= 33){
-            titleWnd.innerHTML = place.name.substring(0, 32) + "...";
-        }
-        else{
->>>>>>> 0638ff7a13082a0a2987f588d5a3796cd28a582d
             titleWnd.innerHTML = place.name;
         }
     }
@@ -226,19 +208,12 @@ function updateInfoWnd(place) {
         document.getElementById("websiteWnd").innerHTML = "No data for website";
         document.getElementById("websiteWnd").classList.add('disabled');
     }
-<<<<<<< HEAD
     if (place.photos !== undefined) {
         if (place.photos.length > 2) {
             document.getElementById("gallery").style.background = "url(" + place.photos[1].getUrl({ maxWidth: 1000, maxHeight: 1000 }) + ") no-repeat center top";
         }
     }
     else {
-=======
-    if (place.photos.length > 2) {
-        document.getElementById("gallery").style.background = "url(" + place.photos[1].getUrl({ maxWidth: 1000, maxHeight: 1000 }) + ") no-repeat center top";
-    }
-    else{
->>>>>>> 0638ff7a13082a0a2987f588d5a3796cd28a582d
         document.getElementById("gallery").style.background = 'url(images/noData.jpg) no-repeat center top';
     }
     var reviews = document.getElementsByClassName('reviewText');
@@ -281,24 +256,6 @@ function checkBeenCheck(place) {
     }
 }
 
-<<<<<<< HEAD
-=======
-$(document).ready(function (place) {
-    $('#cvisitCheck').click(function (place) {
-        if (!checkBeenCheck(place)) {
-            document.getElementById('checkBeen').checked;
-            // alert("Visited, the writing cookie");
-            var text = place.place_id;
-            var date = new Date();
-            date.setMonth(date.getMonth() + 5);
-            document.cookie = id + date.toString() + "=" + text + ";";
-            alert("id" + date.toString() + "=" + text + ";");
-            alert(document.cookie);
-        }
-    });
-});
-
->>>>>>> 0638ff7a13082a0a2987f588d5a3796cd28a582d
 function removeMarkers(markers) {
     if (markers.length) {
         for (var i = 0; i < markers.length; i++) {
@@ -472,7 +429,6 @@ $(document).ready(function () {
 
 $(document).ready(function () {
     $('#history-btn').click(function () {
-<<<<<<< HEAD
         if (!displayMenu && (document.getElementById('listHead').innerHTML == "History")) {
             showMenu();
         }
@@ -487,20 +443,6 @@ $(document).ready(function () {
                     if (places[j][0] == id.split(" ")[2]) {
                         createNode(places[j][1]);
                         break;
-=======
-        console.log(document.cookie);
-        if (!displayMenu || ($('#listHead').innerHTML == "Search history")) {
-            showMenu();
-        }
-        else {
-            var exp = new RegExp('id = \w*');
-            var r = document.cookie.match(exp);
-            hideMenu("Search history");
-            while (r) {
-                for (var i = 0; i < places.length; i++) {
-                    if (places[i][0] == r.splice(0, 5)) {
-                        createNode(places[i][1]);
->>>>>>> 0638ff7a13082a0a2987f588d5a3796cd28a582d
                     }
                 }
                 r = document.cookie.match(exp);
