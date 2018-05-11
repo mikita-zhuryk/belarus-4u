@@ -10,8 +10,6 @@ var places = [];
 var lastSearch = [];
 var deferred = $.Deferred();
 var mapDiv;
-var cookie_string = "expires=9/8/2020 00:00:00";
-var cache = new Object();
 var pending = true;
 var resultArr;
 var list;
@@ -20,6 +18,7 @@ var maxRating = 5.0;
 
 $(window).on('load', function () {
     mapDiv = document.getElementById('mapHandler');
+    document.cookie = "Date = " + new Date();
 })
 
 function performSearch(text) {
@@ -143,22 +142,22 @@ function writeCookie(place) {
     var text = place.place_id;
     var exp = new RegExp("id = " + text);
     var r = document.cookie.match(exp);
-    if (!r) {
-        var date = new Date();
-        date.setMonth(date.getMonth() + 5);
-        document.cookie = "Date = " + date + "; id = " + text + "; ";
+    if (!r || (r == undefined) || (r.length == 0)) {
+        document.cookie += "id = " + text.toString();
     }
 }
 
 function updateInfoWnd(place) {
-    document.getElementById('checkBeen').checked = false;
-    if (checkBeenCheck(place)) {
+    if (checkBeen(place)) {
         document.getElementById('checkBeen').checked = true;
     }
-    //$('#checkBeen').on('input', writeCookie(place));
-    document.getElementById('checkBeen').addEventListener('input', function () {
-        writeCookie(place);
-        //document.getElementById('checkBeen').removeEventListener('input');
+    else {
+        document.getElementById('checkBeen').checked = false;
+    }
+    $('#checkBeen').change(function () {
+        if (this.checked) {
+            writeCookie(place);
+        }
     })
     mapDiv.style.visibility = "hidden";
     var titleWnd = document.getElementsByClassName("titleWnd")[0];
@@ -184,10 +183,10 @@ function updateInfoWnd(place) {
         rateWnd.style.width = 0 + "px";
     }
     if (place.formatted_address !== undefined) {
-        if(place.formatted_address.length > 38){
+        if (place.formatted_address.length > 38) {
             document.getElementById("placeAddressWnd").innerHTML = place.formatted_address.substring(0, 38) + "...";
         }
-        else{
+        else {
             document.getElementById("placeAddressWnd").innerHTML = place.formatted_address;
         }
     }
@@ -244,16 +243,16 @@ function updateInfoWnd(place) {
     });
 }
 
-function checkBeenCheck(place) {
+function checkBeen(place) {
     var text = place.place_id;
-    var exp = new RegExp("[=^;*|$()]*" + text + "[=^;*|$()]*");
+    var exp = new RegExp("id = " + text.toString());
     var r = document.cookie.match(exp);
     if (r) {
         return true;
     }
     else {
         return false;
-    }
+}
 }
 
 function removeMarkers(markers) {
@@ -635,6 +634,7 @@ function addHint(marker) {
         infoWnd.close(marker);
     })
     marker.addListener('click', function () {
+        document.getElementsByName("identifyWnd").innerHTML = placeInfo.place_id;
         updateInfoWnd(placeInfo);
     })
 }
