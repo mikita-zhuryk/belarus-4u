@@ -507,7 +507,11 @@ ul {
     float: left;
 }
 
+<<<<<<< HEAD
 .afterCheckboxFilter{
+=======
+.afterCheckboxFiltr{
+>>>>>>> 0638ff7a13082a0a2987f588d5a3796cd28a582d
     margin-top: 5px;
     color: #ECEAE4;
     font-size: 20px;
