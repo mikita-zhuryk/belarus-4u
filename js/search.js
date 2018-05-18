@@ -151,16 +151,26 @@ function writeCookie(place) {
 function updateInfoWnd(place) {
     if (checkBeen(place)) {
         document.getElementById('checkBeen').checked = true;
+        document.getElementById('reviews').style.height = "calc(70% - 190px)";        
+        document.getElementById('reviewForm').style.height = "58px";
         document.getElementById('reviewForm').style.visibility = "visible";
     }
     else {
         document.getElementById('checkBeen').checked = false;
+        document.getElementById('reviews').style.height = "";        
+        document.getElementById('reviewForm').style.height = "0px";
         document.getElementById('reviewForm').style.visibility = "hidden";
     }
     $('#checkBeen').change(function () {
         if (this.checked) {
+            document.getElementById('reviews').style.height = "calc(70% - 190px)";                    
+            document.getElementById('reviewForm').style.height = "58px";
             document.getElementById('reviewForm').style.visibility = "visible";
             writeCookie(place);
+        }
+        else{
+            document.getElementById('reviews').style.height = "";                    
+            document.getElementById('reviewForm').style.height = "0px";       
         }
     })
     mapDiv.style.visibility = "hidden";
@@ -213,11 +223,11 @@ function updateInfoWnd(place) {
     }
     if (place.photos !== undefined) {
         if (place.photos.length > 2) {
-            document.getElementById("gallery").style.background = "url(" + place.photos[1].getUrl({ maxWidth: 1000, maxHeight: 1000 }) + ") no-repeat center top";
+            document.getElementById('placePhoto').src = place.photos[1].getUrl({ maxWidth: 1000, maxHeight: 1000 }); 
         }
     }
     else {
-        document.getElementById("gallery").style.background = 'url(images/noData.jpg) no-repeat center top';
+        document.getElementById('placePhoto').src = 'images/noData.jpg';
     }
     if (place.reviews !== undefined) {
         var reviews = document.getElementsByClassName('reviewText');
