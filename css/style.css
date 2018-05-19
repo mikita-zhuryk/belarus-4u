@@ -24,7 +24,7 @@
     left: 320px;
     height: 100%;
     width: calc(100% - 320px);
-    z-index: auto;
+    z-index: -1;
 }
 
 #setPos {
@@ -99,7 +99,8 @@ ul {
     border-right: 1px solid #ECEAE4;
 }
 
-.filterWnd {
+#filterWnd {
+    margin-top: 60px;
     display: flex;
     flex-direction: column;
     height: calc(100% - 115px);
@@ -284,7 +285,7 @@ ul {
     background: #212222;
     z-index: 0;
     overflow: hidden;
-    visibility: hidden;  
+    display: none;  
 }
 
 #identifyWnd{
@@ -328,6 +329,10 @@ ul {
     box-shadow: 0 -3px rgb(61, 26, 128) inset;
     transition: 0.2s;
     z-index: 1;
+}
+
+#showBtn{
+    z-index: 0;
 }
 
 #hideBtn:hover, #showBtn:hover{
@@ -452,7 +457,7 @@ ul {
     display: flex;
     flex-direction: column;
     width: 51%;
-    height: calc(70% - 130px);
+    height: calc(70% - 132px);
     color: white;
     font-size: 25px;
     font-weight: 300;
@@ -484,17 +489,14 @@ ul {
     height: 30px;
 }
 
-.filterWnd {
-    margin-top: 60px;
-}
-
 .slider {
-    /* margin: 15px 5px 5px 5px; */
     width:230px;
     height:11px;
     background:url(slider-bg.png);
     position: relative;
     margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 5px;
     padding: 0 10px;
 }
 
