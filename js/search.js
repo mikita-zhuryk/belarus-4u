@@ -113,7 +113,7 @@ function createNode(place) {
     bottomBorder.className = "listNodeBorder";
     listNode.appendChild(bottomBorder);
     listNode.addEventListener('click', function () {
-        if (document.getElementById('infoWindow').style.visibility == "visible") {
+        if (document.getElementById('infoWindow').style.display != "none") {
             if (document.getElementsByName("identifyWnd").innerHTML == place.place_id) {
                 hideInfoWnd();
                 document.getElementById('reviewForm').style.visibility = "hidden";
@@ -133,11 +133,10 @@ function createNode(place) {
 }
 
 function hideInfoWnd() {
-    document.getElementById('infoWindow').style.visibility = "hidden";
+    $('#infoWindow').hide('speed');
     if (mapDiv.firstChild.id == 'showBtn') {
         mapDiv.removeChild(mapDiv.firstChild);
     }
-    mapDiv.style.visibility = "visible";
 }
 
 function writeCookie(place) {
@@ -155,19 +154,25 @@ function updateInfoWnd(place) {
     }
     if (checkBeen(place)) {
         document.getElementById('checkBeen').checked = true;
-        document.getElementById('reviewForm').style.visibility = "visible";
+        document.getElementById('reviews').style.height = "calc(70% - 190px)";        
+        document.getElementById('reviewForm').style.height = "58px";
     }
     else {
         document.getElementById('checkBeen').checked = false;
-        document.getElementById('reviewForm').style.visibility = "hidden";
+        document.getElementById('reviews').style.height = "";        
+        document.getElementById('reviewForm').style.height = "0px";
     }
     $('#checkBeen').change(function () {
         if (this.checked) {
-            document.getElementById('reviewForm').style.visibility = "visible";
+            document.getElementById('reviews').style.height = "calc(70% - 190px)";                    
+            document.getElementById('reviewForm').style.height = "58px";
             writeCookie(place);
         }
+        else{
+            document.getElementById('reviews').style.height = "";                    
+            document.getElementById('reviewForm').style.height = "0px";       
+        }
     })
-    mapDiv.style.visibility = "hidden";
     var titleWnd = document.getElementsByClassName("titleWnd")[0];
     titleWnd.id = place.place_id;
     document.getElementById("websiteWnd").href = undefined;
@@ -217,11 +222,11 @@ function updateInfoWnd(place) {
     }
     if (place.photos !== undefined) {
         if (place.photos.length > 2) {
-            document.getElementById("gallery").style.background = "url(" + place.photos[1].getUrl({ maxWidth: 1000, maxHeight: 1000 }) + ") no-repeat center top";
+            document.getElementById('placePhoto').src = place.photos[1].getUrl({ maxWidth: 1000, maxHeight: 1000 }); 
         }
     }
     else {
-        document.getElementById("gallery").style.background = 'url(images/noData.jpg) no-repeat center top';
+        document.getElementById('placePhoto').src = 'images/noData.jpg';
     }
     if (place.reviews !== undefined) {
         var reviews = document.getElementsByClassName('reviewText');
@@ -234,19 +239,17 @@ function updateInfoWnd(place) {
     /////////////////////////////////////////////
 
     var infoWindow = document.getElementById("infoWindow")
-    infoWindow.style.visibility = "visible";
+    $('#infoWindow').show('speed');
     var hideBtn = document.getElementById('hideBtn');
     hideBtn.addEventListener("click", function () {
-        mapDiv.style.visibility = "visible";
-        infoWindow.style.visibility = "hidden";
+        $('#infoWindow').hide(0);
         if (mapDiv.firstChild.id !== 'showBtn') {
             var showBtn = document.createElement("button");
             showBtn.className = "showBtn";
             showBtn.id = "showBtn";
             showBtn.innerHTML = "Show info";
             showBtn.addEventListener("click", function () {
-                mapDiv.style.visibility = "hidden";
-                infoWindow.style.visibility = "visible";
+                $('#infoWindow').show(0);
             });
             mapDiv.insertBefore(showBtn, mapDiv.firstChild);
         }
@@ -359,8 +362,8 @@ function showMenu() {
     hideInfoWnd();
     document.getElementById('listHead').innerHTML = "";
     document.getElementById('listHead').style.visibility = "hidden";
-    $('.filterWnd').hide(10);
-    $('.menu').show(10);
+    $('#filterWnd').hide('speed');
+    $('.menu').show('speed');
     displayMenu = true;
 }
 
@@ -369,8 +372,8 @@ function hideMenu(text) {
     if (text !== "History") {
         list.addEventListener("scroll", loadSome, true);
     }
-    $('.filterWnd').hide(10);
-    $('.menu').hide(10);
+    $('#filterWnd').hide('speed');
+    $('.menu').hide('speed');
     $('#listHead').text(text);
     document.getElementById('listHead').style.visibility = "visible";
     displayMenu = false;

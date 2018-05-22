@@ -64,8 +64,8 @@
         <div class="listHead">
             <a id="listHead"></a>
         </div>
-        <div class="filterWnd" style="display: none">
-            <div class="slider" id="range-slider"></div>
+        <div id="filterWnd" style="display: none">
+            <div class="slider" id = "range-slider"></div>
             <p>
                 <label for="radius" style="color: #ECEAE4; font-size: 25px;">Search radius: </label>
                 <input class="sliders-input" type="text" id="radius" value="3500 m" />
@@ -121,29 +121,18 @@
             </li>
         </ul>
     </div>
-    <div id="infoWindow">
-        <div id="identifyWnd" visibility="hidden">Place ID</div>
-        <p class="titleWnd"></p>
-        <div id="rateWnd">
-            <img id="starsWnd" src="images/Stars.png">
-        </div>
-        <button id="hideBtn">Show map</button>
-        <div id="gallery"></div>
-        <div id="placeInfoWnd">
-            <div class="infoWnd">
-                <img src="images\Address.png" alt="Adderss">
-                <span id="placeAddressWnd"></span>
-            </div>
-            <div class="infoWnd">
-                <img src="images\Phone.png" alt="Phone number">
-                <span id="placePhoneWnd"></span>
-            </div>
-            <div class="infoWnd">
-                <img src="images\Website.png" alt="Website">
-                <a target="_blank" id="websiteWnd"></a>
-            </div>
-            <div class="infoWnd" id="visitCheck">
-                <label class="container">
+    <div id = "infoWindow">
+        <div id = "identifyWnd" visibility = "hidden">Place ID</div>
+        <p class = "titleWnd"></p>
+        <div id = "rateWnd"><img id = "starsWnd" src = "images/Stars.png"></div>
+        <button id = "hideBtn">Show map</button>
+        <div id = "gallery"><img id = "placePhoto"></div>
+        <div id = "placeInfoWnd">
+            <div class = "infoWnd"><img src = "images\Address.png" alt = "Adderss"><span id = "placeAddressWnd"></span></div>
+            <div class = "infoWnd"><img src = "images\Phone.png" alt = "Phone number"><span id = "placePhoneWnd"></span></div>
+            <div class = "infoWnd"><img src = "images\Website.png" alt = "Website"><a target = "_blank" id = "websiteWnd"></a></div>
+            <div class = "infoWnd" id="visitCheck">
+                <label class="container" >
                     <input type="checkbox" id="checkBeen">
                     <span class="checkmark"></span>
                 </label>
@@ -166,10 +155,10 @@
                     <span class="reviewText"></span>
                 </div>
             </div>
-            <div id="reviewForm" visibility="hidden">
-                <input type="text" id="userReview" value="Type your review here" />
-                <input type="button" id="leaveReview" value="Send review" />
-            </div>
+        </div>
+        <div id = "reviewForm">
+            <input type="text" id = "userReview" placeholder="Type your review here"/>
+            <input type="button" id = "leaveReview" value="Send review"/>
         </div>
     </div>
     <div id="setScreen">

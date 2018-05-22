@@ -24,7 +24,7 @@
     left: 320px;
     height: 100%;
     width: calc(100% - 320px);
-    z-index: auto;
+    z-index: -1;
 }
 
 #setPos {
@@ -99,7 +99,8 @@ ul {
     border-right: 1px solid #ECEAE4;
 }
 
-.filterWnd {
+#filterWnd {
+    margin-top: 60px;
     display: flex;
     flex-direction: column;
     height: calc(100% - 115px);
@@ -284,7 +285,7 @@ ul {
     background: #212222;
     z-index: 0;
     overflow: hidden;
-    visibility: hidden;  
+    display: none;  
 }
 
 #identifyWnd{
@@ -330,6 +331,10 @@ ul {
     z-index: 1;
 }
 
+#showBtn{
+    z-index: 0;
+}
+
 #hideBtn:hover, #showBtn:hover{
     background: rgb(61, 26, 128);
 }
@@ -344,14 +349,20 @@ ul {
 #gallery{
     position: relative;
     float: left;
-    height: calc(96% - 130px);
-    width: 42%;
+    height: calc(96% - 140px);
+    width: calc(42% - 10px);
     background: #757575;
     background-size: cover;
-    -moz-background-size: 100%;
-    margin-left: 3%;
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+    margin: 5px 0px 0px calc(3% + 5px);
     overflow: hidden;
-    box-shadow: 0px 0px 0px 5px #181818 inset;
+    box-shadow: 0px 0px 0px 5px #181818;
+}
+
+#placePhoto{
+    width: 100%;
+    height: 100%;
 }
 
 #placeInfoWnd{
@@ -442,11 +453,11 @@ ul {
     width: 485px;
 }
 
-#reviews{
+#reviews{   
     display: flex;
     flex-direction: column;
     width: 51%;
-    height: calc(70% - 130px);
+    height: calc(70% - 132px);
     color: white;
     font-size: 25px;
     font-weight: 300;
@@ -478,17 +489,14 @@ ul {
     height: 30px;
 }
 
-.filterWnd {
-    margin-top: 60px;
-}
-
 .slider {
-    /* margin: 15px 5px 5px 5px; */
     width:230px;
     height:11px;
     background:url(slider-bg.png);
     position: relative;
     margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 5px;
     padding: 0 10px;
 }
 
@@ -514,19 +522,50 @@ ul {
     padding-left: 45px;
 }
 
+#reviewForm{
+    padding-top: 6px;
+    width: 51%;    
+    height: 0px;
+    margin-left: 46%;    
+    overflow: hidden;
+    background: #181818;
+}
+
 #userReview {
-    position: inherit;
-    width: 70%;
-    height: 40px;
-    font-size: 14px;
+    padding: 0px 10px;
+    margin: 2px 3px 2px 6px;
+    width: calc(100% - 195px);
+    height: 45px;
+    font-size: 20px;
+    background: #ECEAE4;
+    border: none;
+    outline: none;
     overflow: hidden;
 }
 
-#leaveReview {
-    position: inherit;
-    width: 20%;
-    height: 40px;
-    font-size: 14px;
+#leaveReview{
+    margin: 2px 0px 7px 3px;
+    width: 150px;
+    height: 50px;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 400;
+    color: white;
+    background: rgb(78, 28, 167);
+    box-shadow: 0 -3px rgb(61, 26, 128) inset;
+    transition: 0.2s;
+}
+
+#leaveReview:hover{
+    background: rgb(61, 26, 128);
+}
+
+#leaveReview:active{
+    color: rgb(52, 22, 107);
+    background: white;
+    box-shadow: 0 -3px rgb(184, 184, 184) inset;
+    transition: 0.2s
 }
 
 #setScreen {

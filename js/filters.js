@@ -60,7 +60,7 @@ $(document).ready(function () {
     })
     //TODO: Make textboxes inputable (with string splitting)
     $('#filter-btn').click(function () {
-        var filterWnd = document.getElementsByClassName('filterWnd')[0];
+        var filterWnd = document.getElementById('filterWnd');
         if (!filtersShown) {
             if (document.getElementById('list').hasChildNodes()) {
                 listHeadStr = document.getElementById('listHead').innerHTML;
@@ -68,12 +68,12 @@ $(document).ready(function () {
             filtersShown = true;
             hideMenu("Filters");
             //filterWnd.style.visibility = "visible";
-            $('.filterWnd').show(0);
+            $('#filterWnd').show('speed');
         }
         else {
             filtersShown = false;
             //filterWnd.style.visibility = "hidden";
-            $('.filterWnd').hide(0);
+            $('#filterWnd').hide('speed');
             if (listHeadStr == undefined) {
                 document.getElementById('listHead').style.visibility = "hidden";
                 showMenu();
