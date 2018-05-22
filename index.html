@@ -3,9 +3,9 @@
 
 <head>
     <title>Belarus4U</title>
+    <meta charset="utf-8"/>
     <link href="css/style.css" type="text/css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans:100,100i,300,300i,400,400i,500,500i,700" rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans:100,100i,300,300i,400,400i,500,500i,700" rel="stylesheet"/>
     <script src='js/jquery-3.3.1.min.js'></script>
     <script src="js/menu-animation.js"></script>
     <script src='js/search.js'></script>
@@ -14,6 +14,8 @@
     <script src='js/searchSimilar.js'></script>
     <script src='js/review.js'></script>
     <script src="js/settings.js"></script>
+    <script type = 'text/ru' src="lang/ru-ru.txt"></script>
+    <script type = 'text/en' src="lang/en-gb.txt"></script>
     <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"
     />
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
@@ -165,7 +167,7 @@
         <h1 id="setName">Settings</h1>
         <div class="listCont" id="langList">
             <p class="listDescr" id="langDescr">Select language: </p>
-            <input class="optList" list="lang" value = "English">
+            <input class="optList" id="optLang" list="lang" value = "English">
             <datalist id="lang">
                 <option id="ru-ru" value="Russian"/>
                 <option id="en-gb" value="English"/>
@@ -174,7 +176,7 @@
         </div>
         <div class="listCont" id="colorList">
             <p class="listDescr" id="colorDescr">Select color scheme:</p>
-            <input class="optList" list="colorSchemes" value="Standard">
+            <input class="optList" id="optColor" list="colorSchemes" value="Standard">
             <datalist id="colorSchemes">
                 <option id="standard" value="Standard"/>
                 <option id="altern" value="Alternative"/>

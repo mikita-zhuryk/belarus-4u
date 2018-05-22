@@ -1,0 +1,30 @@
+Set position
+Food
+Cafe
+Meal Takeaway
+Delivery
+Restaurant
+Bar
+Lodging
+Lodging
+Campground
+Shopping
+Shopping mall
+Clothing
+Leisure
+Gallery
+Museum
+Zoo
+Casino
+Spa
+Search radius:
+Price level:
+Place rating:
+Open now
+Has photos available
+Place ID
+Show map
+I've been here
+Reviews
+Select language:
+Select color scheme:
