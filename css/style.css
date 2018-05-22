@@ -528,3 +528,30 @@ ul {
     height: 40px;
     font-size: 14px;
 }
+
+#setScreen {
+    position: fixed;
+    height: 100%;
+    width: calc(100% - 320px);
+    left: 320px;
+    background: #212222;
+    z-index: 0;
+    overflow: hidden;
+    display: none;
+}
+
+.listDescr {
+    color: #FFF;
+    font-size: 28px;
+}
+
+#setName {
+    color: #FFF;
+    font-size: 48px;
+    text-align: center;
+}
+
+.optList {
+    left: 5%;
+    font-size: 24px;
+}

@@ -3,16 +3,19 @@
 
 <head>
     <title>Belarus4U</title>
-    <link href="css/style.css" type="text/css" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans:100,100i,300,300i,400,400i,500,500i,700" rel="stylesheet"/>
+    <link href="css/style.css" type="text/css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans:100,100i,300,300i,400,400i,500,500i,700" rel="stylesheet"
+    />
     <script src='js/jquery-3.3.1.min.js'></script>
     <script src="js/menu-animation.js"></script>
     <script src='js/search.js'></script>
     <script src='js/filters.js'></script>
     <script src='js/map-init.js'></script>
-    <script src='js/random.js'></script>
+    <script src='js/searchSimilar.js'></script>
     <script src='js/review.js'></script>
-    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+    <script src="js/settings.js"></script>
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"
+    />
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 </head>
 
@@ -62,30 +65,32 @@
             <a id="listHead"></a>
         </div>
         <div class="filterWnd" style="display: none">
-            <div class="slider" id = "range-slider"></div>
+            <div class="slider" id="range-slider"></div>
             <p>
-                <label for="radius" style = "color: #ECEAE4; font-size: 25px;">Search radius: </label>
-                <input class = "sliders-input" type="text" id="radius" value = "3500 m"/>
+                <label for="radius" style="color: #ECEAE4; font-size: 25px;">Search radius: </label>
+                <input class="sliders-input" type="text" id="radius" value="3500 m" />
             </p>
-            <div class="slider" id = "price-slider"></div>
+            <div class="slider" id="price-slider"></div>
             <p>
-                <label for="price" style = "color: #ECEAE4; font-size: 25px;">Price level: </label>
-                <input class = "sliders-input" type="text" id="price" value = "[0, 3]"/>
+                <label for="price" style="color: #ECEAE4; font-size: 25px;">Price level: </label>
+                <input class="sliders-input" type="text" id="price" value="[0, 3]" />
             </p>
-            <div class="slider" id = "rating-slider"></div>
+            <div class="slider" id="rating-slider"></div>
             <p>
-                <label for="rating" style = "color: #ECEAE4; font-size: 25px;">Place rating: </label>
-                <input class = "sliders-input" type="text" id="rating" value = "[3, 5]"/>
+                <label for="rating" style="color: #ECEAE4; font-size: 25px;">Place rating: </label>
+                <input class="sliders-input" type="text" id="rating" value="[3, 5]" />
             </p>
-            
+
             <label class="container">
                 <input type="checkbox" id="openNowCheck">
-               <span class="checkmark" id = "checkBoxOpen"></span>
-            </label><span class = "afterCheckboxFilter">Open now</span>
+                <span class="checkmark" id="checkBoxOpen"></span>
+            </label>
+            <span class="afterCheckboxFilter">Open now</span>
             <label class="container">
                 <input type="checkbox" id="hasPhoto">
-               <span class="checkmark" id = "checkBoxPhoto"></span>
-            </label><span class = "afterCheckboxFilter">Has photos available</span>
+                <span class="checkmark" id="checkBoxPhoto"></span>
+            </label>
+            <span class="afterCheckboxFilter">Has photos available</span>
         </div>
         <ul class="list" id="list"></ul>
         <ul class="bottom-menu">
@@ -110,41 +115,84 @@
                 </a>
             </li>
             <li class="bottom-item">
-                <a class="bottom-ref" href="#">
+                <a class="bottom-ref" href="#" id="settings-btn">
                     <img class="bottom-icons" src="images\Service.png" alt="Service" />
                 </a>
             </li>
         </ul>
     </div>
-    <div id = "infoWindow">
-        <div id = "identifyWnd" visibility = "hidden">Place ID</div>
-        <p class = "titleWnd"></p>
-        <div id = "rateWnd"><img id = "starsWnd" src = "images/Stars.png"></div>
-        <button id = "hideBtn">Show map</button>
-        <div id = "gallery"></div>
-        <div id = "placeInfoWnd">
-            <div class = "infoWnd"><img src = "images\Address.png" alt = "Adderss"><span id = "placeAddressWnd"></span></div>
-            <div class = "infoWnd"><img src = "images\Phone.png" alt = "Phone number"><span id = "placePhoneWnd"></span></div>
-            <div class = "infoWnd"><img src = "images\Website.png" alt = "Website"><a target = "_blank" id = "websiteWnd"></a></div>
-            <div class = "infoWnd" id="visitCheck">
-                <label class="container" >
+    <div id="infoWindow">
+        <div id="identifyWnd" visibility="hidden">Place ID</div>
+        <p class="titleWnd"></p>
+        <div id="rateWnd">
+            <img id="starsWnd" src="images/Stars.png">
+        </div>
+        <button id="hideBtn">Show map</button>
+        <div id="gallery"></div>
+        <div id="placeInfoWnd">
+            <div class="infoWnd">
+                <img src="images\Address.png" alt="Adderss">
+                <span id="placeAddressWnd"></span>
+            </div>
+            <div class="infoWnd">
+                <img src="images\Phone.png" alt="Phone number">
+                <span id="placePhoneWnd"></span>
+            </div>
+            <div class="infoWnd">
+                <img src="images\Website.png" alt="Website">
+                <a target="_blank" id="websiteWnd"></a>
+            </div>
+            <div class="infoWnd" id="visitCheck">
+                <label class="container">
                     <input type="checkbox" id="checkBeen">
-                   <span class="checkmark"></span>
-                </label><span class = "afterCheckbox">I've been here</span>
+                    <span class="checkmark"></span>
+                </label>
+                <span class="afterCheckbox">I've been here</span>
             </div>
         </div>
-        <div id = "reviews"><div id = "miniHeadWnd" font-weight = "500">Reviews</div>
-            <div id = "reviewsWnd">
-                <div class = "review"><img src = "images\User-1.png"><span class = "reviewText"></span></div>
-                <div class = "review"><img src = "images\User-2.png"><span class = "reviewText"></span></div>
-                <div class = "review"><img src = "images\User-3.png"><span class = "reviewText"></span></div>
+        <div id="reviews">
+            <div id="miniHeadWnd" font-weight="500">Reviews</div>
+            <div id="reviewsWnd">
+                <div class="review">
+                    <img src="images\User-1.png">
+                    <span class="reviewText"></span>
+                </div>
+                <div class="review">
+                    <img src="images\User-2.png">
+                    <span class="reviewText"></span>
+                </div>
+                <div class="review">
+                    <img src="images\User-3.png">
+                    <span class="reviewText"></span>
+                </div>
             </div>
-            <div id = "reviewForm" visibility = "hidden">
-                <input type="text" id = "userReview" value="Type your review here"/>
-                <input type="button" id = "leaveReview" value="Send review"/>
+            <div id="reviewForm" visibility="hidden">
+                <input type="text" id="userReview" value="Type your review here" />
+                <input type="button" id="leaveReview" value="Send review" />
             </div>
+        </div>
+    </div>
+    <div id="setScreen">
+        <h1 id="setName">Settings</h1>
+        <div class="listCont" id="langList">
+            <p class="listDescr" id="langDescr">Select language: </p>
+            <input class="optList" list="lang" value = "English">
+            <datalist id="lang">
+                <option id="ru-ru" value="Russian"/>
+                <option id="en-gb" value="English"/>
+                <option id="de-de" value="Deutsch"/>
+            </datalist>
+        </div>
+        <div class="listCont" id="colorList">
+            <p class="listDescr" id="colorDescr">Select color scheme:</p>
+            <input class="optList" list="colorSchemes" value="Standard">
+            <datalist id="colorSchemes">
+                <option id="standard" value="Standard"/>
+                <option id="altern" value="Alternative"/>
+            </datalist>
         </div>
     </div>
 
 </body>
+
 </html>

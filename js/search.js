@@ -116,6 +116,7 @@ function createNode(place) {
         if (document.getElementById('infoWindow').style.visibility == "visible") {
             if (document.getElementsByName("identifyWnd").innerHTML == place.place_id) {
                 hideInfoWnd();
+                document.getElementById('reviewForm').style.visibility = "hidden";
             }
             else {
                 updateInfoWnd(place);
@@ -149,6 +150,9 @@ function writeCookie(place) {
 }
 
 function updateInfoWnd(place) {
+    if (displaySet) {
+        hideSettings();
+    }
     if (checkBeen(place)) {
         document.getElementById('checkBeen').checked = true;
         document.getElementById('reviewForm').style.visibility = "visible";
@@ -278,7 +282,7 @@ function loadSome() {
         var lastLoaded = -1;
         var found = false;
         list = document.getElementById('list');
-        if (((list.scrollHeight - (list.scrollTop + list.clientHeight)) <= 20) && ((list.scrollHeight - (list.scrollTop + list.clientHeight)) > 0)) {
+        if ((list.scrollHeight - (list.scrollTop + list.clientHeight)) <= 150) {
             locked = true;
             for (var i = 0; i < resultArr.length; i++) {
                 found = false;
@@ -293,7 +297,7 @@ function loadSome() {
                     break;
                 }
             }
-            if (lastLoaded !== resultArr.length - 1) {
+            if (lastLoaded !== -1) {
                 service.getDetails({ placeId: resultArr[lastLoaded + 1].place_id }, function (PlaceResult, PlacesServiceStatus) {
                     if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OK) {
                         places.push([PlaceResult.place_id, PlaceResult, parseID(gText), request.location]);
@@ -321,6 +325,7 @@ function loadSome() {
                         }
                         if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.OVER_QUERY_LIMIT) {
                             console.log("OVER_QUERY_LIMIT");
+                            setTimeout(function () { locked = false; }, 500);
                         }
                         if (PlacesServiceStatus == google.maps.places.PlacesServiceStatus.REQUEST_DENIED) {
                             console.log("REQUEST_DENIED");
@@ -333,6 +338,11 @@ function loadSome() {
                         }
                     }
                 });
+            }
+            else {
+                var list = document.getElementById('list');
+                list.removeEventListener("scroll", loadSome, true);
+                locked = false;
             }
         }
     }
@@ -347,6 +357,7 @@ function showMenu() {
         child.parentNode.removeChild(child);
     }
     hideInfoWnd();
+    document.getElementById('listHead').innerHTML = "";
     document.getElementById('listHead').style.visibility = "hidden";
     $('.filterWnd').hide(10);
     $('.menu').show(10);
@@ -366,8 +377,10 @@ function hideMenu(text) {
 }
 
 function search(text) {
+    if (displaySet) {
+        hideSettings();
+    }
     gText = text;
-    //removeMarkers(markers);
     if (displayMenu == false) {
         showMenu();
     }
@@ -406,15 +419,6 @@ function search(text) {
     })
 }
 
-// $(document).ready(function() {
-//     document.getElementById('searchBox').addEventListener("input", function(str) {
-//         search(str);
-//     });
-//     $('#searchBox').input(function (str) {
-//         search(str);
-//     })
-// })
-
 $(document).ready(function () {
     $('.sub-menu-item').click(function () {
         var text = $(this).text();
@@ -436,6 +440,23 @@ $(document).ready(function () {
         }
     })
 })
+
+function createHistory() {
+    var history = [];
+    var exp = new RegExp('id = [-_A-Za-z0-9]{27}', 'g');
+    var r = document.cookie.match(exp);
+    for (var i = 0; i < r.length; i++) {
+        id = r[i];
+        for (var j = 0; j < places.length; j++) {
+            if (places[j][0] == id.split(" ")[2]) {
+                history.push(places[j]);
+                break;
+            }
+        }
+        r = document.cookie.match(exp);
+    }
+    return history;
+}
 
 $(document).ready(function () {
     $('#history-btn').click(function () {
