@@ -177,8 +177,8 @@ function updateInfoWnd(place) {
             document.getElementById('reviewForm').style.height = "0px";       
         }
     })
+    document.getElementById('identifyWnd').innerHTML = place.place_id;
     var titleWnd = document.getElementsByClassName("titleWnd")[0];
-    titleWnd.id = place.place_id;
     document.getElementById("websiteWnd").href = undefined;
     document.getElementById("websiteWnd").classList.remove("disabled");
     if (place.name.length) {
