@@ -150,9 +150,6 @@ function writeCookie(place) {
 }
 
 function updateInfoWnd(place) {
-    if (displaySet) {
-        hideSettings();
-    }
     if (checkBeen(place)) {
         document.getElementById('checkBeen').checked = true;
         document.getElementById('reviews').style.height = "calc(70% - 190px)";        
@@ -363,7 +360,8 @@ function showMenu() {
     hideInfoWnd();
     document.getElementById('listHead').innerHTML = "";
     document.getElementById('listHead').style.visibility = "hidden";
-    $('#filterWnd').hide('speed');
+    hideFilters();
+    hideSettings();
     $('.menu').show('speed');
     displayMenu = true;
 }
@@ -373,7 +371,8 @@ function hideMenu(text) {
     if (text !== historyStr) {
         list.addEventListener("scroll", loadSome, true);
     }
-    $('#filterWnd').hide('speed');
+    hideFilters();
+    hideSettings();
     $('.menu').hide('speed');
     $('#listHead').text(text);
     document.getElementById('listHead').style.visibility = "visible";
@@ -381,9 +380,6 @@ function hideMenu(text) {
 }
 
 function search(text) {
-    if (displaySet) {
-        hideSettings();
-    }
     gText = text;
     if (displayMenu == false) {
         showMenu();

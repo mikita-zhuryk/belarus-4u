@@ -8,6 +8,35 @@ var filtStr = "Filters";
 var filtersShown = false;
 var listHeadStr;
 
+function hideFilters() {
+    filtersShown = false;
+    //filterWnd.style.visibility = "hidden";
+    $('#filterWnd').hide('speed');
+}
+
+function searchAgain() {
+    if (listHeadStr == undefined) {
+        document.getElementById('listHead').style.visibility = "hidden";
+        showMenu();
+    }
+    else {
+        document.getElementById('listHead').innerHTML = listHeadStr;
+        search(listHeadStr);
+    }
+}
+
+function memoriseHead() {
+    if (document.getElementById('list').hasChildNodes()) {
+        listHeadStr = document.getElementById('listHead').innerHTML;
+    }
+}
+
+function showFilters() {
+    filtersShown = true;
+    hideMenu(filtStr);
+    $('#filterWnd').show('speed');
+}
+
 $(document).ready(function () {
     $("#range-slider").slider({
         min: 100,
@@ -64,26 +93,12 @@ $(document).ready(function () {
     $('#filter-btn').click(function () {
         var filterWnd = document.getElementById('filterWnd');
         if (!filtersShown) {
-            if (document.getElementById('list').hasChildNodes()) {
-                listHeadStr = document.getElementById('listHead').innerHTML;
-            }
-            filtersShown = true;
-            hideMenu(filtStr);
-            //filterWnd.style.visibility = "visible";
-            $('#filterWnd').show('speed');
+            memoriseHead();
+            showFilters();
         }
         else {
-            filtersShown = false;
-            //filterWnd.style.visibility = "hidden";
-            $('#filterWnd').hide('speed');
-            if (listHeadStr == undefined) {
-                document.getElementById('listHead').style.visibility = "hidden";
-                showMenu();
-            }
-            else {
-                document.getElementById('listHead').innerHTML = listHeadStr;
-                search(listHeadStr);
-            }
+            showMenu();
+            searchAgain();
         }
     })
 })

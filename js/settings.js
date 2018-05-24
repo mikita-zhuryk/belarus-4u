@@ -1,22 +1,21 @@
-var displaySet = false;
 var setStr = "Settings"
+var displaySet = false;
 
 function showSettings() {
     hideMenu(setStr);
-    $("#settingsWnd").show(10);
+    $("#settingsWnd").show('speed');
     displaySet = true;
 }
 
 function hideSettings() {
-    showMenu();
-    $("#settingsWnd").hide(10);
+    $('#settingsWnd').hide('speed');
     displaySet = false;
 }
 
 $(document).ready(function () {
     $("#settings-btn").click(function () {
         if (displaySet) {
-            hideSettings();
+            showMenu();
         }
         else {
             showSettings();
