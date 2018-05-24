@@ -29,7 +29,7 @@
                 <input id="searchBox" type="text" onchange="search(this.value)" autocomplete="on" placeholder="Search...">
             </form>
         </header>
-        <ul class="menu">
+        <ul class="menu" style="display: none">
             <li class="menu-item">Food</li>
             <ul class="sub-menu">
                 <li class="sub-menu-item">Cafe</li>
@@ -87,6 +87,18 @@
                <span class="checkmark" id = "checkBoxPhoto"></span>
             </label><span class = "afterCheckboxFilter">Has photos available</span>
         </div>
+        <div id = "settingsWnd">
+            <div id = "langChoose">
+                <label id = "Eng"><input type="radio" value="Eng" name = "Lang"></label>
+                <label id = "Rus"><input type="radio" value="Rus" name = "Lang"></label>
+                <label id = "Germ"><input type="radio" value="Germ" name = "Lang"></label>
+            </div>
+            <div id = "themeChoose">
+                <label id = "Theme1"><input type="radio" value="Black" name = "Theme"></label>
+                <label id = "Theme2"><input type="radio" value="White" name = "Theme"></label>
+                <!-- <label><input type="radio" value="Germ" name = "Theme"></label> -->
+            </div>
+        </div>
         <ul class="list" id="list"></ul>
         <ul class="bottom-menu">
             <li class="bottom-item">
@@ -110,7 +122,7 @@
                 </a>
             </li>
             <li class="bottom-item">
-                <a class="bottom-ref" href="#">
+                <a class="bottom-ref" href="#" id = "settings">
                     <img class="bottom-icons" src="images\Service.png" alt="Service" />
                 </a>
             </li>
