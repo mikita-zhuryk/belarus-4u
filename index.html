@@ -14,8 +14,7 @@
     <script src='js/searchSimilar.js'></script>
     <script src='js/review.js'></script>
     <script src="js/settings.js"></script>
-    <script type = 'text/ru' src="lang/ru-ru.txt"></script>
-    <script type = 'text/en' src="lang/en-gb.txt"></script>
+    <script src="js/localize.js"></script>
     <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"
     />
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
@@ -69,27 +68,27 @@
         <div id="filterWnd" style="display: none">
             <div class="slider" id = "range-slider"></div>
             <p>
-                <label for="radius" style="color: #ECEAE4; font-size: 25px;">Search radius: </label>
+                <label for="radius" class="filter-label" style="color: #ECEAE4; font-size: 25px;">Search radius: </label>
                 <input class="sliders-input" type="text" id="radius" value="3500 m" />
             </p>
             <div class="slider" id="price-slider"></div>
             <p>
-                <label for="price" style="color: #ECEAE4; font-size: 25px;">Price level: </label>
+                <label for="price" class="filter-label" style="color: #ECEAE4; font-size: 25px;">Price level: </label>
                 <input class="sliders-input" type="text" id="price" value="[0, 3]" />
             </p>
             <div class="slider" id="rating-slider"></div>
             <p>
-                <label for="rating" style="color: #ECEAE4; font-size: 25px;">Place rating: </label>
+                <label for="rating" class="filter-label" style="color: #ECEAE4; font-size: 25px;">Place rating: </label>
                 <input class="sliders-input" type="text" id="rating" value="[3, 5]" />
             </p>
 
             <label class="container">
-                <input type="checkbox" id="openNowCheck">
+                <input type="checkbox" id="openNowCheck"/>
                 <span class="checkmark" id="checkBoxOpen"></span>
             </label>
             <span class="afterCheckboxFilter">Open now</span>
             <label class="container">
-                <input type="checkbox" id="hasPhoto">
+                <input type="checkbox" id="hasPhoto"/>
                 <span class="checkmark" id="checkBoxPhoto"></span>
             </label>
             <span class="afterCheckboxFilter">Has photos available</span>

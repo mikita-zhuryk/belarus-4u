@@ -1,7 +1,9 @@
+var randStr = "Random places";
+
 $(document).ready(function () {
     $('#random-btn').click(function () {
-        if (document.getElementById('listHead').innerHTML !== "Random places") {
-            hideMenu("Random places");
+        if (document.getElementById('listHead').innerHTML !== randStr) {
+            hideMenu(randStr);
             findSimilar(places, createHistory());
         }
         else {
