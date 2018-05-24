@@ -23,6 +23,12 @@ $(window).on('load', function () {
     document.cookie = "Date = " + new Date();
 })
 
+// $(document).ready(function () {
+//     $('#searchBox').change(function () {
+//         search(this.value);
+//     })
+// })
+
 function performSearch(text) {
     drawCircle();
     request = {
@@ -374,6 +380,10 @@ function hideMenu(text) {
     hideFilters();
     hideSettings();
     $('.menu').hide('speed');
+    // if (text.length > 15) {
+    //     text[15] = "\0";
+    //     text.length = 16;
+    // }
     $('#listHead').text(text);
     document.getElementById('listHead').style.visibility = "visible";
     displayMenu = false;
