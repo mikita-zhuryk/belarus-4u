@@ -16,6 +16,7 @@ var list;
 var minRating = 1.0;
 var maxRating = 5.0;
 var locked = false;
+var historyStr = "History";
 
 $(window).on('load', function () {
     mapDiv = document.getElementById('mapHandler');
@@ -369,7 +370,7 @@ function showMenu() {
 
 function hideMenu(text) {
     var list = document.getElementById('list');
-    if (text !== "History") {
+    if (text !== historyStr) {
         list.addEventListener("scroll", loadSome, true);
     }
     $('#filterWnd').hide('speed');
@@ -463,12 +464,12 @@ function createHistory() {
 
 $(document).ready(function () {
     $('#history-btn').click(function () {
-        if (!displayMenu && (document.getElementById('listHead').innerHTML == "History")) {
+        if (!displayMenu && (document.getElementById('listHead').innerHTML == historyStr)) {
             showMenu();
         }
         else {
             showMenu();
-            hideMenu("History");
+            hideMenu(historyStr);
             var exp = new RegExp('id = [-_A-Za-z0-9]{27}', 'g');
             var r = document.cookie.match(exp);
             for (var i = 0; i < r.length; i++) {

@@ -1,3 +1,5 @@
+var filtStr = "Filters";
+
 // $(document).ready(function () {
 //     $.getScript('search.js', function () {
 //         console.log("Search.js loaded");
@@ -66,7 +68,7 @@ $(document).ready(function () {
                 listHeadStr = document.getElementById('listHead').innerHTML;
             }
             filtersShown = true;
-            hideMenu("Filters");
+            hideMenu(filtStr);
             //filterWnd.style.visibility = "visible";
             $('#filterWnd').show('speed');
         }
