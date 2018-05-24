@@ -33,7 +33,7 @@
                 <input id="searchBox" type="text" onchange="search(this.value)" autocomplete="on" placeholder="Search...">
             </form>
         </header>
-        <ul class="menu" style="display: none">
+        <ul class="menu">
             <li class="menu-item">Food</li>
             <ul class="sub-menu">
                 <li class="sub-menu-item">Cafe</li>
@@ -93,11 +93,11 @@
             </label>
             <span class="afterCheckboxFilter">Has photos available</span>
         </div>
-        <div id = "settingsWnd">
+        <div id = "settingsWnd" style="display: none">
             <div id = "langChoose">
-                <label id = "Eng"><input type="radio" value="Eng" name = "Lang"></label>
-                <label id = "Rus"><input type="radio" value="Rus" name = "Lang"></label>
-                <label id = "Germ"><input type="radio" value="Germ" name = "Lang"></label>
+                <label id = "Eng"><input type="radio" class="lang-btn" id="Eng-btn" value="Eng" name = "Lang"></label>
+                <label id = "Rus"><input type="radio" class="lang-btn" id="Rus-btn" value="Rus" name = "Lang"></label>
+                <label id = "Ger"><input type="radio" class="lang-btn" id="Ger-btn" value="Ger" name = "Lang"></label>
             </div>
             <div id = "themeChoose">
                 <label id = "Theme1"><input type="radio" value="Black" name = "Theme"></label>

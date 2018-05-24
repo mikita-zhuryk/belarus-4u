@@ -25,7 +25,5 @@ function changeLoc(localizationStr) {
     historyStr = lines[i++];
     randStr = lines[i++];
     filtStr = lines[i++];
-    document.getElementById('setName').innerHTML = lines[i++];
-    document.getElementById('langDescr').innerHTML = lines[i++];
-    document.getElementById('colorDescr').innerHTML = lines[i++];
+    setStr = lines[i++];
 }
