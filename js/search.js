@@ -47,21 +47,22 @@ function performSearch(text) {
 function parseID(text) {
     var res = 0;
     var chr = 0;
+    var subMenuItems = subMenuItems;
     switch (text) {
-        case "Cafe": { res = 1; break; }
-        case "Meal Takeaway": { res = 2; break; }
-        case "Restaurant": { res = 3; break; }
-        case "Delivery": { res = 4; break; }
-        case "Bar": { res = 5; break; }
-        case "Lodging": { res = 6; break; }
-        case "Campground": { res = 7; break; }
-        case "Shopping mall": { res = 8; break; }
-        case "Clothing": { res = 9; break; }
-        case "Gallery": { res = 10; break; }
-        case "Museum": { res = 11; break; }
-        case "Zoo": { res = 12; break; }
-        case "Casino": { res = 13; break; }
-        case "Spa": { res = 14; break; }
+        case (subMenuItems[0].innerHTML).toString(): { res = 1; break; }
+        case (subMenuItems[1].innerHTML).toString(): { res = 2; break; }
+        case (subMenuItems[2].innerHTML).toString(): { res = 3; break; }
+        case (subMenuItems[3].innerHTML).toString(): { res = 4; break; }
+        case (subMenuItems[4].innerHTML).toString(): { res = 5; break; }
+        case (subMenuItems[5].innerHTML).toString(): { res = 6; break; }
+        case (subMenuItems[6].innerHTML).toString(): { res = 7; break; }
+        case (subMenuItems[7].innerHTML).toString(): { res = 8; break; }
+        case (subMenuItems[8].innerHTML).toString(): { res = 9; break; }
+        case (subMenuItems[9].innerHTML).toString(): { res = 10; break; }
+        case (subMenuItems[10].innerHTML).toString(): { res = 11; break; }
+        case (subMenuItems[11].innerHTML).toString(): { res = 12; break; }
+        case (subMenuItems[12].innerHTML).toString(): { res = 13; break; }
+        case (subMenuItems[13].innerHTML).toString(): { res = 14; break; }
         default: {
             if (text.length === 0) return res;
             for (i = 0; i < text.length; i++) {
@@ -174,23 +175,23 @@ function updateInfoWnd(place) {
     hideMarkers(place);
     if (checkBeen(place)) {
         document.getElementById('checkBeen').checked = true;
-        document.getElementById('reviews').style.height = "calc(70% - 190px)";        
+        document.getElementById('reviews').style.height = "calc(70% - 190px)";
         document.getElementById('reviewForm').style.height = "58px";
     }
     else {
         document.getElementById('checkBeen').checked = false;
-        document.getElementById('reviews').style.height = "";        
+        document.getElementById('reviews').style.height = "";
         document.getElementById('reviewForm').style.height = "0px";
     }
     $('#checkBeen').change(function () {
         if (this.checked) {
-            document.getElementById('reviews').style.height = "calc(70% - 190px)";                    
+            document.getElementById('reviews').style.height = "calc(70% - 190px)";
             document.getElementById('reviewForm').style.height = "58px";
             writeCookie(place);
         }
-        else{
-            document.getElementById('reviews').style.height = "";                    
-            document.getElementById('reviewForm').style.height = "0px";       
+        else {
+            document.getElementById('reviews').style.height = "";
+            document.getElementById('reviewForm').style.height = "0px";
         }
     })
     document.getElementById('identifyWnd').innerHTML = place.place_id;
@@ -242,7 +243,7 @@ function updateInfoWnd(place) {
     }
     if (place.photos !== undefined) {
         if (place.photos.length > 2) {
-            document.getElementById('placePhoto').src = place.photos[1].getUrl({ maxWidth: 1000, maxHeight: 1000 }); 
+            document.getElementById('placePhoto').src = place.photos[1].getUrl({ maxWidth: 1000, maxHeight: 1000 });
         }
     }
     else {
@@ -288,7 +289,7 @@ function checkBeen(place) {
     }
 }
 
-function removeMarkers(markers) {
+function removeMarkers() {
     if (markers.length) {
         for (var i = 0; i < markers.length; i++) {
             google.maps.event.clearInstanceListeners(markers[i]);
@@ -393,14 +394,13 @@ function hideMenu(text) {
     if (text !== historyStr) {
         list.addEventListener("scroll", loadSome, true);
     }
+    text += " ";
     hideFilters();
     hideSettings();
     $('.menu').hide('speed');
-    // if (text.length > 15) {
-    //     text[15] = "\0";
-    //     text.length = 16;
-    // }
-    $('#listHead').text(text);
+    var trimmedString = text.substr(0, 25);
+    trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")))
+    $('#listHead').text(trimmedString);
     document.getElementById('listHead').style.visibility = "visible";
     displayMenu = false;
 }
@@ -468,18 +468,20 @@ $(document).ready(function () {
 })
 
 function createHistory() {
-    var history = [];
+    var history;
     var exp = new RegExp('id = [-_A-Za-z0-9]{27}', 'g');
     var r = document.cookie.match(exp);
-    for (var i = 0; i < r.length; i++) {
-        id = r[i];
-        for (var j = 0; j < places.length; j++) {
-            if (places[j][0] == id.split(" ")[2]) {
-                history.push(places[j]);
-                break;
+    if (r !== null) {
+        for (var i = 0; i < r.length; i++) {
+            id = r[i];
+            for (var j = 0; j < places.length; j++) {
+                if (places[j][0] == id.split(" ")[2]) {
+                    history.push(places[j]);
+                    break;
+                }
             }
+            r = document.cookie.match(exp);
         }
-        r = document.cookie.match(exp);
     }
     return history;
 }
@@ -525,7 +527,7 @@ function callback(Results, PlacesServiceStatus) {
         }
         if ((lastSearch[0] !== request.location) || (lastSearch[1] !== request.radius) || (lastSearch[2] !== request.type) || (lastSearch[3] !== request.openNow) || (lastSearch[4] !== minRating) || (lastSearch[5] !== maxRating)) {
             //if ((lastSearch[0] !== request.location) || (lastSearch[1] !== request.radius) || (lastSearch[2] !== request.type) || (lastSearch[3] !== request.minPriceLevel) || (lastSearch[4] !== request.maxPriceLevel) || (lastSearch[5] !== request.openNow)) {
-            removeMarkers(markers);
+            removeMarkers();
             for (var i = 0; i < length; i++) {
                 var marker = new google.maps.Marker({
                     map: map,
