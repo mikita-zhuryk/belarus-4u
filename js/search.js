@@ -17,7 +17,7 @@ var minRating = 1.0;
 var maxRating = 5.0;
 var locked = false;
 var historyStr = "History";
-var showBtnStr = "Show info";
+var showBtnStr = "Info";
 
 $(window).on('load', function () {
     mapDiv = document.getElementById('mapHandler');
