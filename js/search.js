@@ -342,7 +342,8 @@ function loadSome() {
                             var marker = new google.maps.Marker({
                                 map: map,
                                 position: PlaceResult.geometry.location,
-                                title: PlaceResult.place_id
+                                title: PlaceResult.place_id,
+                                icon: "images/placeMarker.png"
                             });
                             addHint(marker);
                             markers.push(marker);
@@ -545,7 +546,8 @@ function callback(Results, PlacesServiceStatus) {
                 var marker = new google.maps.Marker({
                     map: map,
                     position: Results[i].geometry.location,
-                    title: Results[i].place_id
+                    title: Results[i].place_id,
+                    icon: "images/placeMarker.png"
                 });
                 addHint(marker);
                 markers.push(marker);
