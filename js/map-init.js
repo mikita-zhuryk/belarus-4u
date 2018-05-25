@@ -64,9 +64,7 @@ function manualGeoLoc() {
 
 $(document).ready(function () {
     $('#setPos').click(function () {
-        if (!getGeoLoc()) {
-            manualGeoLoc();
-        }
+        getGeoLoc();
     })
 })
 
@@ -83,9 +81,8 @@ function getGeoLoc() {
                 map.setCenter(mapOptions.center);
                 map.setZoom(calcZoom());
                 drawCircle();
-                return true;
             }, function () {
-                return false;
+                manualGeoLoc();
             })
     }
 }
