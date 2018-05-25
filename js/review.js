@@ -1,6 +1,8 @@
 $(document).ready(function () {
     $('#leaveReview').click(function () {
-        var review = document.getElementById('userReview').value;
+        var reviewForm = document.getElementById('userReview');
+        var review = reviewForm.value;
+        reviewForm.value = "";
         console.log(review);
     })
 })
