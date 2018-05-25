@@ -716,4 +716,6 @@ function addHint(marker) {
     })
 }
 
-$.ajax()
+function distance(latitude1, longitude1, latitude2, longitude2) {
+    return (6371 * Math.acos(Math.sin(latitude1)*Math.sin(latitude2) + Math.cos(latitude1)*Math.cos(latitude2)*Math.cos(longitude1 - longitude2)));
+}
