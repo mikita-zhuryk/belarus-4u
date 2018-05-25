@@ -120,9 +120,9 @@ function createNode(place) {
     bottomBorder.className = "listNodeBorder";
     listNode.appendChild(bottomBorder);
     listNode.addEventListener('click', function () {
+        hideInfoWnd();
         if (document.getElementById('infoWindow').style.display != "none") {
             if (document.getElementsByName("identifyWnd").innerHTML == place.place_id) {
-                hideInfoWnd();
                 document.getElementById('reviewForm').style.visibility = "hidden";
             }
             else {
@@ -140,6 +140,7 @@ function createNode(place) {
 }
 
 function hideInfoWnd() {
+    showMarkers();
     $('#infoWindow').hide('speed');
     if (mapDiv.firstChild.id == 'showBtn') {
         mapDiv.removeChild(mapDiv.firstChild);
@@ -155,7 +156,22 @@ function writeCookie(place) {
     }
 }
 
+function hideMarkers(place) {
+    for (var i = 0; i < markers.length; i++) {
+        if (markers[i].title != place.place_id) {
+            markers[i].setVisible(false);
+        }
+    }
+}
+
+function showMarkers() {
+    for (var i = 0; i < markers.length; i++) {
+        markers[i].setVisible(true);
+    }
+}
+
 function updateInfoWnd(place) {
+    hideMarkers(place);
     if (checkBeen(place)) {
         document.getElementById('checkBeen').checked = true;
         document.getElementById('reviews').style.height = "calc(70% - 190px)";        
