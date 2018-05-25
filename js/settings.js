@@ -56,7 +56,7 @@ $(document).ready(function () {
                 root.style.setProperty('--color4', 'rgb(61, 26, 128)');
                 root.style.setProperty('--color5', 'rgb(48, 20, 100)'); 
                 root.style.setProperty('--textColor', '#eceae4');
-                root.style.setProperty('--fontFamily', 'Poppins');
+                root.style.setProperty('--fontFamily', 'Rubik');
                 break;
             }
             case "White": {
@@ -67,7 +67,7 @@ $(document).ready(function () {
                 root.style.setProperty('--color4', '#FFA292');
                 root.style.setProperty('--color5', '#ff473d');  
                 root.style.setProperty('--textColor', '#282828');
-                root.style.setProperty('--fontFamily', 'Poppins');                                              
+                root.style.setProperty('--fontFamily', 'Rubik');                                              
                 break;
             }
         }

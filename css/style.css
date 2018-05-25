@@ -11,7 +11,7 @@
     --color4: rgb(61, 26, 128);
     --color5: rgb(48, 20, 100);
     --textColor: #ECEAE4;
-    --fontFamily: 'Poppins';
+    --fontFamily: 'Rubik';
 }
 
 *:focus {
@@ -54,7 +54,7 @@
     font-weight: 400;
     font-family: 'Arial';  
     transition: color 0.1s ease-out;
-    transition: font-weight 0.1s ease-out;                
+    transition: 0.1s ease-out;                
 }
 
 #setPos:hover {
@@ -231,7 +231,7 @@ ul {
     visibility: hidden;
     height: 40px;
     font-size: 35px;
-    padding: 10px 0px;
+    padding: 10px 0px 10px 0px;
     cursor: pointer;
     background: var(--color3);
     box-shadow: 0 -4px var(--color4) inset;
@@ -248,7 +248,7 @@ ul {
 .listNode{
     position: relative;
     height: auto;
-    font-size: 35px;
+    font-size: 30px;
     padding: 5px 5px;
     cursor: pointer;
 }
@@ -276,15 +276,15 @@ ul {
 }
 
 .nodePhone{
-    margin-top: 5px;
-    font-size: 25px;
+    margin: 10px 0px 5px 0px ;
+    font-size: 20px;
     font-style: italic;
 }
 
 .imgPhone{
     height: 20px;
     width: 20px;
-    margin: 5px 15px 0px 2px;
+    margin: 2px 5px 0px 2px;
     float: left;
 }
 
@@ -307,7 +307,7 @@ ul {
 
 .titleWnd{
     margin-top: 5px;
-    font-size: 70px;
+    font-size: 55px;
     color: var(--textColor);
     font-weight: 400;
     text-align: center;
@@ -385,7 +385,7 @@ ul {
     height: calc(24% - 30px);
     margin: 10px 0px 1% 46%;
     color: var(--textColor);
-    font-size: 27px;
+    font-size: 25px;
     font-weight: 300;    
     border: 5px solid var(--color0) ;
     overflow: auto;
@@ -459,19 +459,15 @@ ul {
     transform: rotate(45deg);
 }
 
-#photoWnd {
-    height: 550px;
-    width: 485px;
-}
-
 #reviews{   
     display: flex;
     flex-direction: column;
     width: 51%;
     height: calc(70% - 132px);
     color: var(--textColor);
-    font-size: 25px;
+    font-size: 30px;
     font-weight: 300;
+    font-family: 'Garamond';
     margin-left: 46%;
     background: var(--color0);
 }
@@ -493,7 +489,7 @@ ul {
     margin-bottom: 5px;
     padding: 10px;    
     background: var(--color0);
-    font-size: 30px;
+    font-size: 23px;
 }
 
 .review img{
@@ -580,17 +576,24 @@ ul {
 }
 
 #settingsWnd{
+    margin: 5px 0px 0px 10px;
+    font-size: 30px;
+    color: var(--textColor);
     z-index: 100;
     margin-top: 60px;
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: calc(100% - 115px);
+    height: 1000px;
     overflow: auto;
 }
 
+#settingsWnd > div{
+    margin-top: 10px;
+}
+
 #settingsWnd label{
-    margin: 15px 10px;     
+    margin-right: 15px;   
     display: block;
     position: relative;
 }
@@ -605,12 +608,25 @@ ul {
     background-position: center;
 }
 
+#langChoose, #themeChoose{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+#langChoose > div{
+    margin: 10px 0px 10px -5px;
+}
+
 #langChoose label{
-    width: 86px;
-    height: 57px;
+    margin-top: 3px;
+    float: left;
+    width: 50px;
+    height: 30px;
 }
 
 #themeChoose label{
+    margin: 10px 0px 10px 5px;
     width: 200px;
     height: 50px;
 }
@@ -619,22 +635,7 @@ ul {
     box-shadow: 0px 0px 0px 2px #eee; 
 }
 
-#Eng{
-    background: url("/C:/Users/Admin/Documents/Belarus4u/images/GrBr.png") no-repeat;
-}
-
-#Rus{
-    background: url("/C:/Users/Admin/Documents/Belarus4u/images/Rus.png") no-repeat;
-}
-
-#Ger{
-    background: url("/C:/Users/Admin/Documents/Belarus4u/images/Germ.png") no-repeat;
-}
-
-#Theme1{
-    background: url("/C:/Users/Admin/Documents/Belarus4u/images/Theme1.png") no-repeat;
-}
-
-#Theme2{  
-    background: url("/C:/Users/Admin/Documents/Belarus4u/images/Theme2.png") no-repeat;
+#settingsWnd img{
+    width: 100%;
+    height: 100%;
 }
