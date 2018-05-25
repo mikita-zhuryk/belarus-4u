@@ -621,6 +621,9 @@ function initPlaces(Results, number) {
     }
 }
 
+var rateStr = "; Rating: ";
+var openNowStr = "; Open now";
+
 function addHint(marker) {
     var alreadyFound;
     var placeInfo;
@@ -677,13 +680,12 @@ function addHint(marker) {
                     contentStr += result.name;
                 }
                 if (result.rating !== undefined) {
-                    contentStr += "; Rating: " + result.rating;
+                    contentStr += rateStr + result.rating;
                 }
-                if (result.openNow) {
-                    contentStr += "; Open now";
+                if (result.opening_hours.openNow) {
+                    contentStr += openNowStr;
                 }
-                infoWnd = new google.maps.InfoWindow({
-                })
+                infoWnd = new google.maps.InfoWindow({});
                 infoWnd.setContent(contentStr);
                 infoWnd.open(map, marker);
             },
