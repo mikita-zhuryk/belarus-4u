@@ -27,22 +27,25 @@ $(document).ready(function () {
     $('.lang-btn').click(function (e) {
         var value = $(this).val();
         var loc;
-        document.getElementsByClassName('sub-menu-item')[1].style = "font-size: 35px";
         switch (value) {
             case "Eng": {
                 loc = "Set position\nSearch...\nFood\nLodging\nShopping\nLeisure\nCafe\nMeal Takeaway\nDelivery\nRestaurant\nBar\nLodging\nCampground\nShopping mall\nClothing\nGallery\nMuseum\nZoo\nCasino\nSpa\n";
-                loc += "Search radius:\nPrice level:\nPlace rating:\nOpen now\nHas photos available\nPlace ID\nShow map\nShow info\nI've been here\nReviews\nHistory\nInteresting places\nFilters\nSettings";
+                loc += "Search radius:\nPrice level:\nPlace rating:\nOpen now\nHas photos available\nPlace ID\nMap\nInfo\nI've been here\nReviews\nHistory\nInteresting places\nFilters\nSettings";
                 break;
             }
             case "Rus": {
                 loc = "Отметить себя\nПоиск...\nПитание\nЖильё\nПокупки\nДосуг\nКафе\nЕда на вынос\nДоставка\nРесторан\nБар\nСъём жилья\nКемпинг\nТорговый центр\nОдежда\nГалерея\nМузей\nЗоопарк\nКазино\nСпа\n";
-                loc += "Радиус поиска:\nУровень цен:\nРейтинг места:\nСейчас открыто\nДоступны фото\nID места\nПоказать карту\nПоказать инфо\nЯ здесь был\nОтзывы\nИстория\nИнтересные места\nФильтры\nНастройки";
+                loc += "Радиус поиска:\nУровень цен:\nРейтинг места:\nСейчас открыто\nДоступны фото\nID места\nКарта\nИнфо\nЯ здесь был\nОтзывы\nИстория\nИнтересные места\nФильтры\nНастройки";
                 break;
             }
             case "Ger": {
-                document.getElementsByClassName('sub-menu-item')[1].style = "font-size: 24px";
-                loc = "Position setzen\nSuche...\nEssen\nUnterkunft\nEinkaufen\nFreizeit\nCafe\nEssen zum Mitnehmen\nLieferung\nRestaurant\nBar\nUnterkunft\nCamping Platz\nEinkaufszentrum\nKleidung\nGalerie\nMuseum\nZoo\nKasino\nSpa\n";
-                loc += "Suchradius:\nPreisniveau:\nPlatzbewertung:\nJetzt geöffnet\nHat Fotos verfügbar\nOrtskennung\nKarte anzeigen\nZeige info\nIch war hier\nBewertungen\nGeschichte\nInteressante Orte\nFilter\ndie Einstellungen";
+                loc = "Position setzen\nSuche...\nEssen\nUnterkunft\nEinkaufen\nFreizeit\nCafe\nZum Mitnehmen\nLieferung\nRestaurant\nBar\nUnterkunft\nCamping Platz\nEinkaufszentrum\nKleidung\nGalerie\nMuseum\nZoo\nKasino\nSpa\n";
+                loc += "Suchradius:\nPreisniveau:\nPlatzbewertung:\nJetzt geöffnet\nHat Fotos verfügbar\nOrtskennung\nKarte\nInfo\nIch war hier\nBewertungen\nGeschichte\nInteressante Orte\nFilter\ndie Einstellungen";
+                break;
+            }
+            case "Fra": {
+                loc = "Célébrer\nRecherche...\nAlimentation\nHébergement\nAchat\nLoisir\nCafé\nPlats à emporter\nLivraison\nRestaurant\nBar\nLogement\nCamping\nCentrale d'achats\nVêtements\nGalerie\nMusée\nZoo\nCasino\nSpa\n";
+                loc += "Rayon de recherche:\nNiveau de prix:\nClassement du lieu:\nMaintenant ouvert\nPhotos disponibles\nID de l'espace\nCarte\nInfos\nJ'étais ici\nCritiques\nHistoire\nEndroits intéressants\nFiltres\nParamètres";
                 break;
             }
         }

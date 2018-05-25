@@ -42,7 +42,7 @@
     text-align: center;
     left: 447px;
     top: 10px;
-    width: 85px;
+    width: 100px;
     height: 29.5px;
     position: fixed;
     background: white;
@@ -326,6 +326,7 @@ ul {
 }
 
 #hideBtn, #showBtn{
+    padding: 2px 0px -2px 0px;
     top: 20px;
     right: 20px;
     position: absolute;
@@ -333,7 +334,7 @@ ul {
     width: 95px;
     border: none;
     cursor: pointer;
-    font-size: 15px;
+    font-size: 17px;
     font-weight: 400;
     color: var(--textColor);
     background: var(--color3);
@@ -348,6 +349,7 @@ ul {
 
 #hideBtn:hover, #showBtn:hover{
     background: var(--color4);
+    font-size: 20px;
 }
 
 #hideBtn:active, #showBtn:active{
