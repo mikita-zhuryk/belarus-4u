@@ -65,19 +65,49 @@ $(document).ready(function () {
                 root.style.setProperty('--color3', 'rgb(78, 28, 167)');
                 root.style.setProperty('--color4', 'rgb(61, 26, 128)');
                 root.style.setProperty('--color5', 'rgb(48, 20, 100)'); 
-                root.style.setProperty('--textColor', '#eceae4');
+                root.style.setProperty('--textColorLite', '#eceae4');
+                root.style.setProperty('--textColorDark', '#f1f1f1');                
                 root.style.setProperty('--fontFamily', 'Rubik');
+                $('#History').attr('src','images/History.png');
+                $('#Dice').attr('src','images/Dice.png');                             
+                $('#Home').attr('src','images/Home.png');                             
+                $('#Sorting').attr('src','images/Sorting.png');
+                $('#Service').attr('src','images/Service.png');
+                $('#Address').attr('src','images/Address.png');
+                $('#Phone').attr('src','images/Phone.png'); 
+                imgPhoneSRC = "images/Phone.png";
+                imgStarsSRC = "images/Stars.png";           
+                $('#Website').attr('src','images/Website.png');
+                $('#User1').attr('src','images/User.png');
+                $('#User2').attr('src','images/User.png');
+                $('#User3').attr('src','images/User.png'); 
+                $('#starsWnd').attr('src','images/Stars.png');  
                 break;
             }
             case "White": {
-                root.style.setProperty('--color0', '#DFDFDF');
-                root.style.setProperty('--color1', '#F5F5F5');
-                root.style.setProperty('--color2', '#FF785B');
-                root.style.setProperty('--color3', '#FF5950');
-                root.style.setProperty('--color4', '#FFA292');
-                root.style.setProperty('--color5', '#ff473d');  
-                root.style.setProperty('--textColor', '#282828');
-                root.style.setProperty('--fontFamily', 'Rubik');                                              
+                root.style.setProperty('--color0', '#D4D8E8');
+                root.style.setProperty('--color1', '#F7F7F7');
+                root.style.setProperty('--color2', '#D4D8E8');
+                root.style.setProperty('--color3', '#3C5898');
+                root.style.setProperty('--color4', '#3C5898');
+                root.style.setProperty('--color5', '#29487D');  
+                root.style.setProperty('--textColorLite', '#333333');
+                root.style.setProperty('--textColorDark', '#f1f1f1');
+                root.style.setProperty('--fontFamily', 'Rubik'); 
+                $('#History').attr('src','images/Theme2/History.png');
+                $('#Dice').attr('src','images/Theme2/Dice.png');                             
+                $('#Home').attr('src','images/Theme2/Home.png');                             
+                $('#Sorting').attr('src','images/Theme2/Sorting.png');
+                $('#Service').attr('src','images/Theme2/Service.png');
+                $('#Address').attr('src','images/Theme2/Address.png');
+                $('#Phone').attr('src','images/Theme2/Phone.png'); 
+                imgPhoneSRC = "images/Theme2/Phone.png";
+                imgStarsSRC = "images/Theme2/Stars.png";           
+                $('#Website').attr('src','images/Theme2/Website.png');
+                $('#User1').attr('src','images/Theme2/User.png');
+                $('#User2').attr('src','images/Theme2/User.png');
+                $('#User3').attr('src','images/Theme2/User.png'); 
+                $('#starsWnd').attr('src','images/Theme2/Stars.png');                                         
                 break;
             }
         }

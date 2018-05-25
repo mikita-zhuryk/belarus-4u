@@ -18,6 +18,8 @@ var maxRating = 5.0;
 var locked = false;
 var historyStr = "History";
 var showBtnStr = "Info";
+var imgPhoneSRC = "images/Phone.png";
+var imgStarsSRC = "images/Stars.png";
 
 $(window).on('load', function () {
     mapDiv = document.getElementById('mapHandler');
@@ -96,7 +98,7 @@ function createNode(place) {
     listNode.appendChild(nodeRatingValue);
     var nodeRating = document.createElement('img');
     nodeRating.className = 'nodeRating';
-    nodeRating.src = 'images/Stars.png';
+    nodeRating.src = imgStarsSRC;
     nodeRating.title = "Rating " + place.rating;
     nodeRatingValue.appendChild(nodeRating);
     var nodePhone = document.createElement('p');
@@ -109,7 +111,8 @@ function createNode(place) {
     }
     var imgPhone = document.createElement('img');
     imgPhone.className = 'imgPhone';
-    imgPhone.src = "images/Phone.png";
+
+    imgPhone.src = imgPhoneSRC;
     nodePhone.appendChild(imgPhone);
     listNode.appendChild(nodePhone);
     var bottomBorder = document.createElement("div");

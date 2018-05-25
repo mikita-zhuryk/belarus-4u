@@ -10,7 +10,8 @@
     --color3: rgb(78, 28, 167);
     --color4: rgb(61, 26, 128);
     --color5: rgb(48, 20, 100);
-    --textColor: #ECEAE4;
+    --textColorLite: #ECEAE4;
+    --textColorDark: #f1f1f1;
     --fontFamily: 'Rubik';
 }
 
@@ -77,23 +78,19 @@ body {
 
 a {
     text-decoration: none;
-    color: var(--color2);
+    color: var(--color3);
     transition: all 0.05s ease-in;    
     cursor: pointer;
 }
 
 a:hover{
-    color: var(--color3);
+    color: var(--color4);
 }
 
 a.disabled{
     pointer-events: none;
     cursor: default;
-    color: var(--textColor);
-}
-
-li {
-    color: var(--textColor);
+    color: var(--textColorLite);
 }
 
 ul {
@@ -101,13 +98,12 @@ ul {
 }
 
 #main {
-    width: 319px;
+    width: 320px;
     height: 100%;
     position: fixed;
     background: var(--color1);
     float: left;
     overflow: hidden;
-    border-right: 1px solid var(--textColor);
 }
 
 #filterWnd {
@@ -116,6 +112,11 @@ ul {
     flex-direction: column;
     height: calc(100% - 115px);
     overflow: auto;
+}
+
+#filterWnd label{
+    font-size: 25px;
+    color: var(--textColorLite);
 }
 
 #search {
@@ -132,21 +133,22 @@ ul {
     height: 55px;
     font-size: 30px;
     border: none;
-    background: var(--color1);
+    background: var(--color0);
     box-shadow: inset 0px 10px 5px -10px #000000;
     color: #757575;
     outline:none;
 }
 
 .menu{
+    color: var(--textColorLite); 
     display: flex;
     flex-direction: column;
     height: calc(100% - 115px);
     overflow: auto;
-    border-top: 2px solid var(--textColor);
 }
 
 .sub-menu {
+    color: var(--textColorDark);    
     display: none;
     background: var(--color4);
     box-shadoW: 0px 35px 0px -30px var(--color5) inset,
@@ -161,7 +163,7 @@ ul {
     transition: all 0.25s ease-in;
 }
 
-.menu-item{
+.menu-item{   
     background: var(--color1);
 }
 
@@ -179,28 +181,27 @@ ul {
 }
 
 .bottom-menu {
-    width: 319px;
+    width: 320px;
     position: fixed;
     bottom: 0px;
     left: 0px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    box-shadow: -10px 5px 40px #000000;
 }
 
 .bottom-item {
-    background: var(--color1);
+    background: var(--color4);
     height: 60px;
     width: 20%;
     font: medium 16px;
-    border-top: 2px solid var(--textColor);
+    border-top: 5px solid var(--color5);
     display: inherit;
     transition: all 0.2s ease-out;
 }
 
 .bottom-item:hover{
-    background: var(--color0);
+    background: var(--color5);
 }
 
 .bottom-item:hover .bottom-icons {
@@ -225,8 +226,8 @@ ul {
 #listHead{      
     position: fixed;
     text-align: center;
-    color: var(--textColor);
-    width: 319px !important;
+    color: var(--textColorDark); 
+    width: 320px !important;
     margin-top: 0px;
     visibility: hidden;
     height: 40px;
@@ -246,6 +247,7 @@ ul {
 }
 
 .listNode{
+    color: var(--textColorLite);
     position: relative;
     height: auto;
     font-size: 30px;
@@ -257,7 +259,7 @@ ul {
     margin-left: -5px;
     width: 100%;
     height: 1px;
-    background: linear-gradient(to right, var(--textColor), var(--color1));
+    background: linear-gradient(to right, var(--textColorLite), var(--color1));
 }
 
 .nodeName{
@@ -308,7 +310,7 @@ ul {
 .titleWnd{
     margin-top: 5px;
     font-size: 55px;
-    color: var(--textColor);
+    color: var(--textColorLite);
     font-weight: 400;
     text-align: center;
 }
@@ -336,7 +338,7 @@ ul {
     cursor: pointer;
     font-size: 17px;
     font-weight: 400;
-    color: var(--textColor);
+    color: var(--textColorDark);
     background: var(--color3);
     box-shadow: 0 -3px var(--color4) inset;
     transition: 0.2s;
@@ -386,7 +388,7 @@ ul {
     width: calc(51% - 20px);
     height: calc(24% - 30px);
     margin: 10px 0px 1% 46%;
-    color: var(--textColor);
+    color: var(--textColorLite);
     font-size: 25px;
     font-weight: 300;    
     border: 5px solid var(--color0) ;
@@ -432,7 +434,7 @@ ul {
 }
   
 .container:hover input ~ .checkmark {
-    background-color: var(--textColor);
+    background-color: var(--textColorDark);
 }
   
 .container input:checked ~ .checkmark {
@@ -466,7 +468,7 @@ ul {
     flex-direction: column;
     width: 51%;
     height: calc(70% - 132px);
-    color: var(--textColor);
+    color: var(--textColorLite);
     font-size: 30px;
     font-weight: 300;
     font-family: 'Garamond';
@@ -478,6 +480,7 @@ ul {
     text-align: center;
     height: auto;
     width: 100%;
+    color: var(--textColorDark);
     font-weight: 400;    
     background: var(--color3);
     box-shadow: 0 -5px var(--color4) inset;    
@@ -498,7 +501,7 @@ ul {
     height: 30px;
 }
 
-.slider {
+.slider{
     width:230px;
     height:11px;
     background:url(slider-bg.png);
@@ -512,7 +515,7 @@ ul {
 .sliders-input{
     border:0; 
     width: 100px;
-    color: var(--textColor); 
+    color: var(--textColorLite); 
     background: var(--color1);
     font-size: 18px;
 }
@@ -526,7 +529,7 @@ ul {
 
 .afterCheckboxFilter{
     margin-top: 5px;
-    color: var(--textColor);
+    color: var(--textColorLite);
     font-size: 20px;
     padding-left: 45px;
 }
@@ -560,7 +563,7 @@ ul {
     cursor: pointer;
     font-size: 15px;
     font-weight: 400;
-    color: var(--textColor);
+    color: var(--textColorLite);
     background: var(--color3);
     box-shadow: 0 -3px var(--color4) inset;
     transition: 0.2s;
@@ -580,7 +583,7 @@ ul {
 #settingsWnd{
     margin: 5px 0px 0px 10px;
     font-size: 30px;
-    color: var(--textColor);
+    color: var(--textColorLite);
     z-index: 100;
     margin-top: 60px;
     display: flex;
@@ -634,7 +637,7 @@ ul {
 }
 
 #settingsWnd input:checked + span{
-    box-shadow: 0px 0px 0px 2px #eee; 
+    box-shadow: 0px 0px 0px 2px var(--color4); 
 }
 
 #settingsWnd img{
