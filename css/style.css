@@ -534,7 +534,7 @@ ul {
 #reviewForm{
     padding-top: 6px;
     width: 51%;    
-    height: 0px;
+    height: 58px;
     margin-left: 46%;    
     overflow: hidden;
     background: var(--color0);

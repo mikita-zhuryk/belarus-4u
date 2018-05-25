@@ -40,7 +40,7 @@ $(document).ready(function () {
             }
             case "Ger": {
                 document.getElementsByClassName('sub-menu-item')[1].style = "font-size: 24px";
-                loc = "Position setzen\nSuche...\nEssen\nUnterkunft\nEinkaufen\nFreizeit\nCafe\nEssen zum Mitnehmen\nLieferung\nRestaurant\nBar\nUnterkunft\nCamping Platz\nEinkaufszentrum\nKleidung\nGalerie\nMuseum\nZoo\nKasino\nSpa\n";
+                loc = "Position setzen\nSuche...\nEssen\nUnterkunft\nEinkaufen\nFreizeit\nCafe\nZum Mitnehmen\nLieferung\nRestaurant\nBar\nUnterkunft\nCamping Platz\nEinkaufszentrum\nKleidung\nGalerie\nMuseum\nZoo\nKasino\nSpa\n";
                 loc += "Suchradius:\nPreisniveau:\nPlatzbewertung:\nJetzt geöffnet\nHat Fotos verfügbar\nOrtskennung\nKarte anzeigen\nZeige info\nIch war hier\nBewertungen\nGeschichte\nInteressante Orte\nFilter\ndie Einstellungen\nBewertung:\nJetzt geöffnet";
                 break;
             }
