@@ -17,6 +17,7 @@ var minRating = 1.0;
 var maxRating = 5.0;
 var locked = false;
 var historyStr = "History";
+var showBtnStr = "Show info";
 
 $(window).on('load', function () {
     mapDiv = document.getElementById('mapHandler');
@@ -47,7 +48,7 @@ function performSearch(text) {
 function parseID(text) {
     var res = 0;
     var chr = 0;
-    var subMenuItems = subMenuItems;
+    var subMenuItems = document.getElementsByClassName('sub-menu-item');
     switch (text) {
         case (subMenuItems[0].innerHTML).toString(): { res = 1; break; }
         case (subMenuItems[1].innerHTML).toString(): { res = 2; break; }
@@ -268,7 +269,7 @@ function updateInfoWnd(place) {
             var showBtn = document.createElement("button");
             showBtn.className = "showBtn";
             showBtn.id = "showBtn";
-            showBtn.innerHTML = "Show info";
+            showBtn.innerHTML = showBtnStr;
             showBtn.addEventListener("click", function () {
                 $('#infoWindow').show(0);
             });

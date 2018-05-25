@@ -20,9 +20,13 @@ function changeLoc(localizationStr) {
     afterCheck[1].innerHTML = lines[i++];
     document.getElementById('identifyWnd').innerHTML = lines[i++];
     document.getElementById('hideBtn').innerHTML = lines[i++];
-    var showBtn = document.getElementById('hideBtn');
-    if (showBtn !== undefined) {
+    showBtnStr = lines[i];
+    var showBtn = document.getElementById('showBtn');
+    if (showBtn !== null) {
         showBtn.innerHTML = lines[i++];
+    }
+    else {
+        i++;
     }
     document.getElementsByClassName('afterCheckbox')[0].innerHTML = lines[i++];
     document.getElementById('miniHeadWnd').innerHTML = lines[i++];

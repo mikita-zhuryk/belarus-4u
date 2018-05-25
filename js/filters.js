@@ -32,9 +32,9 @@ function memoriseHead() {
 }
 
 function showFilters() {
-    filtersShown = true;
     hideMenu(filtStr);
     $('#filterWnd').show('speed');
+    filtersShown = true;
 }
 
 $(document).ready(function () {
