@@ -24,12 +24,6 @@ $(window).on('load', function () {
     document.cookie = "Date = " + new Date();
 })
 
-// $(document).ready(function () {
-//     $('#searchBox').change(function () {
-//         search(this.value);
-//     })
-// })
-
 function performSearch(text) {
     drawCircle();
     request = {
@@ -258,8 +252,8 @@ function updateInfoWnd(place) {
             }
         }
     }
-    /////////////////////////////////////////////
 
+    //////////////////////////////////////////////////////
     var infoWindow = document.getElementById("infoWindow")
     $('#infoWindow').show('speed');
     var hideBtn = document.getElementById('hideBtn');
