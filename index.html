@@ -3,9 +3,10 @@
 
 <head>
     <title>Belarus4U</title>
+    <meta charset="utf-8"/>
     <link href="css/style.css" type="text/css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans:100,100i,300,300i,400,400i,500,500i,700" rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Spectral" rel="stylesheet">
     <script src='js/jquery-3.3.1.min.js'></script>
     <script src="js/menu-animation.js"></script>
     <script src='js/search.js'></script>
@@ -14,9 +15,10 @@
     <script src='js/searchSimilar.js'></script>
     <script src='js/review.js'></script>
     <script src="js/settings.js"></script>
-    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"
+    <script src="js/localize.js"></script>
+    <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"
     />
-    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <script src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 </head>
 
 <body>
@@ -29,7 +31,7 @@
     <div id="main">
         <header id="search">
             <form>
-                <input id="searchBox" type="text" onchange="search(this.value)" autocomplete="on" placeholder="Search...">
+                <input id="searchBox" type="text" autocomplete="on" placeholder="Search...">
             </form>
         </header>
         <ul class="menu">
@@ -67,30 +69,41 @@
         <div id="filterWnd" style="display: none">
             <div class="slider" id = "range-slider"></div>
             <p>
-                <label for="radius" style="color: #ECEAE4; font-size: 25px;">Search radius: </label>
+                <label for="radius" class="filter-label" style="color: #ECEAE4; font-size: 25px;">Search radius: </label>
                 <input class="sliders-input" type="text" id="radius" value="3500 m" />
             </p>
             <div class="slider" id="price-slider"></div>
             <p>
-                <label for="price" style="color: #ECEAE4; font-size: 25px;">Price level: </label>
+                <label for="price" class="filter-label" style="color: #ECEAE4; font-size: 25px;">Price level: </label>
                 <input class="sliders-input" type="text" id="price" value="[0, 3]" />
             </p>
             <div class="slider" id="rating-slider"></div>
             <p>
-                <label for="rating" style="color: #ECEAE4; font-size: 25px;">Place rating: </label>
+                <label for="rating" class="filter-label" style="color: #ECEAE4; font-size: 25px;">Place rating: </label>
                 <input class="sliders-input" type="text" id="rating" value="[3, 5]" />
             </p>
 
             <label class="container">
-                <input type="checkbox" id="openNowCheck">
+                <input type="checkbox" id="openNowCheck"/>
                 <span class="checkmark" id="checkBoxOpen"></span>
             </label>
             <span class="afterCheckboxFilter">Open now</span>
             <label class="container">
-                <input type="checkbox" id="hasPhoto">
+                <input type="checkbox" id="hasPhoto"/>
                 <span class="checkmark" id="checkBoxPhoto"></span>
             </label>
             <span class="afterCheckboxFilter">Has photos available</span>
+        </div>
+        <div id = "settingsWnd" style="display: none">
+            <div id = "langChoose">
+                <label><input type="radio" class="lang-btn" id="Eng-btn" value="Eng" name = "Lang"><span id = "Eng"></span></label>
+                <label><input type="radio" class="lang-btn" id="Rus-btn" value="Rus" name = "Lang"><span id = "Rus"></span></label>
+                <label><input type="radio" class="lang-btn" id="Ger-btn" value="Ger" name = "Lang"><span id = "Ger"></span></label>
+            </div>
+            <div id = "themeChoose">
+                <label><input type="radio" class="theme-btn" value="Black" name = "Theme"><span id = "Theme1"></span></label>
+                <label><input type="radio" class="theme-btn" value="White" name = "Theme"><span id = "Theme2"></span></label>
+            </div>
         </div>
         <ul class="list" id="list"></ul>
         <ul class="bottom-menu">
@@ -100,7 +113,7 @@
                 </a>
             </li>
             <li class="bottom-item">
-                <a class="bottom-ref" href="#" id="random-btn">
+                <a class="bottom-ref" href="#" id="sim-btn">
                     <img class="bottom-icons" src="images\Dice.png" alt="Dice" />
                 </a>
             </li>
@@ -159,26 +172,6 @@
         <div id = "reviewForm">
             <input type="text" id = "userReview" placeholder="Type your review here"/>
             <input type="button" id = "leaveReview" value="Send review"/>
-        </div>
-    </div>
-    <div id="setScreen">
-        <h1 id="setName">Settings</h1>
-        <div class="listCont" id="langList">
-            <p class="listDescr" id="langDescr">Select language: </p>
-            <input class="optList" list="lang" value = "English">
-            <datalist id="lang">
-                <option id="ru-ru" value="Russian"/>
-                <option id="en-gb" value="English"/>
-                <option id="de-de" value="Deutsch"/>
-            </datalist>
-        </div>
-        <div class="listCont" id="colorList">
-            <p class="listDescr" id="colorDescr">Select color scheme:</p>
-            <input class="optList" list="colorSchemes" value="Standard">
-            <datalist id="colorSchemes">
-                <option id="standard" value="Standard"/>
-                <option id="altern" value="Alternative"/>
-            </datalist>
         </div>
     </div>
 

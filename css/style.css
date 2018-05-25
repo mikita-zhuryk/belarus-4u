@@ -3,6 +3,17 @@
     margin: 0px;
 }
 
+:root{
+    --color0: #181818;
+    --color1: #212222; 
+    --color2: rgb(130, 57, 255);
+    --color3: rgb(78, 28, 167);
+    --color4: rgb(61, 26, 128);
+    --color5: rgb(48, 20, 100);
+    --textColor: #ECEAE4;
+    --fontFamily: 'Poppins';
+}
+
 *:focus {
     outline: none;
 }
@@ -41,7 +52,7 @@
     box-shadow: 0px 1px 3px -2px rgba(0, 0, 0, 0.596);
     color: #565656;
     font-weight: 400;
-    font-family:  'Alegreya Sans';  
+    font-family: 'Arial';  
     transition: color 0.1s ease-out;
     transition: font-weight 0.1s ease-out;                
 }
@@ -60,29 +71,29 @@
 body {
     background: #000000;
     text-align: start;
-    font-family: 'Alegreya Sans', 'Arial', sans-serif; 
+    font-family: var(--fontFamily);
     font-weight: 300;   
 }
 
 a {
     text-decoration: none;
-    color: rgb(130, 57, 255);
+    color: var(--color2);
     transition: all 0.05s ease-in;    
     cursor: pointer;
 }
 
 a:hover{
-    color: rgb(78, 28, 167);
+    color: var(--color3);
 }
 
 a.disabled{
     pointer-events: none;
     cursor: default;
-    color: #ECEAE4;
+    color: var(--textColor);
 }
 
 li {
-    color: #ECEAE4;
+    color: var(--textColor);
 }
 
 ul {
@@ -93,10 +104,10 @@ ul {
     width: 319px;
     height: 100%;
     position: fixed;
-    background: #212222;
+    background: var(--color1);
     float: left;
     overflow: hidden;
-    border-right: 1px solid #ECEAE4;
+    border-right: 1px solid var(--textColor);
 }
 
 #filterWnd {
@@ -121,7 +132,7 @@ ul {
     height: 55px;
     font-size: 30px;
     border: none;
-    background: #212222;
+    background: var(--color1);
     box-shadow: inset 0px 10px 5px -10px #000000;
     color: #757575;
     outline:none;
@@ -132,14 +143,14 @@ ul {
     flex-direction: column;
     height: calc(100% - 115px);
     overflow: auto;
-    border-top: 2px solid #ECEAE4;
+    border-top: 2px solid var(--textColor);
 }
 
 .sub-menu {
     display: none;
-    background: rgb(61, 26, 128);
-    box-shadoW: 0px 35px 0px -30px rgb(48, 20, 100) inset,
-                0px -34px 0px -30px rgb(48, 20, 100) inset;    
+    background: var(--color4);
+    box-shadoW: 0px 35px 0px -30px var(--color5) inset,
+                0px -34px 0px -30px var(--color5) inset;    
 }
 
 .menu-item, .sub-menu-item{
@@ -151,19 +162,19 @@ ul {
 }
 
 .menu-item{
-    background: #212222;
+    background: var(--color1);
 }
 
 .menu-item:hover{
-    background: #181818;    
+    background: var(--color0);    
 }
 
 .menu-item.click{
-    background: #181818;  
+    background: var(--color0);  
 }
 
 .sub-menu-item:hover{
-    background: rgb(48, 20, 100);
+    background: var(--color5);
     padding-left: 30px;    
 }
 
@@ -179,17 +190,17 @@ ul {
 }
 
 .bottom-item {
-    background: #212222;
+    background: var(--color1);
     height: 60px;
     width: 20%;
     font: medium 16px;
-    border-top: 2px solid #ECEAE4;
+    border-top: 2px solid var(--textColor);
     display: inherit;
     transition: all 0.2s ease-out;
 }
 
 .bottom-item:hover{
-    background: #181818;
+    background: var(--color0);
 }
 
 .bottom-item:hover .bottom-icons {
@@ -214,7 +225,7 @@ ul {
 #listHead{      
     position: fixed;
     text-align: center;
-    color: #ECEAE4;
+    color: var(--textColor);
     width: 319px !important;
     margin-top: 0px;
     visibility: hidden;
@@ -222,8 +233,8 @@ ul {
     font-size: 35px;
     padding: 10px 0px;
     cursor: pointer;
-    background: rgb(78, 28, 167);
-    box-shadow: 0 -4px rgb(61, 26, 128) inset;
+    background: var(--color3);
+    box-shadow: 0 -4px var(--color4) inset;
 }
 
 .list{
@@ -246,7 +257,7 @@ ul {
     margin-left: -5px;
     width: 100%;
     height: 1px;
-    background: linear-gradient(to right, #ECEAE4, #212222);
+    background: linear-gradient(to right, var(--textColor), var(--color1));
 }
 
 .nodeName{
@@ -282,7 +293,7 @@ ul {
     height: 100%;
     width: calc(100% - 320px);
     left: 320px;
-    background: #212222;
+    background: var(--color1);
     z-index: 0;
     overflow: hidden;
     display: none;  
@@ -297,7 +308,7 @@ ul {
 .titleWnd{
     margin-top: 5px;
     font-size: 70px;
-    color: #ECEAE4;
+    color: var(--textColor);
     font-weight: 400;
     text-align: center;
 }
@@ -324,9 +335,9 @@ ul {
     cursor: pointer;
     font-size: 15px;
     font-weight: 400;
-    color: white;
-    background: rgb(78, 28, 167);
-    box-shadow: 0 -3px rgb(61, 26, 128) inset;
+    color: var(--textColor);
+    background: var(--color3);
+    box-shadow: 0 -3px var(--color4) inset;
     transition: 0.2s;
     z-index: 1;
 }
@@ -336,11 +347,11 @@ ul {
 }
 
 #hideBtn:hover, #showBtn:hover{
-    background: rgb(61, 26, 128);
+    background: var(--color4);
 }
 
 #hideBtn:active, #showBtn:active{
-    color: rgb(52, 22, 107);
+    color: var(--color5);
     background: white;
     box-shadow: 0 -3px rgb(184, 184, 184) inset;
     transition: 0.2s
@@ -357,7 +368,7 @@ ul {
     -webkit-background-size: cover;
     margin: 5px 0px 0px calc(3% + 5px);
     overflow: hidden;
-    box-shadow: 0px 0px 0px 5px #181818;
+    box-shadow: 0px 0px 0px 5px var(--color0);
 }
 
 #placePhoto{
@@ -373,10 +384,10 @@ ul {
     width: calc(51% - 20px);
     height: calc(24% - 30px);
     margin: 10px 0px 1% 46%;
-    color: white;
+    color: var(--textColor);
     font-size: 27px;
     font-weight: 300;    
-    border: 5px solid #181818 ;
+    border: 5px solid var(--color0) ;
     overflow: auto;
 }
 
@@ -415,15 +426,15 @@ ul {
     left: -5px;
     height: 20px;
     width: 20px;
-    background-color: #eee;
+    background-color: #eceae4;
 }
   
 .container:hover input ~ .checkmark {
-    background-color: #ccc;
+    background-color: var(--textColor);
 }
   
 .container input:checked ~ .checkmark {
-    background-color: rgb(78, 28, 167);
+    background-color: var(--color3);
 }
   
 .checkmark:after {
@@ -458,11 +469,11 @@ ul {
     flex-direction: column;
     width: 51%;
     height: calc(70% - 132px);
-    color: white;
+    color: var(--textColor);
     font-size: 25px;
     font-weight: 300;
     margin-left: 46%;
-    background: #181818;
+    background: var(--color0);
 }
 
 #miniHeadWnd{
@@ -470,8 +481,8 @@ ul {
     height: auto;
     width: 100%;
     font-weight: 400;    
-    background: rgb(78, 28, 167);
-    box-shadow: 0 -5px rgb(61, 26, 128) inset;    
+    background: var(--color3);
+    box-shadow: 0 -5px var(--color4) inset;    
 }
 
 #reviewsWnd{
@@ -481,7 +492,7 @@ ul {
 .review{
     margin-bottom: 5px;
     padding: 10px;    
-    background: #181818;
+    background: var(--color0);
     font-size: 30px;
 }
 
@@ -503,8 +514,8 @@ ul {
 .sliders-input{
     border:0; 
     width: 100px;
-    color:#ECEAE4; 
-    background: #212222;
+    color: var(--textColor); 
+    background: var(--color1);
     font-size: 18px;
 }
 
@@ -517,7 +528,7 @@ ul {
 
 .afterCheckboxFilter{
     margin-top: 5px;
-    color: #ECEAE4;
+    color: var(--textColor);
     font-size: 20px;
     padding-left: 45px;
 }
@@ -528,7 +539,7 @@ ul {
     height: 0px;
     margin-left: 46%;    
     overflow: hidden;
-    background: #181818;
+    background: var(--color0);
 }
 
 #userReview {
@@ -537,7 +548,7 @@ ul {
     width: calc(100% - 195px);
     height: 45px;
     font-size: 20px;
-    background: #ECEAE4;
+    background: #eceae4;
     border: none;
     outline: none;
     overflow: hidden;
@@ -551,46 +562,79 @@ ul {
     cursor: pointer;
     font-size: 15px;
     font-weight: 400;
-    color: white;
-    background: rgb(78, 28, 167);
-    box-shadow: 0 -3px rgb(61, 26, 128) inset;
+    color: var(--textColor);
+    background: var(--color3);
+    box-shadow: 0 -3px var(--color4) inset;
     transition: 0.2s;
 }
 
 #leaveReview:hover{
-    background: rgb(61, 26, 128);
+    background: var(--color4);
 }
 
 #leaveReview:active{
-    color: rgb(52, 22, 107);
-    background: white;
+    color: var(--color5);
+    background: #eceae4;
     box-shadow: 0 -3px rgb(184, 184, 184) inset;
     transition: 0.2s
 }
 
-#setScreen {
-    position: fixed;
+#settingsWnd{
+    z-index: 100;
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: calc(100% - 115px);
+    overflow: auto;
+}
+
+#settingsWnd label{
+    margin: 15px 10px;     
+    display: block;
+    position: relative;
+}
+
+#settingsWnd input + span{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
     height: 100%;
-    width: calc(100% - 320px);
-    left: 320px;
-    background: #212222;
-    z-index: 0;
-    overflow: hidden;
-    display: none;
+    cursor: pointer;
+    background-position: center;
 }
 
-.listDescr {
-    color: #FFF;
-    font-size: 28px;
+#langChoose label{
+    width: 86px;
+    height: 57px;
 }
 
-#setName {
-    color: #FFF;
-    font-size: 48px;
-    text-align: center;
+#themeChoose label{
+    width: 200px;
+    height: 50px;
 }
 
-.optList {
-    left: 5%;
-    font-size: 24px;
+#settingsWnd input:checked + span{
+    box-shadow: 0px 0px 0px 2px #eee; 
+}
+
+#Eng{
+    background: url("/C:/Users/Admin/Documents/Belarus4u/images/GrBr.png") no-repeat;
+}
+
+#Rus{
+    background: url("/C:/Users/Admin/Documents/Belarus4u/images/Rus.png") no-repeat;
+}
+
+#Ger{
+    background: url("/C:/Users/Admin/Documents/Belarus4u/images/Germ.png") no-repeat;
+}
+
+#Theme1{
+    background: url("/C:/Users/Admin/Documents/Belarus4u/images/Theme1.png") no-repeat;
+}
+
+#Theme2{  
+    background: url("/C:/Users/Admin/Documents/Belarus4u/images/Theme2.png") no-repeat;
 }

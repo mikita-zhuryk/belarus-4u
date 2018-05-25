@@ -1,10 +1,34 @@
-// $(document).ready(function () {
-//     $.getScript('search.js', function () {
-//         console.log("Search.js loaded");
-//     })
-// })
+var filtStr = "Filters";
 var filtersShown = false;
 var listHeadStr;
+
+function hideFilters() {
+    filtersShown = false;
+    $('#filterWnd').hide('speed');
+}
+
+function searchAgain() {
+    if (listHeadStr == undefined) {
+        document.getElementById('listHead').style.visibility = "hidden";
+        showMenu();
+    }
+    else {
+        document.getElementById('listHead').innerHTML = listHeadStr;
+        search(listHeadStr);
+    }
+}
+
+function memoriseHead() {
+    if (document.getElementById('list').hasChildNodes()) {
+        listHeadStr = document.getElementById('listHead').innerHTML;
+    }
+}
+
+function showFilters() {
+    hideMenu(filtStr);
+    $('#filterWnd').show('speed');
+    filtersShown = true;
+}
 
 $(document).ready(function () {
     $("#range-slider").slider({
@@ -58,30 +82,15 @@ $(document).ready(function () {
         radius = document.getElementById('radius').value;
         $("#range-slider").slider.value = radius;
     })
-    //TODO: Make textboxes inputable (with string splitting)
     $('#filter-btn').click(function () {
         var filterWnd = document.getElementById('filterWnd');
         if (!filtersShown) {
-            if (document.getElementById('list').hasChildNodes()) {
-                listHeadStr = document.getElementById('listHead').innerHTML;
-            }
-            filtersShown = true;
-            hideMenu("Filters");
-            //filterWnd.style.visibility = "visible";
-            $('#filterWnd').show('speed');
+            memoriseHead();
+            showFilters();
         }
         else {
-            filtersShown = false;
-            //filterWnd.style.visibility = "hidden";
-            $('#filterWnd').hide('speed');
-            if (listHeadStr == undefined) {
-                document.getElementById('listHead').style.visibility = "hidden";
-                showMenu();
-            }
-            else {
-                document.getElementById('listHead').innerHTML = listHeadStr;
-                search(listHeadStr);
-            }
+            showMenu();
+            searchAgain();
         }
     })
 })

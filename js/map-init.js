@@ -4,8 +4,19 @@ var circle;
 var circleDrawn = false;
 var pos;
 var posMarker;
+var autocomplete;
 
-function drawCircle(redraw = false) {
+function searchInput() {
+    var value = $('#searchBox').val();
+    var place = autocomplete.getPlace();
+    mapOptions.center = place.geometry.location;
+    map.setCenter(mapOptions.center);
+    map.setZoom(calcZoom());
+    drawCircle(true, false);
+    search(value);
+}
+
+function drawCircle(redraw = false, marker = true) {
     if (redraw || (circle == undefined) || ((circle.center.lat() !== map.center.lat()) && (circle.center.lng() !== map.center.lng()))) {
         if (circleDrawn) {
             circle.setMap(null);
@@ -22,16 +33,19 @@ function drawCircle(redraw = false) {
             posMarker.setMap(null);
             posMarker = 0;
         }
-        posMarker = new google.maps.Marker({
-            position: circle.center,
-            map: map,
-            animation: google.maps.Animation.DROP,
-            draggable: false
-        });
-        pos = new google.maps.InfoWindow({
-            content: 'You are here'
-        });
-        pos.open(map, posMarker);
+        if (marker) {
+            posMarker = new google.maps.Marker({
+                position: circle.center,
+                map: map,
+                animation: google.maps.Animation.DROP,
+                draggable: false,
+                icon: "images/meMarker.png"
+            });
+            pos = new google.maps.InfoWindow({
+                content: 'You are here'
+            });
+            pos.open(map, posMarker);
+        }
     }
 }
 
@@ -149,7 +163,8 @@ function initMap() {
     };
     map = new google.maps.Map(document.getElementById("map"), mapOptions);
     map.mapTypes.set('styled_map', StyledMap);
-    var autocomplete = new google.maps.places.Autocomplete(document.getElementById('searchBox'));
+    autocomplete = new google.maps.places.Autocomplete(document.getElementById('searchBox'));
+    autocomplete.addListener('place_changed', searchInput);
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
             function (position) {
