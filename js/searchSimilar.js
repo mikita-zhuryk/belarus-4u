@@ -1,9 +1,9 @@
-var randStr = "Random places";
+var simStr = "Interesting places";
 
 $(document).ready(function () {
-    $('#random-btn').click(function () {
-        if (document.getElementById('listHead').innerHTML !== randStr) {
-            hideMenu(randStr);
+    $('#sim-btn').click(function () {
+        if (document.getElementById('listHead').innerHTML !== simStr) {
+            hideMenu(simStr);
             findSimilar(places, createHistory());
         }
         else {
@@ -35,18 +35,20 @@ function placeDist(place1, place2) {
 
 function findSimilar(places, history) {
     removeMarkers(markers);
-    for (var i = 0; i < places.length; i++) {
-        for (var j = 0; j < history.length; j++) {
-            if ((places[i][1] !== history[j][1]) && (placeDist(places[i][1], history[j][1]) < 3)) {
-                var marker = new google.maps.Marker({
-                    map: map,
-                    position: places[i][1].geometry.location,
-                    title: places[i][1].place_id
-                });
-                addHint(marker);
-                markers.push(marker);
-                createNode(places[i][1]);
-                break;
+    if (history !== undefined) {
+        for (var i = 0; i < places.length; i++) {
+            for (var j = 0; j < history.length; j++) {
+                if ((places[i][1] !== history[j][1]) && (placeDist(places[i][1], history[j][1]) < 3)) {
+                    var marker = new google.maps.Marker({
+                        map: map,
+                        position: places[i][1].geometry.location,
+                        title: places[i][1].place_id
+                    });
+                    addHint(marker);
+                    markers.push(marker);
+                    createNode(places[i][1]);
+                    break;
+                }
             }
         }
     }

@@ -38,7 +38,8 @@ function drawCircle(redraw = false, marker = true) {
                 position: circle.center,
                 map: map,
                 animation: google.maps.Animation.DROP,
-                draggable: false
+                draggable: false,
+                icon: "images/meMarker.png"
             });
             pos = new google.maps.InfoWindow({
                 content: 'You are here'
