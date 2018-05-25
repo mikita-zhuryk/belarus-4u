@@ -34,5 +34,10 @@ function changeLoc(localizationStr) {
     randStr = lines[i++];
     filtStr = lines[i++];
     document.getElementById('listHead').innerHTML = lines[i];
-    setStr = lines[i];
+    setStr = lines[i++];
+    rateStr = lines[i++];
+    openNowStr = lines[i++];
+    document.getElementById('leaveReview').value = lines[i++];
+    document.getElementById('userReview').placeholder = lines[i++];
+    thanks = lines[i++];
 }
