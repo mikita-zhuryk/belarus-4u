@@ -49,23 +49,42 @@ function drawCircle(redraw = false, marker = true) {
     }
 }
 
+function manualGeoLoc() {
+    map.addListener('click', function (pos) {
+        mapOptions.center = pos.latLng;
+        map.setCenter(mapOptions.center);
+        map.setZoom(calcZoom());
+        drawCircle();
+        if (document.getElementById('list').hasChildNodes()) {
+            search(document.getElementById('listHead').innerHTML);
+        }
+        google.maps.event.clearListeners(map, 'click');
+    })
+}
+
 $(document).ready(function () {
     $('#setPos').click(function () {
-        map.addListener('click', function (pos) {
-            mapOptions.center = pos.latLng;
-            map.setCenter(mapOptions.center);
-            map.setZoom(calcZoom());
-            drawCircle();
-            if (document.getElementById('list').hasChildNodes()) {
-                search(document.getElementById('listHead').innerHTML);
-            }
-            google.maps.event.clearListeners(map, 'click');
-        })
+        getGeoLoc();
     })
 })
 
 function calcZoom() {
     return Math.floor(13 / Math.sqrt(Math.sqrt(Math.sqrt(radius / 3500))));
+}
+
+function getGeoLoc() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            function (position) {
+                mapOptions.center = { lat: position.coords.latitude, lng: position.coords.longitude };
+                flag = true;
+                map.setCenter(mapOptions.center);
+                map.setZoom(calcZoom());
+                drawCircle();
+            }, function () {
+                manualGeoLoc();
+            })
+    }
 }
 
 function initMap() {
@@ -165,17 +184,5 @@ function initMap() {
     map.mapTypes.set('styled_map', StyledMap);
     autocomplete = new google.maps.places.Autocomplete(document.getElementById('searchBox'));
     autocomplete.addListener('place_changed', searchInput);
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            function (position) {
-                mapOptions.center = { lat: position.coords.latitude, lng: position.coords.longitude };
-                flag = true;
-                map.setCenter(mapOptions.center);
-                map.setZoom(calcZoom());
-                drawCircle();
-            },
-            function () {
-                $('#setPos').trigger('click');
-            })
-    }
+    getGeoLoc();
 }
