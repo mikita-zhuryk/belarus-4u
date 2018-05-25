@@ -5,8 +5,7 @@
     <title>Belarus4U</title>
     <meta charset="utf-8"/>
     <link href="css/style.css" type="text/css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Spectral" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Rubik:300,300i,400,400i,500,500i" rel="stylesheet">
     <script src='js/jquery-3.3.1.min.js'></script>
     <script src="js/menu-animation.js"></script>
     <script src='js/search.js'></script>
@@ -95,14 +94,15 @@
             <span class="afterCheckboxFilter">Has photos available</span>
         </div>
         <div id = "settingsWnd" style="display: none">
-            <div id = "langChoose">
-                <label><input type="radio" class="lang-btn" id="Eng-btn" value="Eng" name = "Lang"><span id = "Eng"></span></label>
-                <label><input type="radio" class="lang-btn" id="Rus-btn" value="Rus" name = "Lang"><span id = "Rus"></span></label>
-                <label><input type="radio" class="lang-btn" id="Ger-btn" value="Ger" name = "Lang"><span id = "Ger"></span></label>
+            <div id = "langChoose"> Language
+                <div><label><input type="radio" class="lang-btn" id="Eng-btn" value="Eng" name = "Lang" checked><span id = "Eng"><img src = "images\GrBr.png"></span></label>English</div>
+                <div><label><input type="radio" class="lang-btn" id="Rus-btn" value="Rus" name = "Lang"><span id = "Rus"><img src = "images\Rus.png"></span></label>Русский</div>
+                <div><label><input type="radio" class="lang-btn" id="Ger-btn" value="Ger" name = "Lang"><span id = "Ger"><img src = "images\Germ.png"></span></label>Deutsch</div>
+                <div><label><input type="radio" class="lang-btn" id="Fra-btn" value="Fra" name = "Lang"><span id = "Fra"><img src = "images\Fra.png"></span></label>Français</div>
             </div>
-            <div id = "themeChoose">
-                <label><input type="radio" class="theme-btn" value="Black" name = "Theme"><span id = "Theme1"></span></label>
-                <label><input type="radio" class="theme-btn" value="White" name = "Theme"><span id = "Theme2"></span></label>
+            <div id = "themeChoose"> Styling
+                <label><input type="radio" class="theme-btn" value="Black" name = "Theme" checked><span id = "Theme1"><img src = "images\Theme1.png"></span></label>
+                <label><input type="radio" class="theme-btn" value="White" name = "Theme"><span id = "Theme2"><img src = "images\Theme2.png"></span></label>
             </div>
         </div>
         <ul class="list" id="list"></ul>
