@@ -166,8 +166,15 @@ function showMarkers() {
     }
 }
 
+function clearReviewForm() {
+    document.getElementById('reviewForm').placeholder = "Type your review here";
+    $('#leaveReview').show();
+    reviewForm.value = "";
+}
+
 function updateInfoWnd(place) {
     hideMarkers(place);
+    clearReviewForm();
     if (checkBeen(place)) {
         document.getElementById('checkBeen').checked = true;
         document.getElementById('reviews').style.height = "calc(70% - 190px)";
