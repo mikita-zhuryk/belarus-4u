@@ -149,6 +149,7 @@ function writeCookie(place) {
     var r = document.cookie.match(exp);
     if (!r || (r == undefined) || (r.length == 0)) {
         document.cookie += "id = " + text.toString();
+        clearReviewForm();
     }
 }
 
@@ -167,33 +168,43 @@ function showMarkers() {
 }
 
 function clearReviewForm() {
-    document.getElementById('reviewForm').placeholder = "Type your review here";
-    $('#leaveReview').show();
+    var reviewForm = document.getElementById('userReview');
+    reviewForm.placeholder = "Type your review here";
     reviewForm.value = "";
+    $('#leaveReview').show();
+}
+
+function alreadyLeftReview() {
+    var reviewForm = document.getElementById('userReview');
+    reviewForm.placeholder = "Type your review here";
+    reviewForm.value = thanks;
+    $('#leaveReview').hide();
 }
 
 function updateInfoWnd(place) {
     hideMarkers(place);
-    clearReviewForm();
     if (checkBeen(place)) {
+        alreadyLeftReview();
         document.getElementById('checkBeen').checked = true;
         document.getElementById('reviews').style.height = "calc(70% - 190px)";
-        document.getElementById('reviewForm').style.height = "58px";
+        document.getElementById('reviewForm').style.visibility = "visible";
     }
     else {
+        clearReviewForm();
         document.getElementById('checkBeen').checked = false;
         document.getElementById('reviews').style.height = "";
-        document.getElementById('reviewForm').style.height = "0px";
+        document.getElementById('reviewForm').style.visibility = "hidden";
     }
     $('#checkBeen').change(function () {
         if (this.checked) {
             document.getElementById('reviews').style.height = "calc(70% - 190px)";
-            document.getElementById('reviewForm').style.height = "58px";
+            document.getElementById('reviewForm').style.visibility = "visible";
             writeCookie(place);
         }
         else {
+            alreadyLeftReview();
             document.getElementById('reviews').style.height = "";
-            document.getElementById('reviewForm').style.height = "0px";
+            document.getElementById('reviewForm').style.visibility = "hidden";
         }
     })
     document.getElementById('identifyWnd').innerHTML = place.place_id;
@@ -400,7 +411,7 @@ function hideMenu(text) {
     hideFilters();
     hideSettings();
     $('.menu').hide('speed');
-    var trimmedString = text.substr(0, 25);
+    var trimmedString = text.substr(0, 20);
     trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")))
     $('#listHead').text(trimmedString);
     document.getElementById('listHead').style.visibility = "visible";

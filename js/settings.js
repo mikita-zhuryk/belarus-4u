@@ -27,7 +27,6 @@ $(document).ready(function () {
     $('.lang-btn').click(function (e) {
         var value = $(this).val();
         var loc;
-        document.getElementsByClassName('sub-menu-item')[1].style = "font-size: 35px";
         switch (value) {
             case "Eng": {
                 loc = "Set position\nSearch...\nFood\nLodging\nShopping\nLeisure\nCafe\nMeal Takeaway\nDelivery\nRestaurant\nBar\nLodging\nCampground\nShopping mall\nClothing\nGallery\nMuseum\nZoo\nCasino\nSpa\n";
@@ -41,8 +40,13 @@ $(document).ready(function () {
             }
             case "Ger": {
                 document.getElementsByClassName('sub-menu-item')[1].style = "font-size: 24px";
-                loc = "Position setzen\nSuche...\nEssen\nUnterkunft\nEinkaufen\nFreizeit\nCafe\nEssen zum Mitnehmen\nLieferung\nRestaurant\nBar\nUnterkunft\nCamping Platz\nEinkaufszentrum\nKleidung\nGalerie\nMuseum\nZoo\nKasino\nSpa\n";
+                loc = "Position setzen\nSuche...\nEssen\nUnterkunft\nEinkaufen\nFreizeit\nCafe\nZum Mitnehmen\nLieferung\nRestaurant\nBar\nUnterkunft\nCamping Platz\nEinkaufszentrum\nKleidung\nGalerie\nMuseum\nZoo\nKasino\nSpa\n";
                 loc += "Suchradius:\nPreisniveau:\nPlatzbewertung:\nJetzt geöffnet\nHat Fotos verfügbar\nOrtskennung\nKarte anzeigen\nZeige info\nIch war hier\nBewertungen\nGeschichte\nInteressante Orte\nFilter\ndie Einstellungen\nBewertung:\nJetzt geöffnet";
+                break;
+            }
+            case "Fra": {
+                loc = "Célébrer\nRecherche...\nAlimentation\nHébergement\nAchat\nLoisir\nCafé\nPlats à emporter\nLivraison\nRestaurant\nBar\nLogement\nCamping\nCentrale d'achats\nVêtements\nGalerie\nMusée\nZoo\nCasino\nSpa\n";
+                loc += "Rayon de recherche:\nNiveau de prix:\nClassement du lieu:\nMaintenant ouvert\nPhotos disponibles\nID de l'espace\nCarte\nInfos\nJ'étais ici\nCritiques\nHistoire\nEndroits intéressants\nFiltres\nParamètres";
                 break;
             }
         }
@@ -63,7 +67,7 @@ $(document).ready(function () {
                 root.style.setProperty('--color4', 'rgb(61, 26, 128)');
                 root.style.setProperty('--color5', 'rgb(48, 20, 100)'); 
                 root.style.setProperty('--textColor', '#eceae4');
-                root.style.setProperty('--fontFamily', 'Poppins');
+                root.style.setProperty('--fontFamily', 'Rubik');
                 break;
             }
             case "White": {
@@ -74,7 +78,7 @@ $(document).ready(function () {
                 root.style.setProperty('--color4', '#FFA292');
                 root.style.setProperty('--color5', '#ff473d');  
                 root.style.setProperty('--textColor', '#282828');
-                root.style.setProperty('--fontFamily', 'Poppins');                                              
+                root.style.setProperty('--fontFamily', 'Rubik');                                              
                 break;
             }
         }
