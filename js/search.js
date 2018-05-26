@@ -485,7 +485,7 @@ $(document).ready(function () {
 })
 
 function createHistory() {
-    var history;
+    var history = [];
     var exp = new RegExp('id = [-_A-Za-z0-9]{27}', 'g');
     var r = document.cookie.match(exp);
     if (r !== null) {
