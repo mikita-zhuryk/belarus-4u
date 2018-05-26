@@ -5,8 +5,7 @@
     <title>Belarus4U</title>
     <meta charset="utf-8"/>
     <link href="css/style.css" type="text/css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Spectral" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Rubik:300,300i,400,400i,500,500i" rel="stylesheet">
     <script src='js/jquery-3.3.1.min.js'></script>
     <script src="js/menu-animation.js"></script>
     <script src='js/search.js'></script>
@@ -69,17 +68,17 @@
         <div id="filterWnd" style="display: none">
             <div class="slider" id = "range-slider"></div>
             <p>
-                <label for="radius" class="filter-label" style="color: #ECEAE4; font-size: 25px;">Search radius: </label>
+                <label for="radius" class="filter-label">Search radius: </label>
                 <input class="sliders-input" type="text" id="radius" value="3500 m" />
             </p>
             <div class="slider" id="price-slider"></div>
             <p>
-                <label for="price" class="filter-label" style="color: #ECEAE4; font-size: 25px;">Price level: </label>
+                <label for="price" class="filter-label">Price level: </label>
                 <input class="sliders-input" type="text" id="price" value="[0, 3]" />
             </p>
             <div class="slider" id="rating-slider"></div>
             <p>
-                <label for="rating" class="filter-label" style="color: #ECEAE4; font-size: 25px;">Place rating: </label>
+                <label for="rating" class="filter-label">Place rating: </label>
                 <input class="sliders-input" type="text" id="rating" value="[3, 5]" />
             </p>
 
@@ -95,42 +94,42 @@
             <span class="afterCheckboxFilter">Has photos available</span>
         </div>
         <div id = "settingsWnd" style="display: none">
-            <div id = "langChoose">
-                <label><input type="radio" class="lang-btn" id="Eng-btn" value="Eng" name = "Lang"><span id = "Eng"></span></label>
-                <label><input type="radio" class="lang-btn" id="Rus-btn" value="Rus" name = "Lang"><span id = "Rus"></span></label>
-                <label><input type="radio" class="lang-btn" id="Ger-btn" value="Ger" name = "Lang"><span id = "Ger"></span></label>
+            <div id = "langChoose"> Language
+                <div><label><input type="radio" class="lang-btn" id="Eng-btn" value="Eng" name = "Lang" checked><span id = "Eng"><img src = "images\GrBr.png"></span></label>English</div>
+                <div><label><input type="radio" class="lang-btn" id="Rus-btn" value="Rus" name = "Lang"><span id = "Rus"><img src = "images\Rus.png"></span></label>Русский</div>
+                <div><label><input type="radio" class="lang-btn" id="Ger-btn" value="Ger" name = "Lang"><span id = "Ger"><img src = "images\Germ.png"></span></label>Deutsch</div>
+                <div><label><input type="radio" class="lang-btn" id="Fra-btn" value="Fra" name = "Lang"><span id = "Fra"><img src = "images\Fra.png"></span></label>Français</div>
             </div>
-            <div id = "themeChoose">
-                <label><input type="radio" class="theme-btn" value="Black" name = "Theme"><span id = "Theme1"></span></label>
-                <label><input type="radio" class="theme-btn" value="White" name = "Theme"><span id = "Theme2"></span></label>
-                <!-- <label><input type="radio" value="Germ" name = "Theme"></label> -->
+            <div id = "themeChoose"> Styling
+                <label><input type="radio" class="theme-btn" value="Black" name = "Theme" checked><span id = "Theme1"><img src = "images\Theme1.png"></span></label>
+                <label><input type="radio" class="theme-btn" value="White" name = "Theme"><span id = "Theme2"><img src = "images\Theme2.png"></span></label>
             </div>
         </div>
         <ul class="list" id="list"></ul>
         <ul class="bottom-menu">
             <li class="bottom-item">
                 <a class="bottom-ref" href="#" id="history-btn">
-                    <img class="bottom-icons" src="images\History.png" alt="Clock" />
+                    <img id = "History" class="bottom-icons" src="images\History.png" alt="Clock" />
                 </a>
             </li>
             <li class="bottom-item">
-                <a class="bottom-ref" href="#" id="random-btn">
-                    <img class="bottom-icons" src="images\Dice.png" alt="Dice" />
+                <a class="bottom-ref" href="#" id="sim-btn">
+                    <img id = "Dice" class="bottom-icons" src="images\Dice.png" alt="Dice" />
                 </a>
             </li>
             <li class="bottom-item">
                 <a class="bottom-ref" href="#" id="home-btn">
-                    <img class="bottom-icons" src="images\Home.png" alt="Home" />
+                    <img id = "Home" class="bottom-icons" src="images\Home.png" alt="Home" />
                 </a>
             </li>
             <li class="bottom-item">
                 <a class="bottom-ref" href="#" id="filter-btn">
-                    <img class="bottom-icons" src="images\Sorting.png" alt="Sorting" />
+                    <img id = "Sorting" class="bottom-icons" src="images\Sorting.png" alt="Sorting" />
                 </a>
             </li>
             <li class="bottom-item">
                 <a class="bottom-ref" href="#" id="settings-btn">
-                    <img class="bottom-icons" src="images\Service.png" alt="Service" />
+                    <img id = "Service" class="bottom-icons" src="images\Service.png" alt="Service" />
                 </a>
             </li>
         </ul>
@@ -139,12 +138,12 @@
         <div id = "identifyWnd" visibility = "hidden">Place ID</div>
         <p class = "titleWnd"></p>
         <div id = "rateWnd"><img id = "starsWnd" src = "images/Stars.png"></div>
-        <button id = "hideBtn">Show map</button>
+        <button id = "hideBtn">Map</button>
         <div id = "gallery"><img id = "placePhoto"></div>
         <div id = "placeInfoWnd">
-            <div class = "infoWnd"><img src = "images\Address.png" alt = "Adderss"><span id = "placeAddressWnd"></span></div>
-            <div class = "infoWnd"><img src = "images\Phone.png" alt = "Phone number"><span id = "placePhoneWnd"></span></div>
-            <div class = "infoWnd"><img src = "images\Website.png" alt = "Website"><a target = "_blank" id = "websiteWnd"></a></div>
+            <div class = "infoWnd"><img id = "Address" src = "images\Address.png" alt = "Adderss"><span id = "placeAddressWnd"></span></div>
+            <div class = "infoWnd"><img id = "Phone" src = "images\Phone.png" alt = "Phone number"><span id = "placePhoneWnd"></span></div>
+            <div class = "infoWnd"><img id = "Website" src = "images\Website.png" alt = "Website"><a target = "_blank" id = "websiteWnd"></a></div>
             <div class = "infoWnd" id="visitCheck">
                 <label class="container" >
                     <input type="checkbox" id="checkBeen">
@@ -157,15 +156,15 @@
             <div id="miniHeadWnd" font-weight="500">Reviews</div>
             <div id="reviewsWnd">
                 <div class="review">
-                    <img src="images\User-1.png">
+                    <img id = "User1" src="images\User.png">
                     <span class="reviewText"></span>
                 </div>
                 <div class="review">
-                    <img src="images\User-2.png">
+                    <img id = "User2" src="images\User.png">
                     <span class="reviewText"></span>
                 </div>
                 <div class="review">
-                    <img src="images\User-3.png">
+                    <img id = "User3" src="images\User.png">
                     <span class="reviewText"></span>
                 </div>
             </div>

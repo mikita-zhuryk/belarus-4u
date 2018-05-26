@@ -1,14 +1,10 @@
 $(document).ready(function () {
-  //прикрепляем клик по заголовкам acc-head
- // $('.menu-item').on('click', f_acc);
   $('.menu-item').click(f_acc);
 });
 
 function f_acc() {
   $('.menu-item').not($(this)).removeClass("click");
   $(this).toggleClass("click");
-  //скрываем все кроме того, что должны открыть
   $('.sub-menu').not($(this).next()).slideUp(900);
-  // открываем или скрываем блок под заголовком, по которому кликнули
-  $(this).next().slideToggle(900);  
+  $(this).next().slideToggle(900);
 }

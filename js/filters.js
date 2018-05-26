@@ -1,16 +1,9 @@
 var filtStr = "Filters";
-
-// $(document).ready(function () {
-//     $.getScript('search.js', function () {
-//         console.log("Search.js loaded");
-//     })
-// })
 var filtersShown = false;
 var listHeadStr;
 
 function hideFilters() {
     filtersShown = false;
-    //filterWnd.style.visibility = "hidden";
     $('#filterWnd').hide('speed');
 }
 
@@ -32,9 +25,9 @@ function memoriseHead() {
 }
 
 function showFilters() {
-    filtersShown = true;
     hideMenu(filtStr);
     $('#filterWnd').show('speed');
+    filtersShown = true;
 }
 
 $(document).ready(function () {
@@ -89,7 +82,6 @@ $(document).ready(function () {
         radius = document.getElementById('radius').value;
         $("#range-slider").slider.value = radius;
     })
-    //TODO: Make textboxes inputable (with string splitting)
     $('#filter-btn').click(function () {
         var filterWnd = document.getElementById('filterWnd');
         if (!filtersShown) {

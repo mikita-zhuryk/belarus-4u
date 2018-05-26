@@ -20,10 +20,24 @@ function changeLoc(localizationStr) {
     afterCheck[1].innerHTML = lines[i++];
     document.getElementById('identifyWnd').innerHTML = lines[i++];
     document.getElementById('hideBtn').innerHTML = lines[i++];
+    showBtnStr = lines[i];
+    var showBtn = document.getElementById('showBtn');
+    if (showBtn !== null) {
+        showBtn.innerHTML = lines[i++];
+    }
+    else {
+        i++;
+    }
     document.getElementsByClassName('afterCheckbox')[0].innerHTML = lines[i++];
     document.getElementById('miniHeadWnd').innerHTML = lines[i++];
     historyStr = lines[i++];
     randStr = lines[i++];
     filtStr = lines[i++];
+    document.getElementById('listHead').innerHTML = lines[i];
     setStr = lines[i++];
+    rateStr = lines[i++];
+    openNowStr = lines[i++];
+    document.getElementById('leaveReview').value = lines[i++];
+    document.getElementById('userReview').placeholder = lines[i++];
+    thanks = lines[i++];
 }
