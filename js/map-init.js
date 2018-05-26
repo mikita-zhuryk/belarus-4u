@@ -49,20 +49,22 @@ function drawCircle(redraw = false, marker = true) {
     }
 }
 
+function manualGeoLoc() {
+    map.addListener('click', function (pos) {
+        mapOptions.center = pos.latLng;
+        map.setCenter(mapOptions.center);
+        map.setZoom(calcZoom());
+        drawCircle();
+        if (document.getElementById('list').hasChildNodes()) {
+            search(document.getElementById('listHead').innerHTML);
+        }
+        google.maps.event.clearListeners(map, 'click');
+    })
+}
+
 $(document).ready(function () {
     $('#setPos').click(function () {
-        if (!getGeoLoc()) {
-            map.addListener('click', function (pos) {
-                mapOptions.center = pos.latLng;
-                map.setCenter(mapOptions.center);
-                map.setZoom(calcZoom());
-                drawCircle();
-                if (document.getElementById('list').hasChildNodes()) {
-                    search(document.getElementById('listHead').innerHTML);
-                }
-                google.maps.event.clearListeners(map, 'click');
-            })
-        }
+        getGeoLoc();
     })
 })
 
@@ -79,11 +81,8 @@ function getGeoLoc() {
                 map.setCenter(mapOptions.center);
                 map.setZoom(calcZoom());
                 drawCircle();
-                return true;
-            },
-            function () {
-                $('#setPos').trigger('click');
-                return false;
+            }, function () {
+                manualGeoLoc();
             })
     }
 }
