@@ -45,4 +45,5 @@ function changeLoc(localizationStr) {
     thanks = lines[i++];
     document.getElementById('langChooseH').innerHTML = lines[i++];
     document.getElementById('themeChooseH').innerHTML = lines[i++];
+    hereStr = lines[i++];
 }

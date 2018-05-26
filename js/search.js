@@ -322,7 +322,7 @@ function loadSome() {
         var lastLoaded = -1;
         var found = false;
         list = document.getElementById('list');
-        if ((list.scrollHeight - (list.scrollTop + list.clientHeight)) <= 150) {
+        if ((list.scrollHeight - (list.scrollTop + list.clientHeight)) <= 250) {
             locked = true;
             for (var i = 0; i < resultArr.length; i++) {
                 found = false;
