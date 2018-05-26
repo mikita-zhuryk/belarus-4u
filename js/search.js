@@ -172,14 +172,14 @@ function showMarkers() {
 
 function clearReviewForm() {
     var reviewForm = document.getElementById('userReview');
-    reviewForm.placeholder = "Type your review here";
+    reviewForm.placeholder = placeHStr;
     reviewForm.value = "";
     $('#leaveReview').show();
 }
 
 function alreadyLeftReview() {
     var reviewForm = document.getElementById('userReview');
-    reviewForm.placeholder = "Type your review here";
+    reviewForm.placeholder = placeHStr;
     reviewForm.value = thanks;
     $('#leaveReview').hide();
 }
