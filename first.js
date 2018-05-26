@@ -55,22 +55,18 @@ app.post("/loadplaces", urlEncodeParser, function(request, response) {
         console.log("req body:")
         console.log(request.body) //??
         const collection = db.collection("places")
-        //var res = db.collection("places").findOne()
-        for(var i = 0; i < request.body.places.length; i++) {
-            var res = db.collection("places").findOne(request.body.places[i])
-            console.log("result of search" + i)
-            console.log(res);
-            if(res) {
-                db.collection("places").updateOne(request.body.places[i])
-            }
-            else {
-                db.collection("places").insertOne(request.body.places[i], function(err, result) {
-                    if(err) {
-                        console.log(err);
-                    }
-                    client.close();
-                })
-            }
+        var res = db.collection("places").findOne()
+        if(res) {
+            console.log(request.body)
+            console.log("is already in db")
+        }
+        else {
+            db.collection("places").insertOne(request.body, function(err, result) {
+                if(err) {
+                    console.log(err);
+                }
+                client.close();
+            })
         }
        /* console.log("Result:" + res)
         if (res) {
@@ -89,5 +85,82 @@ app.post("/loadplaces", urlEncodeParser, function(request, response) {
     response.send("Fine")
 })
 
-//app.get("/getReview", )
+app.get("/getCategory", function(req, res) {
+    console.log("in many search")
+    var url = "mongodb://localhost:27017/places"
+    MongoClient.connect(url, function(err, client) {
+        if(err) {
+            console.log(err)
+        }
+        const db = client.db("places")
+        client.db("places")
+        const collection = db.collection("places")
+        var res = db.collection("places").find({types: req})
+        console.log("sending to webpage")
+        console.log(res)
+        client.close()
+    })
+    res.send(res);
+})
+
+app.get("/getReview", function(req, res) {
+    console.log("in review get")
+    var url = "mongodb://localhost:27017/reviews"
+    MongoClient.connect(url, function(err, client) {
+        if(err) {
+            console.log(err)
+        }
+        const db = client.db("reviews")
+        client.db("reviews")
+        const collection = db.collection("reviews")
+        var res = db.collection("reviews").find({id : req})
+        console.log("found that")
+        console.log(res)
+        client.close()
+    })
+    res.send(res)
+})
+
+app.get("/visited", function(req, res) {
+    console.log("in visited check get")
+    var url = "mongodb://localhost:27017/visited"
+    var r
+    MongoClient.connect(url, function(err, client) {
+        if(err) {
+            console.log(err)
+        }
+        const db = client.db("visited")
+        client.db("visited")
+        const collection = db.collection("visited")
+        var res = db.collection("visited").find({id : req})
+        if(res) {
+            r = "Y"
+        }
+        else {
+            r = "No"
+        }
+        console.log("found that")
+        console.log(r)
+        client.close()
+    })
+    res.send(r)
+})
+
+app.post("/visited", function(req, res) {
+    console.log("in visited check get")
+    var url = "mongodb://localhost:27017/visited"
+    var r
+    MongoClient.connect(url, function(err, client) {
+        if(err) {
+            console.log(err)
+        }
+        const db = client.db("visited")
+        client.db("visited")
+        const collection = db.collection("visited")
+        db.collection("visited").insertOne(req)
+        client.close()
+    })
+    res.send("Fine")
+})
+
 app.listen(3000)
