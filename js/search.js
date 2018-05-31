@@ -408,6 +408,12 @@ function showMenu() {
 
 function hideMenu(text) {
     var list = document.getElementById('list');
+    list.removeEventListener("scroll", loadSome, true);
+    var child;
+    while (list.hasChildNodes()) {
+        child = list.lastChild;
+        child.parentNode.removeChild(child);
+    }
     if (text !== historyStr) {
         list.addEventListener("scroll", loadSome, true);
     }

@@ -584,7 +584,7 @@ ul {
     flex-direction: column;
     width: 100%;
     height: calc(100%-115px);
-    overflow: scroll;
+    overflow: auto;
 }
 
 #settingsWnd > div{

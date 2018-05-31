@@ -3,12 +3,12 @@ var displaySet = false;
 
 function showSettings() {
     hideMenu(setStr);
-    $("#settingsWnd").show('speed');
+    $("#settingsWnd").show();
     displaySet = true;
 }
 
 function hideSettings() {
-    $('#settingsWnd').hide('speed');
+    $('#settingsWnd').hide();
     displaySet = false;
 }
 
@@ -42,13 +42,13 @@ $(document).ready(function () {
             }
             case "Ger": {
                 loc = "Position setzen\nSuche...\nEssen\nUnterkunft\nEinkaufen\nFreizeit\nCafe\nZum Mitnehmen\nLieferung\nRestaurant\nBar\nUnterkunft\nCamping Platz\nEinkaufszentrum\nKleidung\nGalerie\nMuseum\nZoo\nKasino\nSpa\n";
-                loc += "Suchradius:\nPreisniveau:\nPlatzbewertung:\nJetzt geöffnet\nHat Fotos verfügbar\nOrtskennung\nKarte anzeigen\nZeige info\nIch war hier\nBewertungen\nGeschichte\nInteressante Orte\nFilter\ndie Einstellungen\nBewertung:\nJetzt geöffnet\n";
+                loc += "Suchradius:\nPreisniveau:\nPlatzbewertung:\nJetzt geöffnet\nHat Fotos verfügbar\nOrtskennung\nKarte anzeigen\nZeige info\nIch war hier\nBewertungen\nGeschichte\nInteressante Orte\nFilter\ndie Einstellungen\nBewertung:\nJetzt geöffnet\nBewertung senden\nGeben Sie Ihre Bewertung hier ein\nVielen Dank! Ihre Bewertung wurde gespeichert\n";
                 loc += "Sprache\nStil\nDu bist da";
                 break;
             }
             case "Fra": {
                 loc = "Célébrer\nRecherche...\nAlimentation\nHébergement\nAchat\nLoisir\nCafé\nPlats à emporter\nLivraison\nRestaurant\nBar\nLogement\nCamping\nCentrale d'achats\nVêtements\nGalerie\nMusée\nZoo\nCasino\nSpa\n";
-                loc += "Rayon de recherche:\nNiveau de prix:\nClassement du lieu:\nMaintenant ouvert\nPhotos disponibles\nID de l'espace\nCarte\nInfos\nJ'étais ici\nCritiques\nHistoire\nEndroits intéressants\nFiltres\nParamètres\n";
+                loc += "Rayon de recherche:\nNiveau de prix:\nClassement du lieu:\nMaintenant ouvert\nPhotos disponibles\nID de l'espace\nCarte\nInfos\nJ'étais ici\nCritiques\nHistoire\nEndroits intéressants\nFiltres\nParamètres\nÉvaluation:\nOuvrez maintenant\nEnvoyer une critique\nTapez votre avis ici\nJe vous remercie! Votre avis a été enregistré\n";
                 loc += "La langue\nStyle\nTu es là";
                 break;
             }
