@@ -62,7 +62,7 @@ $(document).ready(function () {
         var value = $(this).val();
         var root = document.querySelector(':root');
         switch (value) {
-            case "Black": {
+            case "Dark": {
                 root.style.setProperty('--color0', '#181818');
                 root.style.setProperty('--color1', '#212222');
                 root.style.setProperty('--color2', 'rgb(130, 57, 255)');
