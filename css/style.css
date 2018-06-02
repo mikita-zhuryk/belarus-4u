@@ -366,7 +366,7 @@ ul {
     float: left;
     height: calc(96% - 140px);
     width: calc(42% - 10px);
-    margin: 5px 0px 0px calc(3% + 5px);
+    margin: 0px 0px 0px calc(3% + 5px);
 }
 
 #placePhoto{
@@ -539,7 +539,7 @@ ul {
 
 #userReview {
     padding: 0px 10px;
-    margin: 2px 3px 2px 6px;
+    margin: 2px 3px 0px 6px;
     width: calc(100% - 195px);
     height: 45px;
     font-size: 20px;
@@ -624,9 +624,14 @@ ul {
     height: 30px;
 }
 
+#themeChoose div{
+    margin: 20px 0px 10px 5px;
+}
+
 #themeChoose label{
-    margin: 10px 0px 10px 5px;
-    width: 200px;
+    margin-top: -7px;
+    float: left;
+    width: 50px;
     height: 50px;
 }
 

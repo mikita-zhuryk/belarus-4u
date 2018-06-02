@@ -88,30 +88,56 @@ $(document).ready(function () {
                 $('#starsWnd').attr('src','images/Stars.png');  
                 break;
             }
-            case "White": {
-                root.style.setProperty('--color0', '#D4D8E8');
-                root.style.setProperty('--color1', '#F7F7F7');
-                root.style.setProperty('--color2', '#D4D8E8');
-                root.style.setProperty('--color3', '#3C5898');
-                root.style.setProperty('--color4', '#3C5898');
-                root.style.setProperty('--color5', '#29487D');  
-                root.style.setProperty('--textColorLite', '#333333');
-                root.style.setProperty('--textColorDark', '#f1f1f1');
-                root.style.setProperty('--fontFamily', 'Rubik'); 
-                $('#History').attr('src','images/Theme2/History.png');
-                $('#Dice').attr('src','images/Theme2/Dice.png');                             
-                $('#Home').attr('src','images/Theme2/Home.png');                             
-                $('#Sorting').attr('src','images/Theme2/Sorting.png');
-                $('#Service').attr('src','images/Theme2/Service.png');
-                $('#Address').attr('src','images/Theme2/Address.png');
-                $('#Phone').attr('src','images/Theme2/Phone.png'); 
-                imgPhoneSRC = "images/Theme2/Phone.png";
-                imgStarsSRC = "images/Theme2/Stars.png";           
-                $('#Website').attr('src','images/Theme2/Website.png');
-                $('#User1').attr('src','images/Theme2/User.png');
-                $('#User2').attr('src','images/Theme2/User.png');
-                $('#User3').attr('src','images/Theme2/User.png'); 
-                $('#starsWnd').attr('src','images/Theme2/Stars.png');                                         
+            case "Blue": {
+                root.style.setProperty('--color0', '#181818');
+                root.style.setProperty('--color1', '#212222');
+                root.style.setProperty('--color2', '#1C9FE7');
+                root.style.setProperty('--color3', '#0578B7');
+                root.style.setProperty('--color4', '#055078');
+                root.style.setProperty('--color5', '#052E44'); 
+                root.style.setProperty('--textColorLite', '#eceae4');
+                root.style.setProperty('--textColorDark', '#f1f1f1');                
+                root.style.setProperty('--fontFamily', 'Rubik');
+                $('#History').attr('src','images/History.png');
+                $('#Dice').attr('src','images/Dice.png');                             
+                $('#Home').attr('src','images/Home.png');                             
+                $('#Sorting').attr('src','images/Sorting.png');
+                $('#Service').attr('src','images/Service.png');
+                $('#Address').attr('src','images/Address.png');
+                $('#Phone').attr('src','images/Phone.png'); 
+                imgPhoneSRC = "images/Phone.png";
+                imgStarsSRC = "images/Stars.png";           
+                $('#Website').attr('src','images/Website.png');
+                $('#User1').attr('src','images/User.png');
+                $('#User2').attr('src','images/User.png');
+                $('#User3').attr('src','images/User.png'); 
+                $('#starsWnd').attr('src','images/Stars.png');                                      
+                break;
+            }
+            case "Orange": {
+                root.style.setProperty('--color0', '#181818');
+                root.style.setProperty('--color1', '#212222');
+                root.style.setProperty('--color2', '#F19B2A');
+                root.style.setProperty('--color3', '#FF8B00');
+                root.style.setProperty('--color4', '#CC6F00');
+                root.style.setProperty('--color5', '#3A3229'); 
+                root.style.setProperty('--textColorLite', '#eceae4');
+                root.style.setProperty('--textColorDark', '#f1f1f1');                
+                root.style.setProperty('--fontFamily', 'Rubik');
+                $('#History').attr('src','images/History.png');
+                $('#Dice').attr('src','images/Dice.png');                             
+                $('#Home').attr('src','images/Home.png');                             
+                $('#Sorting').attr('src','images/Sorting.png');
+                $('#Service').attr('src','images/Service.png');
+                $('#Address').attr('src','images/Address.png');
+                $('#Phone').attr('src','images/Phone.png'); 
+                imgPhoneSRC = "images/Phone.png";
+                imgStarsSRC = "images/Stars.png";           
+                $('#Website').attr('src','images/Website.png');
+                $('#User1').attr('src','images/User.png');
+                $('#User2').attr('src','images/User.png');
+                $('#User3').attr('src','images/User.png'); 
+                $('#starsWnd').attr('src','images/Stars.png');                                      
                 break;
             }
         }

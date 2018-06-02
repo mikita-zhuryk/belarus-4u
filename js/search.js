@@ -140,7 +140,7 @@ function createNode(place) {
 
 function hideInfoWnd() {
     showMarkers();
-    $('#infoWindow').hide('speed');
+    $('#infoWindow').slideUp('speed');
     if (mapDiv.firstChild.id == 'showBtn') {
         mapDiv.removeChild(mapDiv.firstChild);
     }
@@ -276,17 +276,17 @@ function updateInfoWnd(place) {
 
     //////////////////////////////////////////////////////
     var infoWindow = document.getElementById("infoWindow")
-    $('#infoWindow').show('speed');
+    $('#infoWindow').slideDown('speed');
     var hideBtn = document.getElementById('hideBtn');
     hideBtn.addEventListener("click", function () {
-        $('#infoWindow').hide(0);
+        $('#infoWindow').fadeOut(100);
         if (mapDiv.firstChild.id !== 'showBtn') {
             var showBtn = document.createElement("button");
             showBtn.className = "showBtn";
             showBtn.id = "showBtn";
             showBtn.innerHTML = showBtnStr;
             showBtn.addEventListener("click", function () {
-                $('#infoWindow').show(0);
+                $('#infoWindow').fadeIn(100);
             });
             mapDiv.insertBefore(showBtn, mapDiv.firstChild);
         }
