@@ -62,7 +62,7 @@ $(document).ready(function () {
         var value = $(this).val();
         var root = document.querySelector(':root');
         switch (value) {
-            case "Black": {
+            case "Dark": {
                 root.style.setProperty('--color0', '#181818');
                 root.style.setProperty('--color1', '#212222');
                 root.style.setProperty('--color2', 'rgb(130, 57, 255)');
@@ -71,21 +71,7 @@ $(document).ready(function () {
                 root.style.setProperty('--color5', 'rgb(48, 20, 100)'); 
                 root.style.setProperty('--textColorLite', '#eceae4');
                 root.style.setProperty('--textColorDark', '#f1f1f1');                
-                root.style.setProperty('--fontFamily', 'Rubik');
-                $('#History').attr('src','images/History.png');
-                $('#Dice').attr('src','images/Dice.png');                             
-                $('#Home').attr('src','images/Home.png');                             
-                $('#Sorting').attr('src','images/Sorting.png');
-                $('#Service').attr('src','images/Service.png');
-                $('#Address').attr('src','images/Address.png');
-                $('#Phone').attr('src','images/Phone.png'); 
-                imgPhoneSRC = "images/Phone.png";
-                imgStarsSRC = "images/Stars.png";           
-                $('#Website').attr('src','images/Website.png');
-                $('#User1').attr('src','images/User.png');
-                $('#User2').attr('src','images/User.png');
-                $('#User3').attr('src','images/User.png'); 
-                $('#starsWnd').attr('src','images/Stars.png');  
+                root.style.setProperty('--fontFamily', 'Rubik');  
                 break;
             }
             case "Blue": {
@@ -97,21 +83,7 @@ $(document).ready(function () {
                 root.style.setProperty('--color5', '#052E44'); 
                 root.style.setProperty('--textColorLite', '#eceae4');
                 root.style.setProperty('--textColorDark', '#f1f1f1');                
-                root.style.setProperty('--fontFamily', 'Rubik');
-                $('#History').attr('src','images/History.png');
-                $('#Dice').attr('src','images/Dice.png');                             
-                $('#Home').attr('src','images/Home.png');                             
-                $('#Sorting').attr('src','images/Sorting.png');
-                $('#Service').attr('src','images/Service.png');
-                $('#Address').attr('src','images/Address.png');
-                $('#Phone').attr('src','images/Phone.png'); 
-                imgPhoneSRC = "images/Phone.png";
-                imgStarsSRC = "images/Stars.png";           
-                $('#Website').attr('src','images/Website.png');
-                $('#User1').attr('src','images/User.png');
-                $('#User2').attr('src','images/User.png');
-                $('#User3').attr('src','images/User.png'); 
-                $('#starsWnd').attr('src','images/Stars.png');                                      
+                root.style.setProperty('--fontFamily', 'Rubik');                                   
                 break;
             }
             case "Orange": {
@@ -123,21 +95,7 @@ $(document).ready(function () {
                 root.style.setProperty('--color5', '#3A3229'); 
                 root.style.setProperty('--textColorLite', '#eceae4');
                 root.style.setProperty('--textColorDark', '#f1f1f1');                
-                root.style.setProperty('--fontFamily', 'Rubik');
-                $('#History').attr('src','images/History.png');
-                $('#Dice').attr('src','images/Dice.png');                             
-                $('#Home').attr('src','images/Home.png');                             
-                $('#Sorting').attr('src','images/Sorting.png');
-                $('#Service').attr('src','images/Service.png');
-                $('#Address').attr('src','images/Address.png');
-                $('#Phone').attr('src','images/Phone.png'); 
-                imgPhoneSRC = "images/Phone.png";
-                imgStarsSRC = "images/Stars.png";           
-                $('#Website').attr('src','images/Website.png');
-                $('#User1').attr('src','images/User.png');
-                $('#User2').attr('src','images/User.png');
-                $('#User3').attr('src','images/User.png'); 
-                $('#starsWnd').attr('src','images/Stars.png');                                      
+                root.style.setProperty('--fontFamily', 'Rubik');                                  
                 break;
             }
         }

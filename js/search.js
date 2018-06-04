@@ -250,8 +250,14 @@ function updateInfoWnd(place) {
         document.getElementById("placePhoneWnd").innerHTML = "No data for phone number";
     }
     if (place.website !== undefined) {
-        document.getElementById("websiteWnd").innerHTML = place.website;
-        document.getElementById("websiteWnd").href = place.website;
+        if (place.website.length > 38) {
+            document.getElementById("websiteWnd").innerHTML = place.website.substring(0, 38) + "...";
+            document.getElementById("websiteWnd").href = place.website;
+        }
+        else {
+            document.getElementById("websiteWnd").innerHTML = place.website;
+            document.getElementById("websiteWnd").href = place.website;
+        }
     }
     else {
         document.getElementById("websiteWnd").innerHTML = "No data for website";

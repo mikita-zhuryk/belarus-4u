@@ -386,7 +386,8 @@ ul {
     font-size: 25px;
     font-weight: 300;    
     border: 5px solid var(--color0) ;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 #placeInfoWnd img{
