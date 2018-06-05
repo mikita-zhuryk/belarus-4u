@@ -1,3 +1,5 @@
+placeHStr = "Type your review here";
+
 function changeLoc(localizationStr) {
     var lines = localizationStr.split('\n');
     var i = 0;
@@ -38,6 +40,10 @@ function changeLoc(localizationStr) {
     rateStr = lines[i++];
     openNowStr = lines[i++];
     document.getElementById('leaveReview').value = lines[i++];
+    placeHStr = lines[i];
     document.getElementById('userReview').placeholder = lines[i++];
     thanks = lines[i++];
+    document.getElementById('langChooseH').innerHTML = lines[i++];
+    document.getElementById('themeChooseH').innerHTML = lines[i++];
+    hereStr = lines[i++];
 }

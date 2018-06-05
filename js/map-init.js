@@ -5,6 +5,7 @@ var circleDrawn = false;
 var pos;
 var posMarker;
 var autocomplete;
+var hereStr = "You are here";
 
 function searchInput() {
     var value = $('#searchBox').val();
@@ -42,7 +43,7 @@ function drawCircle(redraw = false, marker = true) {
                 icon: "images/meMarker.png"
             });
             pos = new google.maps.InfoWindow({
-                content: 'You are here'
+                content: hereStr
             });
             pos.open(map, posMarker);
         }

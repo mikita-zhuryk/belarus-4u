@@ -140,7 +140,7 @@ function createNode(place) {
 
 function hideInfoWnd() {
     showMarkers();
-    $('#infoWindow').hide('speed');
+    $('#infoWindow').slideUp('speed');
     if (mapDiv.firstChild.id == 'showBtn') {
         mapDiv.removeChild(mapDiv.firstChild);
     }
@@ -172,14 +172,14 @@ function showMarkers() {
 
 function clearReviewForm() {
     var reviewForm = document.getElementById('userReview');
-    reviewForm.placeholder = "Type your review here";
+    reviewForm.placeholder = placeHStr;
     reviewForm.value = "";
     $('#leaveReview').show();
 }
 
 function alreadyLeftReview() {
     var reviewForm = document.getElementById('userReview');
-    reviewForm.placeholder = "Type your review here";
+    reviewForm.placeholder = placeHStr;
     reviewForm.value = thanks;
     $('#leaveReview').hide();
 }
@@ -279,8 +279,14 @@ function updateInfoWnd(place) {
         document.getElementById("placePhoneWnd").innerHTML = "No data for phone number";
     }
     if (place.website !== undefined) {
-        document.getElementById("websiteWnd").innerHTML = place.website;
-        document.getElementById("websiteWnd").href = place.website;
+        if (place.website.length > 38) {
+            document.getElementById("websiteWnd").innerHTML = place.website.substring(0, 38) + "...";
+            document.getElementById("websiteWnd").href = place.website;
+        }
+        else {
+            document.getElementById("websiteWnd").innerHTML = place.website;
+            document.getElementById("websiteWnd").href = place.website;
+        }
     }
     else {
         document.getElementById("websiteWnd").innerHTML = "No data for website";
@@ -305,17 +311,17 @@ function updateInfoWnd(place) {
 
     //////////////////////////////////////////////////////
     var infoWindow = document.getElementById("infoWindow")
-    $('#infoWindow').show('speed');
+    $('#infoWindow').slideDown('speed');
     var hideBtn = document.getElementById('hideBtn');
     hideBtn.addEventListener("click", function () {
-        $('#infoWindow').hide(0);
+        $('#infoWindow').fadeOut(100);
         if (mapDiv.firstChild.id !== 'showBtn') {
             var showBtn = document.createElement("button");
             showBtn.className = "showBtn";
             showBtn.id = "showBtn";
             showBtn.innerHTML = showBtnStr;
             showBtn.addEventListener("click", function () {
-                $('#infoWindow').show(0);
+                $('#infoWindow').fadeIn(100);
             });
             mapDiv.insertBefore(showBtn, mapDiv.firstChild);
         }
@@ -383,7 +389,7 @@ function loadSome() {
         var lastLoaded = -1;
         var found = false;
         list = document.getElementById('list');
-        if ((list.scrollHeight - (list.scrollTop + list.clientHeight)) <= 150) {
+        if ((list.scrollHeight - (list.scrollTop + list.clientHeight)) <= 250) {
             locked = true;
             for (var i = 0; i < resultArr.length; i++) {
                 found = false;
@@ -469,6 +475,12 @@ function showMenu() {
 
 function hideMenu(text) {
     var list = document.getElementById('list');
+    list.removeEventListener("scroll", loadSome, true);
+    var child;
+    while (list.hasChildNodes()) {
+        child = list.lastChild;
+        child.parentNode.removeChild(child);
+    }
     if (text !== historyStr) {
         list.addEventListener("scroll", loadSome, true);
     }
@@ -561,7 +573,7 @@ $(document).ready(function () {
 })
 
 function createHistory() {
-    var history;
+    var history = [];
     var exp = new RegExp('id = [-_A-Za-z0-9]{27}', 'g');
     var r = document.cookie.match(exp);
     if (r !== null) {
