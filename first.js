@@ -114,17 +114,17 @@ app.get("/getReview", function(req, res) {
         client.db("reviews")
         const collection = db.collection("reviews")
         var res = db.collection("reviews").find({id : req})
-        console.log("found that")
-        console.log(res)
+        console.log("found that in get review")
+      //console.log(res)
         client.close()
     })
-    res.send(res)
+    res.send(res.text)
 })
 
-app.get("/visited", function(req, res) {
+app.post("/CheckVisited", urlEncodeParser, function(req, res) {
     console.log("in visited check get")
     var url = "mongodb://localhost:27017/visited"
-    var r
+    var r = ""
     MongoClient.connect(url, function(err, client) {
         if(err) {
             console.log(err)
@@ -132,24 +132,32 @@ app.get("/visited", function(req, res) {
         const db = client.db("visited")
         client.db("visited")
         const collection = db.collection("visited")
-        var res = db.collection("visited").find({id : req})
-        if(res) {
-            r = "Y"
-        }
-        else {
-            r = "No"
-        }
-        console.log("found that")
-        console.log(r)
-        client.close()
-    })
-    res.send(r)
+        console.log("Get-func")
+        console.log(req.body.id)
+        db.collection("visited").findOne({'_id':req.body.id}, function(err, cursor){
+            console.log(cursor)
+            if(cursor) {
+                r = "Y"
+                console.log("visited from server")
+            }
+            else {
+                r = "No"
+            console.log("not visited from server")
+            client.close()
+            }
+            console.log(r)
+            res.send({ans:r})
+        });   
+    })   
 })
 
-app.post("/visited", function(req, res) {
-    console.log("in visited check get")
+app.post("/visited", urlEncodeParser, function(req, res) {
+    console.log("marking as visited at server")
     var url = "mongodb://localhost:27017/visited"
-    var r
+    console.log("got by server to mark as visited" )
+    console.log(req)
+    console.log("req body")
+    console.log(req.body)
     MongoClient.connect(url, function(err, client) {
         if(err) {
             console.log(err)
@@ -157,10 +165,34 @@ app.post("/visited", function(req, res) {
         const db = client.db("visited")
         client.db("visited")
         const collection = db.collection("visited")
-        db.collection("visited").insertOne(req)
+        db.collection("visited").insertOne({_id:req.body.id}, function(err, result) {
+            if(err) {
+                console.log(err);
+            }
+            client.close();
+        })
+        console.log(req.body.id + "now marked at server")
         client.close()
     })
     res.send("Fine")
+})  
+
+app.post("/notVisited", function(req, res) {
+    console.log("in visited delete func")
+    var url = "mongodb://localhost:27017/visited"
+    var r
+    MongoClient.connect(url, function(err, client) {
+        if(err) {
+            console.log(err)
+        }
+        const db = client.db("visited")
+        client.db("visited")
+        const collection = db.collection("visited")
+        db.collection("visited").deleteOne({"id" : req})
+        console.log("deleted visited note (from server)")
+        client.close()
+    })
+    res.send(req + "Deleted")
 })
 
 app.listen(3000)

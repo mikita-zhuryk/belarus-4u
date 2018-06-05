@@ -1,5 +1,12 @@
-<<<<<<< HEAD
 //var fs = require("fs");
+var thanks = "Thank you! Your review has been saved";
+
+function alreadyLeftReview() {
+    var reviewForm = document.getElementById('userReview');
+    reviewForm.placeholder = "Type your review here";
+    reviewForm.value = thanks;
+    $('#leaveReview').hide();
+}
 
 $(document).ready(function () {
     $('#leaveReview').click(function () {
@@ -19,16 +26,7 @@ $(document).ready(function () {
             }
         })
         document.getElementById("userReview").value = null;
-=======
-var thanks = "Thank you! Your review has been saved";
-
-$(document).ready(function () {
-    $('#leaveReview').click(function () {
-        var reviewForm = document.getElementById('userReview');
-        var review = reviewForm.value;
         alreadyLeftReview();
-        console.log(review);
->>>>>>> 27c0443e64cc7ab93a4410290b422bc9a855f470
     })
 })
 
