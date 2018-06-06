@@ -185,46 +185,21 @@ function alreadyLeftReview() {
 }
 
 function updateInfoWnd(place) {
-    //
-    console.log("before chechking visited")
-    $.ajax({
-        url: "/visited",
-        type: "GET", 
-        data: place.place_id,
-        success: function(result) {
-            if(result == "Y") {
-                console.log("visited")
-                document.getElementById('checkBeen').checked = true;
-                document.getElementById('reviews').style.height = "calc(70% - 190px)";        
-                document.getElementById('reviewForm').style.height = "58px";
-            }
-            else {
-                console.log("not visited")
-                document.getElementById('checkBeen').checked = false;
-                document.getElementById('reviews').style.height = "";        
-                document.getElementById('reviewForm').style.height = "0px";
-            }
-        }
-    })
     hideMarkers(place);
-    if (checkBeen(place)) {
-        alreadyLeftReview();
-        document.getElementById('checkBeen').checked = true;
-        document.getElementById('reviews').style.height = "calc(70% - 190px)";
-        document.getElementById('reviewForm').style.visibility = "visible";
-    }
-    else {
-        clearReviewForm();
-        document.getElementById('checkBeen').checked = false;
-        document.getElementById('reviews').style.height = "";
-        document.getElementById('reviewForm').style.visibility = "hidden";
-    }
+    checkBeen(place);
     $('#checkBeen').change(function () {
         if (this.checked) {
+            var ids = document.getElementById("identifyWnd").innerHTML
+            var dat = {
+                id: ids
+            }
+            //dat=JSON.stringify(dat)
+            console.log("this is id" )
+            console.log(dat)
             $.ajax({
                 url: "/visited",
                 type: "POST", 
-                data: place.place_id,
+                data: dat,
                 success: function() {
                     console.log(place.place_id + " now is visited")
                 }
@@ -234,6 +209,14 @@ function updateInfoWnd(place) {
             writeCookie(place);
         }
         else {
+            $.ajax({
+                url: "/notVisited",
+                type: "POST",
+                data: place.place_id,
+                success: function() {
+                    console.log(place.place_id + "now not visited")
+                }
+            })
             alreadyLeftReview();
             document.getElementById('reviews').style.height = "";
             document.getElementById('reviewForm').style.visibility = "hidden";
@@ -300,6 +283,17 @@ function updateInfoWnd(place) {
     else {
         document.getElementById('placePhoto').src = 'images/noData.jpg';
     }
+    $.ajax({
+        url: "/getReview",
+        type: "GET", 
+        data: place.place_id,
+        success: function(res) {
+            console.log(place.place_id + " " + res)
+            if(res !== undefined) {
+                reviews[0].innerHTML =  " " + res
+            }
+        }
+    })
     if (place.reviews !== undefined) {
         var reviews = document.getElementsByClassName('reviewText');
         for (var i = 0; i < reviews.length; i++) {
@@ -330,27 +324,28 @@ function updateInfoWnd(place) {
 
 function checkBeen(place) {
     var text = place.place_id;
-    var exp = new RegExp("id = " + text.toString());
-  /*  $.ajax({
-        url: "/visited",
-        type: "GET",
-        data: text,
+    // var exp = new RegExp("id = " + text.toString());
+    $.ajax({
+        url: "/CheckVisited",
+        type: "POST",
+        data: {id : place.place_id},
         success: function(res) {
-            if(res == "Y") {
-                return true
+            console.log(res)
+            if(res.ans == "Y") 
+            {
+                alreadyLeftReview();
+                document.getElementById('checkBeen').checked = true;
+                document.getElementById('reviews').style.height = "calc(70% - 190px)";
+                document.getElementById('reviewForm').style.visibility = "visible";
             }
             else {
-                return false
-            }
+                clearReviewForm();
+                document.getElementById('checkBeen').checked = false;
+                document.getElementById('reviews').style.height = "";
+                document.getElementById('reviewForm').style.visibility = "hidden";
+            }     
         }
-    })*/
-    var r = document.cookie.match(exp);
-    if (r) {
-        return true;
-    }
-    else {
-        return false;
-    }
+    })    
 }
 
 function removeMarkers() {
