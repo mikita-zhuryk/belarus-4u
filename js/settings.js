@@ -62,18 +62,6 @@ $(document).ready(function () {
         var value = $(this).val();
         var root = document.querySelector(':root');
         switch (value) {
-            case "Dark": {
-                root.style.setProperty('--color0', '#181818');
-                root.style.setProperty('--color1', '#212222');
-                root.style.setProperty('--color2', 'rgb(130, 57, 255)');
-                root.style.setProperty('--color3', 'rgb(78, 28, 167)');
-                root.style.setProperty('--color4', 'rgb(61, 26, 128)');
-                root.style.setProperty('--color5', 'rgb(48, 20, 100)'); 
-                root.style.setProperty('--textColorLite', '#eceae4');
-                root.style.setProperty('--textColorDark', '#f1f1f1');                
-                root.style.setProperty('--fontFamily', 'Rubik');  
-                break;
-            }
             case "Blue": {
                 root.style.setProperty('--color0', '#181818');
                 root.style.setProperty('--color1', '#212222');
