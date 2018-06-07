@@ -6,10 +6,10 @@
 :root{
     --color0: #181818;
     --color1: #212222; 
-    --color2: rgb(130, 57, 255);
-    --color3: rgb(78, 28, 167);
-    --color4: rgb(61, 26, 128);
-    --color5: rgb(48, 20, 100);
+    --color2: #1C9FE7;
+    --color3: #0578B7;
+    --color4: #055078;
+    --color5: #052E44;
     --textColorLite: #ECEAE4;
     --textColorDark: #f1f1f1;
     --fontFamily: 'Rubik';
