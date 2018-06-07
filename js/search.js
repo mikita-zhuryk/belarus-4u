@@ -1,6 +1,6 @@
 var displayMenu = true;
-var radius = 3500;
-var INITIAL_PLACES = 8 * radius / 3500;
+var radius = 1500;
+var INITIAL_PLACES = 8 * radius / 1500;
 var MAXIMUM_NUMBER_OF_MARKERS = INITIAL_PLACES * 3;
 var request;
 var gText;
