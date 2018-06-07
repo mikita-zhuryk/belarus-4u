@@ -27,8 +27,8 @@ app.post("/review", urlEncodeParser, function(request, response) {
         if(err) {
             return console.log(err);
         }
-        const db = client.db("reviews");
-        client.db("reviews");
+        const db = client.db("shook");
+        client.db("shook");
         console.log("Created");
         let rew = {id: idToWrite, text: reviewToWrite};
         const collection = db.collection("reviews");
@@ -50,8 +50,8 @@ app.post("/loadplaces", urlEncodeParser, function(request, response) {
         if(err) {
             return console.log(err);
         }
-        const db = client.db("places");
-        client.db("places");
+        const db = client.db("shook");
+        client.db("shook");
         console.log("req body:")
         console.log(request.body) //??
         const collection = db.collection("places")
@@ -92,8 +92,8 @@ app.get("/getCategory", function(req, res) {
         if(err) {
             console.log(err)
         }
-        const db = client.db("places")
-        client.db("places")
+        const db = client.db("shook")
+        client.db("shook")
         const collection = db.collection("places")
         var res = db.collection("places").find({types: req})
         console.log("sending to webpage")
@@ -110,8 +110,8 @@ app.get("/getReview", function(req, res) {
         if(err) {
             console.log(err)
         }
-        const db = client.db("reviews")
-        client.db("reviews")
+        const db = client.db("shook")
+        client.db("shook")
         const collection = db.collection("reviews")
         var res = db.collection("reviews").find({id : req})
         console.log("found that in get review")
@@ -129,8 +129,8 @@ app.post("/CheckVisited", urlEncodeParser, function(req, res) {
         if(err) {
             console.log(err)
         }
-        const db = client.db("visited")
-        client.db("visited")
+        const db = client.db("shook")
+        client.db("shook")
         const collection = db.collection("visited")
         console.log("Get-func")
         console.log(req.body.id)
@@ -162,8 +162,8 @@ app.post("/visited", urlEncodeParser, function(req, res) {
         if(err) {
             console.log(err)
         }
-        const db = client.db("visited")
-        client.db("visited")
+        const db = client.db("shook")
+        client.db("shook")
         const collection = db.collection("visited")
         db.collection("visited").insertOne({_id:req.body.id}, function(err, result) {
             if(err) {
@@ -185,8 +185,8 @@ app.post("/notVisited", function(req, res) {
         if(err) {
             console.log(err)
         }
-        const db = client.db("visited")
-        client.db("visited")
+        const db = client.db("shook")
+        client.db("shook")
         const collection = db.collection("visited")
         db.collection("visited").deleteOne({"id" : req})
         console.log("deleted visited note (from server)")
